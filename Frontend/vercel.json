@@ -1,15 +1,10 @@
 {
+    "version": 2,
     "builds": [
-      {
-        "src": "src/**/*",
-        "use": "@vercel/node"
-      }
+      { "src": "public/**/*", "use": "@vercel/static-build" }
     ],
-    "build": {
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "installCommand": "npm install --force"
-    }
+    "routes": [
+      { "src": "/(.*)", "dest": "/index." }
+    ]
   }
   
