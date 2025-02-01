@@ -276,7 +276,6 @@ function Home() {
       )}
 
 
-      {/* Sections Reviews */}
 
 
       {activeSection === 'reviews' && (
