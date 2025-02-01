@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { LogoutData } from '../Redux/UserSlice';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [student_id, setStudent_id] = useState('');
@@ -22,12 +23,14 @@ function Home() {
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
   const [paymentData, setPaymentData] = useState([])
   const [batchname, setBatchname] = useState('')
+  const navigate = useNavigate()
 
 
   const dispatch = useDispatch()
 
   function logout() {
     dispatch(LogoutData())
+    navigate('/');
   }
 
   useEffect(() => {
@@ -321,7 +324,7 @@ function Home() {
 
 
 
-      
+
 
 
 

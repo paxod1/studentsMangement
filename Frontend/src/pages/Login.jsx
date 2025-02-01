@@ -3,17 +3,20 @@ import './login.css';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../API/ApiCalling';
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 function Login() {
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
 
   async function APIcallLogin() {
 
     await loginUser({ username, password }, dispatch)
+    navigate('/');
   }
 
   return (
