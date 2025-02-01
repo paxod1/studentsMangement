@@ -1,39 +1,37 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import React from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Login from './pages/Login'
 import { useSelector } from 'react-redux';
-import Login from './pages/Login';
 import Home from './pages/Home';
 import ClassVideo from './pages/ClassVideo';
 
+
 function App() {
-  const loginInfo = useSelector((state) => state.userlogin?.LoginInfo[0]);
-  const token = loginInfo?.token;
 
-  // Custom Route component to handle token-based routing
-  const ProtectedRoute = ({ element }) => {
-    return token ? element : <Navigate to="/login" />;
-  };
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
+  console.log("from app.js logininfom", logininfom);
 
-  const router = createBrowserRouter([
+
+
+
+  const token = logininfom?.token;
+
+  const app = createBrowserRouter([
     {
       path: "/",
-      element: <ProtectedRoute element={<Home />} />
+      element: token ? <Home /> : <Login />
     },
     {
       path: "/ClassVideo",
-      element: <ProtectedRoute element={<ClassVideo />} />
-    },
-    {
-      path: "*",  // Catch-all route for invalid paths
-      element: <Navigate to="/" />
-    },
-  ]);
+      element: token ? <ClassVideo /> : <Login />
 
+    },
+  ])
   return (
     <div>
-      <RouterProvider router={router} />
+      <RouterProvider router={app} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
