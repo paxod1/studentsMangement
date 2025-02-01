@@ -13,14 +13,17 @@ function Login() {
 
   useEffect(() => {
     if (loginInfo?.token) {
-      navigate('/');  
+      navigate('/');
     }
-  }, [loginInfo, navigate]); 
+  }, [loginInfo, navigate]);
 
   async function handleLogin() {
-    const success = await loginUser({ username, password }, dispatch,navigate);
+    const success = await loginUser({ username, password }, dispatch, navigate);
     if (success) {
-      navigate('/');  
+
+      setTimeout(() => {
+        window.location.reload();  
+      }, 2000);
     }
   }
 
