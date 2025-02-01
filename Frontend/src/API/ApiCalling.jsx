@@ -2,7 +2,7 @@ import { basicRequest } from '../AxiosCreate';
 import { LoginData } from '../Redux/UserSlice'
 
 
-export const loginUser = async (data, dispatch) => {
+export const loginUser = async (data, dispatch,navigate) => {
     try {
         console.log(data);
 
@@ -10,6 +10,7 @@ export const loginUser = async (data, dispatch) => {
         console.log(LoginInfo.data.token)
         alert(LoginInfo.message)
         dispatch(LoginData(LoginInfo.data))
+        navigate('/')
 
     } catch (err) {
         console.log(err)

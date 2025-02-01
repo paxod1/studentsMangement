@@ -18,7 +18,7 @@ function Login() {
   }, [loginInfo, navigate]); 
 
   async function handleLogin() {
-    const success = await loginUser({ username, password }, dispatch);
+    const success = await loginUser({ username, password }, dispatch,navigate);
     if (success) {
       navigate('/');  
     }
