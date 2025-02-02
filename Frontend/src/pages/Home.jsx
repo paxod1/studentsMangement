@@ -218,7 +218,7 @@ function Home() {
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} />Our Website</h3>
             </div>
-          
+            <br />
 
             <button className="topsection_card_userhomepage_button" onClick={() => fetchData('bill')}>
               <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} />Help&support</h5>
@@ -451,7 +451,7 @@ function Home() {
                             <p><strong> <FaClock style={{ marginRight: '8px' }} />Start Time:</strong> {batchItem.start_time || "Not Available"}</p>
                             <p><strong><FaClock style={{ marginRight: '8px' }} />End Time:</strong> {batchItem.end_time || "Not Available"}</p>
                             <p><strong><FaSchool style={{ marginRight: '8px' }} />Course Name:</strong> {batchItem.course_name || "Not Available"}</p>
-                            <p><strong><FaCalendarMinus style={{ marginRight: '8px' }} />Batch Code:</strong> {batchItem.batch|| "Not Available"}</p>
+                            <p><strong><FaCalendarMinus style={{ marginRight: '8px' }} />Batch Code:</strong> {batchItem.batch || "Not Available"}</p>
                             <p><strong><BiLoaderCircle style={{ marginRight: '8px' }} />Course Duration:</strong> {batchItem.duration} months</p>
                             <p><strong><FaRegKeyboard style={{ marginRight: '8px' }} />Training Method:</strong> {batchItem.training_method}</p>
                             <p><strong><IoIosCard style={{ marginRight: '8px' }} />Course Fee:</strong> {batchItem.fee}/-</p>
