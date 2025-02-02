@@ -176,6 +176,18 @@ function Home() {
             </div>
 
             <div className='rightnav'>
+
+              <Link to={{
+                pathname: '/ClassVideo',
+              }} style={{ textDecoration: 'none' }}
+                state={{ batchname }} className="topsection_card_userhomepage_down_video" >
+                <h3><IoIosVideocam style={{ height: '35px', width: '35px' }} /></h3>
+              </Link>
+              <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('bill')}>
+                <span className='res_down_menus'>Announcements</span>
+                <h3><HiOutlineSpeakerphone style={{  height: '30px', width: '30px' }} /></h3>
+              </div>
+
               <h3 onClick={logout} className='menus_right'><IoIosLogOut />  </h3>
 
 
@@ -189,39 +201,39 @@ function Home() {
         <div className="topSectionMain_div_userHomepage">
           <div className="topsection_inner_div_userHompage">
             <div className="topsection_card_userhomepage" onClick={() => fetchData('batchDetails')}>
-              <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} />Overview</h3>
+              <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'> Overview</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('reviews')}>
-              <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} />Result</h3>
+              <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'>Result</span></h3>
             </div>
             <Link to={{
               pathname: '/ClassVideo',
             }} style={{ textDecoration: 'none' }}
               state={{ batchname }} className="topsection_card_userhomepage" >
-              <h3><IoIosVideocam style={{ marginRight: '4%', height: '25px', width: '25px' }} />Video</h3>
+              <h3><IoIosVideocam style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Video</span></h3>
             </Link>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('attendance')}>
-              <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} />Attendance</h3>
+              <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Attendance</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
-              <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} />Payment</h3>
+              <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Payment</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
-              <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} />Announcements</h3>
+              <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
-              <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} />Tests</h3>
+              <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
-              <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} />Study Material</h3>
+              <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
-              <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} />Our Website</h3>
+              <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
             </div>
             <br />
 
             <button className="topsection_card_userhomepage_button" onClick={() => fetchData('bill')}>
-              <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} />Help&support</h5>
+              <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help&support</span></h5>
             </button>
             <h3 className='sidebar_bottom_text'>Kochi's Premier IT Training Institute</h3>
 
@@ -509,6 +521,8 @@ function Home() {
           )}
         </div>
 
+        {/* Sections Announcement*/}
+
         <div className="third_section_main">
           <div className="announcement_card">
             <h3 className="announcement_title">Recent Annoncements</h3>
@@ -523,6 +537,45 @@ function Home() {
         </div>
 
       </div>
+
+
+      {/* Sections Sidebar Down side*/}
+      <div className="topSectionMain_div_userHomepage_down">
+        <div className="topsection_inner_div_userHompage_down">
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('batchDetails')}>
+            <span className='res_down_menus'>Overview</span>
+            <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} />  </h3>
+          </div>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('reviews')}>
+            <span className='res_down_menus'>Result</span>
+            <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('attendance')}>
+            <span className='res_down_menus'>Attendance</span>
+            <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+            <span className='res_down_menus'>Payment</span>
+            <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+            <span className='res_down_menus'>Tests</span>
+            <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+            <span className='res_down_menus'>Study Material</span>
+            <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+            <span className='res_down_menus'>Our Website</span>
+            <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
+        </div>
+      </div>
+
+
 
 
 

@@ -14,8 +14,6 @@
   width: 100%;
   height: auto;
   display: flex;
-
-
 }
 
 
@@ -30,167 +28,8 @@
 
 
 
-/* Top Section Styling */
-.topSectionMain_div_userHomepage {
-  margin-top: 72px;
-  height: 92vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 17%;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-light);
-  padding-bottom: 3%;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 1px 2px #cccccc45;
-  position: fixed;
-  z-index: 1001;
-}
-
-.topsection_inner_div_userHompage {
-  display: flex;
-  padding: 5%;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-}
-
-.topsection_card_userhomepage {
-  padding: 10px;
-  width: 100%;
-  font-size: .9rem;
-  color: rgb(38, 38, 38);
-  text-decoration: none;
-  background-color: white;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
-  margin-bottom: 5px;
-}
-
-.topsection_card_userhomepage:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px var(--hover-shadow);
-  cursor: pointer;
-  background-color: #f5f5f5;
-  color: blue;
-}
-
-.topsection_card_userhomepage_button {
-  padding: 5px;
-  width: 90%;
-  font-size: .9rem;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  background-color: #3721fb;
-  margin-bottom: 5px;
-}
-
-.topsection_card_userhomepage_button:hover {
-
-  background-color: #1b02fa;
-}
 
 
-
-.topsection_card_userhomepage h3 {
-
-  font-size: .9rem;
-  font-weight: 600;
-
-}
-
-.sidebar_bottom_text {
-  margin-top: 3px;
-  font-size: .9rem;
-  font-weight: 600;
-  color: black;
-  text-align: center;
-}
-
-@media screen and (max-width: 768px) {
-  .topsection_card_userhomepage {
-    padding: 10px;
-    width: 100%;
-    max-width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    text-align: center;
-  }
-
-  .topSectionMain_div_userHomepage {
-    padding-top: 15%;
-
-  }
-
-  .topsection_inner_div_userHompage {
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-
-
-
-  .topsection_card_userhomepage h3 {
-    font-size: .9rem;
-  }
-
-  .topsection_card_userhomepage p {
-    font-size: .9rem;
-  }
-
-  .topsection_card_userhomepage:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px var(--hover-shadow);
-    cursor: pointer;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .topsection_card_userhomepage {
-    padding: 10px;
-    width: 100%;
-    max-width: 130px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-  }
-
-
-  .topsection_card_userhomepage h3 {
-    font-size: 0.8rem;
-  }
-
-  .topsection_card_userhomepage p {
-    font-size: 0.9rem;
-  }
-
-  .topsection_card_userhomepage:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px var(--hover-shadow);
-    cursor: pointer;
-  }
-}
-
-
-
-/* second section main */
-
-.second_section_main {
- 
-  width: 80%;
-  height: auto;
-  margin: 5px;
-  padding-top: 70px;
-  padding-left: 20%;
-}
 
 
 
@@ -889,6 +728,7 @@ select {
   justify-content: end;
   align-items: center;
 
+
 }
 
 .menus_right {
@@ -908,14 +748,7 @@ select {
 /* third section main div */
 
 
-.third_section_main {
-  padding-top: 80px;
-  width: 20%;
-  background-color: var(--background-light);
-  display: flex;
-  justify-content: center;
-  align-items: start;
-}
+
 
 .announcement_card {
   background-color: white;
@@ -957,4 +790,269 @@ select {
   font-size: 0.9rem;
   color: #666;
   margin-top: 5px;
+}
+
+
+/* down side bar responsive  */
+
+.topSectionMain_div_userHomepage_down {
+  display: none;
+}
+
+
+
+/* Main Home */
+.main_home {
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+
+/* Top Section Styling */
+.topSectionMain_div_userHomepage {
+  margin-top: 72px;
+  height: 92vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 17%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-light);
+  padding-bottom: 3%;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 1px 2px #cccccc45;
+  position: fixed;
+  z-index: 1001;
+}
+
+.topsection_inner_div_userHompage {
+  display: flex;
+  padding: 5%;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.topsection_card_userhomepage {
+  padding: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+  color: rgb(38, 38, 38);
+  text-decoration: none;
+  background-color: white;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
+  margin-bottom: 5px;
+}
+
+.topsection_card_userhomepage:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px var(--hover-shadow);
+  cursor: pointer;
+  background-color: #f5f5f5;
+  color: blue;
+}
+
+.topsection_card_userhomepage_button {
+  padding: 5px;
+  width: 90%;
+  font-size: 0.9rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #3721fb;
+  margin-bottom: 5px;
+}
+
+.topsection_card_userhomepage_button:hover {
+  background-color: #1b02fa;
+}
+
+.topsection_card_userhomepage h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sidebar_bottom_text {
+  margin-top: 3px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+}
+
+/* Second Section Main */
+.second_section_main {
+  width: 80%;
+  height: auto;
+  margin: 5px;
+  padding-top: 70px;
+  padding-left: 20%;
+}
+
+/* Third Section Main Div */
+.third_section_main {
+  padding-top: 80px;
+  width: 20%;
+  background-color: var(--background-light);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+/* resoponsive down navbar  */
+
+.topSectionMain_div_userHomepage_down {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--background-light);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.topsection_inner_div_userHompage_down {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.topsection_card_userhomepage_down {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  /* Required for tooltip positioning */
+}
+
+.topsection_card_userhomepage_down h3 {
+  font-size: 0.8rem;
+  margin: 5px 0 0 0;
+  color: var(--secondary-color);
+}
+
+.topsection_card_userhomepage_down:hover {
+  color: var(--accent-color);
+  transform: translateY(-5px);
+}
+
+/* Tooltip Styling */
+.res_down_menus {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
+}
+
+.topsection_card_userhomepage_down:hover .res_down_menus {
+  display: block;
+  /* Show tooltip on hover */
+  opacity: 1;
+}
+
+.topsection_card_userhomepage_down_video {
+  display: none;
+}
+.topsection_card_userhomepage_down_Announcements{
+  display: none;
+}
+
+
+
+/* Responsive Styles */
+@media screen and (max-width: 1000px) {
+  .topSectionMain_div_userHomepage {
+    padding: 10px;
+    width: 10%;
+    max-width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    text-align: center;
+    height: 90vh;
+  }
+
+  .menus_side_home {
+    display: none;
+  }
+
+  .sidebar_bottom_text {
+    display: none;
+  }
+
+  .third_section_main {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main_home {
+    width: 100%;
+  }
+
+  .topSectionMain_div_userHomepage {
+    display: none;
+  }
+
+  .second_section_main {
+    padding-top: 17%;
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+
+    background-color: #f9f9f9;
+  }
+
+  .third_section_main {
+    display: none;
+  }
+
+  .topSectionMain_div_userHomepage_down {
+    display: block;
+  }
+
+  .topsection_card_userhomepage_down_video {
+    display: block;
+    font-size: 40px;
+    margin-top: 4%;
+  }
+
+  .menus_right {
+    margin-left: 10%;
+    margin-top: 4%;
+
+  }
+  .topsection_card_userhomepage_down_Announcements{
+    display: block;
+    font-size: 40px;
+    margin-top: 4%;
+    margin-left: 10%;
+    color: rgb(13 110 253);
+    
+  }
+
+  
+
+
 }
