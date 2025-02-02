@@ -37,6 +37,7 @@ function Home() {
   const [batchname, setBatchname] = useState('')
   const navigate = useNavigate()
   const [initialLoading, setInitialLoading] = useState(true);
+  const [announcements, setAnnouncements] = useState([])
 
 
 
@@ -62,8 +63,10 @@ function Home() {
       fetchData('batchDetails');
       async function billhome() {
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
-        console.log("home bill", response.data);
 
+
+
+        console.log("home bill", response.data);
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
       }
@@ -83,6 +86,9 @@ function Home() {
           setBatch(response.data);
           const batchName = response.data[0].batch;
           setBatchname(batchName);
+          const responseanno = await TokenRequest.get(`/student//getdataAnnouncements?batchname=${batchname}`);
+          console.log('Announcements', responseanno);
+          setAnnouncements(responseanno.data)
           console.log('Batch Name:', batchName);
           console.log('Batch details>>:', response.data);
 
@@ -185,7 +191,7 @@ function Home() {
               </Link>
               <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('bill')}>
                 <span className='res_down_menus'>Announcements</span>
-                <h3><HiOutlineSpeakerphone style={{  height: '30px', width: '30px' }} /></h3>
+                <h3><HiOutlineSpeakerphone style={{ height: '30px', width: '30px' }} /></h3>
               </div>
 
               <h3 onClick={logout} className='menus_right'><IoIosLogOut />  </h3>
