@@ -32,8 +32,8 @@
 
 /* Top Section Styling */
 .topSectionMain_div_userHomepage {
-  padding-top: 90px;
-  height: auto;
+  margin-top: 72px;
+  height: 92vh;
   overflow-x: hidden;
   overflow-y: hidden;
   width: 17%;
@@ -44,6 +44,7 @@
   box-sizing: border-box;
   box-shadow: 1px 1px 1px 2px #cccccc45;
   position: fixed;
+  z-index: 1001;
 }
 
 .topsection_inner_div_userHompage {
@@ -78,7 +79,7 @@
 .topsection_card_userhomepage_button {
   padding: 5px;
   width: 90%;
-  font-size: .9rem;
+  font-size: 1rem;
   color: white;
   border: none;
   border-radius: 5px;
@@ -96,14 +97,14 @@
 
 .topsection_card_userhomepage h3 {
 
-  font-size: .9rem;
+  font-size: 1rem;
   font-weight: 600;
 
 }
 
 .sidebar_bottom_text {
   margin-top: 5px;
-  font-size: .9rem;
+  font-size: 1.1rem;
   font-weight: 900;
   color: black;
   text-align: center;
@@ -184,10 +185,11 @@
 
 .second_section_main {
  
-  width: 70%;
+  width: 80%;
   height: auto;
   margin: 5px;
   padding-top: 70px;
+  padding-left: 20%;
 }
 
 
