@@ -186,6 +186,26 @@ router.get('/getdataAnnouncements', async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+router.get('/getdatamaterial', async (req, res) => {
+    const { batchname } = req.query;
+    console.log(batchname);
 
+    if (!batchname) {
+        return res.status(400).json('batchname is required');
+    }
+
+    const query = 'SELECT * FROM tbl_material WHERE batch = ?';
+
+    try {
+        const [results] = await db.query(query, [batchname]);
+        if (results.length === 0) {
+            return res.status(404).json('No announcements found for this batch');
+        }
+        return res.status(200).json(results);
+    } catch (err) {
+        console.error("Query execution error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
 
 module.exports = router;

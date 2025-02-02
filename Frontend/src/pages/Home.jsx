@@ -86,11 +86,14 @@ function Home() {
           setBatch(response.data);
           const batchName = response.data[0].batch;
           setBatchname(batchName);
-          const responseanno = await TokenRequest.get(`/student//getdataAnnouncements?batchname=${batchname}`);
+          const responseanno = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
           console.log('Announcements', responseanno);
           setAnnouncements(responseanno.data)
           console.log('Batch Name:', batchName);
           console.log('Batch details>>:', response.data);
+          const responsemet = await TokenRequest.get(`/student/getdatamaterial?batchname=${batchname}`);
+          console.log(responsemet.data);
+
 
 
           break;
