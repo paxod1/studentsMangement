@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loginInfo = useSelector((state) => state.userlogin?.LoginInfo); // Access login state from Redux
+  const loginInfo = useSelector((state) => state.userlogin?.LoginInfo);
 
   useEffect(() => {
     if (loginInfo?.token) {
@@ -18,13 +19,9 @@ function Login() {
   }, [loginInfo, navigate]);
 
   async function handleLogin() {
-    const success = await loginUser({ username, password }, dispatch, navigate);
-    if (success) {
-
-      setTimeout(() => {
-        window.location.reload();  
-      }, 2000);
-    }
+    setLoading(true); // Show spinner
+    await loginUser({ username, password }, dispatch, navigate);
+    setLoading(false); // Hide spinner after API call
   }
 
   return (
@@ -46,8 +43,17 @@ function Login() {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="login-button" onClick={handleLogin}>Log In</button>
+        <button className="login-button" onClick={handleLogin} disabled={loading}>
+          {loading ? (
+            <div className="loading-spinner_login">
+              <div className="spinner_login"></div>
+            </div>
+          ) : (
+            'Log In'
+          )}
+        </button>
       </div>
+      <div className="login-version">Version 1.0.0.0</div>
     </div>
   );
 }

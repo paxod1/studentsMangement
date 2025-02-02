@@ -24,19 +24,23 @@ function Home() {
   const [paymentData, setPaymentData] = useState([])
   const [batchname, setBatchname] = useState('')
   const navigate = useNavigate()
+  const [initialLoading, setInitialLoading] = useState(true);
 
 
   const dispatch = useDispatch()
 
-  function logout() {
+  async function logout() {
     dispatch(LogoutData())
-    navigate('/');
+    await setTimeout(() => {
+      window.location.reload();
+    }, 0);
   }
 
   useEffect(() => {
     if (logininfom) {
       setLoading(true);
       setStudent_id(logininfom.student_id);
+      setInitialLoading(false);
     }
   }, [logininfom]);
 
@@ -132,6 +136,15 @@ function Home() {
     const totalDays = attendance.length;
     return (presentCount / totalDays) * 100;
   };
+
+  if (initialLoading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
 
 
