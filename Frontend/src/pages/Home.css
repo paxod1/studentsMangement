@@ -60,7 +60,7 @@
 .topsection_card_userhomepage {
   padding: 10px;
   width: 100%;
-  font-size: 1rem;
+  font-size: .9rem;
   color: rgb(38, 38, 38);
   text-decoration: none;
   background-color: white;
@@ -79,7 +79,7 @@
 .topsection_card_userhomepage_button {
   padding: 5px;
   width: 90%;
-  font-size: 1rem;
+  font-size: .9rem;
   color: white;
   border: none;
   border-radius: 5px;
@@ -97,15 +97,15 @@
 
 .topsection_card_userhomepage h3 {
 
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: 600;
 
 }
 
 .sidebar_bottom_text {
-  margin-top: 5px;
-  font-size: 1rem;
-  font-weight: 900;
+  margin-top: 3px;
+  font-size: .9rem;
+  font-weight: 600;
   color: black;
   text-align: center;
 }
@@ -878,8 +878,8 @@ select {
 }
 
 .logo_nav {
-  height: 38px;
-  width: 150px;
+  height: 45px;
+  width: 180px;
 
 }
 
