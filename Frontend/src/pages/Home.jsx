@@ -218,7 +218,7 @@ function Home() {
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} />Our Website</h3>
             </div>
-            <br />
+          
 
             <button className="topsection_card_userhomepage_button" onClick={() => fetchData('bill')}>
               <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} />Help&support</h5>
