@@ -28,7 +28,7 @@ function Login() {
     <div className="login-container">
       <div className="login-box">
         <div className="login-logo">
-          <img src="../../public/logo (1).png" width="250px" height="150px" alt="" />
+          <img src="https://techwingsys.com/tws-logo.png" width="250px" height="60px" alt="logo" style={{marginBottom:'10px'}}  />
         </div>
 
         <input
