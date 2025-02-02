@@ -33,9 +33,9 @@
 /* Top Section Styling */
 .topSectionMain_div_userHomepage {
   padding-top: 90px;
-  height: 100vh;
+  height: 95vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   width: 17%;
   display: flex;
   flex-direction: column;
