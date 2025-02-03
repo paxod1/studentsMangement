@@ -346,6 +346,11 @@ footer {
 }
 
 @media (max-width: 600px) {
+  .video_displaysec {
+    padding-top: 20%;
+    padding-bottom: 7%;
+
+  }
 
   .custom-controls {
 
