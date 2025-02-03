@@ -294,6 +294,9 @@ footer {
   .navbar_main_video {
     height: 60px;
   }
+  .video_displaysec{
+    padding-top: 70px;
+  }
 
   .menus_right_video_text {
     display: none;

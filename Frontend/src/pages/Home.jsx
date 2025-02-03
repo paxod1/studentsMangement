@@ -675,7 +675,7 @@ function Home() {
             <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
 
-          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('tests')}>
             <span className='res_down_menus'>Tests</span>
             <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>

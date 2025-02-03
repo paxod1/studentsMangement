@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { TokenRequest } from "../AxiosCreate";
@@ -25,7 +20,9 @@ function ClassVideo() {
   const playerRef = useRef(null);
   const wrapperRef = useRef(null);
   const [activeVideoIndex, setActiveVideoIndex] = useState(null);
+  const [showControls, setShowControls] = useState(true);
 
+  let inactivityTimeout = useRef(null);
 
   const initialBatchname = location.state?.batchname || localStorage.getItem("batchname");
   const [batchname, setBatchname] = useState(initialBatchname);
@@ -33,7 +30,6 @@ function ClassVideo() {
   useEffect(() => {
     if (batchname) {
       localStorage.setItem("batchname", batchname);
-
       async function fetchVideos() {
         try {
           const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchname}`);
@@ -78,10 +74,6 @@ function ClassVideo() {
           wrapperRef.current.requestFullscreen();
         } else if (wrapperRef.current.webkitRequestFullscreen) {
           wrapperRef.current.webkitRequestFullscreen();
-        } else if (wrapperRef.current.mozRequestFullScreen) {
-          wrapperRef.current.mozRequestFullScreen();
-        } else if (wrapperRef.current.msRequestFullscreen) {
-          wrapperRef.current.msRequestFullscreen();
         }
       } else {
         if (document.exitFullscreen) {
@@ -92,15 +84,21 @@ function ClassVideo() {
     }
   };
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement !== null);
-    };
+  const resetInactivityTimeout = () => {
+    setShowControls(true);
+    clearTimeout(inactivityTimeout.current);
+    inactivityTimeout.current = setTimeout(() => setShowControls(false), 5000);
+  };
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
+  useEffect(() => {
+    resetInactivityTimeout();
+    document.addEventListener("mousemove", resetInactivityTimeout);
+    document.addEventListener("touchstart", resetInactivityTimeout);
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      clearTimeout(inactivityTimeout.current);
+      document.removeEventListener("mousemove", resetInactivityTimeout);
+      document.removeEventListener("touchstart", resetInactivityTimeout);
     };
   }, []);
 
@@ -116,7 +114,6 @@ function ClassVideo() {
     setActiveVideoIndex(index);
   };
 
-
   return (
     <div>
       <section className="navbar_main_video">
@@ -127,7 +124,7 @@ function ClassVideo() {
           <div className="rightnav_video">
             <Link style={{ textDecoration: "none" }} to={"/"}>
               <button className="menus_right_video">
-                <AiFillHome /> <span className="menus_right_video_text">Home page</span> 
+                <AiFillHome /> <span className="menus_right_video_text">Home page</span>
               </button>
             </Link>
           </div>
@@ -135,10 +132,10 @@ function ClassVideo() {
       </section>
 
       <section className="video_displaysec">
-        <div className="d-flex flex-column flex-md-row">
-          <div className="main-content" ref={wrapperRef}>
-            <h2>{selectedVideo ? selectedVideo.video_title : "Select a Video"}</h2>
 
+        <div className="d-flex flex-column flex-md-row">
+          <div className="main-content" ref={wrapperRef} onMouseMove={resetInactivityTimeout}>
+            <h2>{selectedVideo ? selectedVideo.video_title : "Select a Video"}</h2>
 
             <div className="video-container p-3">
               {selectedVideo ? (
@@ -152,7 +149,6 @@ function ClassVideo() {
                     volume={volume}
                     onProgress={handleProgress}
                     onDuration={handleDuration}
-                    
                     pip={false}
                     controls={false}
                     config={{
@@ -173,48 +169,51 @@ function ClassVideo() {
                     className='video_screen'
                   />
 
-                  <div className="custom-controls">
-                    {/* Play/Pause Button */}
-                    <button onClick={() => setIsPlaying(!isPlaying)} className="control-btn">
-                      {isPlaying ? <PauseCircle size={24} /> : <PlayCircle size={24} />}
-                    </button>
+                  {showControls && (
+                    <div>
+                      <div className="custom-controls">
+                        {/* Play/Pause Button */}
+                        <button onClick={() => setIsPlaying(!isPlaying)} className="control-btn">
+                          {isPlaying ? <PauseCircle size={24} /> : <PlayCircle size={24} />}
+                        </button>
 
-                    {/* Volume Control */}
-                    <div className="volume-control">
-                      <Volume2 size={20} />
-                      <input
-                        type="range"
-                        min={0}
-                        max={1}
-                        step="0.01"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                        className="volume-slider"
-                      />
+                        {/* Volume Control */}
+                        <div className="volume-control">
+                          <Volume2 size={20} />
+                          <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step="0.01"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                            className="volume-slider"
+                          />
+                        </div>
+
+                        {/* Timeline Scrubber with Time Display */}
+                        <div className="timeline-wrapper">
+                          <span style={{ color: 'white' }}>{formatTime(played)}</span>
+                          <input
+                            type="range"
+                            min={0}
+                            max={duration}
+                            step="0.1"
+                            value={played}
+                            onChange={handleScrubChange}
+                            className="timeline-slider"
+                          />
+                          <span style={{ color: 'white' }}>{formatTime(duration)}</span>
+                        </div>
+
+                        {/* Fullscreen Toggle */}
+                        <button onClick={toggleFullscreen} className="control-btn">
+                          {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
+                        </button>
+                      </div>
+                      <div className="video-shield" />
                     </div>
-
-                    {/* Timeline Scrubber with Time Display */}
-                    <div className="timeline-wrapper">
-                      <span style={{ color: 'white' }}>{formatTime(played)}</span>
-                      <input
-                        type="range"
-                        min={0}
-                        max={duration}
-                        step="0.1"
-                        value={played}
-                        onChange={handleScrubChange}
-                        className="timeline-slider"
-                      />
-                      <span style={{ color: 'white' }}>{formatTime(duration)}</span>
-                    </div>
-
-                    {/* Fullscreen Toggle */}
-                    <button onClick={toggleFullscreen} className="control-btn">
-                      {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
-                    </button>
-                  </div>
-                  {/* Shield */}
-                  <div className="video-shield" />
+                  )}
                 </div>
               ) : (
                 <div className="loading-spinner">
@@ -254,9 +253,6 @@ function ClassVideo() {
               )}
             </ul>
           </div>
-
-
-
         </div>
       </section>
 
