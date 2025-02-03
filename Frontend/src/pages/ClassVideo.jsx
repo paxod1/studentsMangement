@@ -84,23 +84,29 @@ function ClassVideo() {
     }
   };
 
-  const resetInactivityTimeout = () => {
-    setShowControls(true);
-    clearTimeout(inactivityTimeout.current);
-    inactivityTimeout.current = setTimeout(() => setShowControls(false), 5000);
-  };
+ 
 
   useEffect(() => {
-    resetInactivityTimeout();
-    document.addEventListener("mousemove", resetInactivityTimeout);
-    document.addEventListener("touchstart", resetInactivityTimeout);
+    const resetInactivityTimeout = () => {
+      setShowControls(true);
+      clearTimeout(inactivityTimeout.current);
+      inactivityTimeout.current = setTimeout(() => setShowControls(false), 5000);
+    };
+
+    const handleUserInteraction = () => {
+      resetInactivityTimeout();
+    };
+
+    document.addEventListener("mousemove", handleUserInteraction);
+    document.addEventListener("touchstart", handleUserInteraction);
 
     return () => {
       clearTimeout(inactivityTimeout.current);
-      document.removeEventListener("mousemove", resetInactivityTimeout);
-      document.removeEventListener("touchstart", resetInactivityTimeout);
+      document.removeEventListener("mousemove", handleUserInteraction);
+      document.removeEventListener("touchstart", handleUserInteraction);
     };
   }, []);
+
 
   const formatTime = (seconds) => {
     if (isNaN(seconds)) return "00:00";
