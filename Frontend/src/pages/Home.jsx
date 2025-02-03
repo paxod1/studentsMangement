@@ -37,7 +37,10 @@ function Home() {
   const [batchname, setBatchname] = useState('')
   const navigate = useNavigate()
   const [initialLoading, setInitialLoading] = useState(true);
-  const [announcements, setAnnouncements] = useState([])
+  const [material, setMaterial] = useState([])
+  const [homeAnnouncement, setHomeAnnouncement] = useState([])
+  const [announcement, setAnnouncement] = useState([])
+
 
 
 
@@ -63,10 +66,8 @@ function Home() {
       fetchData('batchDetails');
       async function billhome() {
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
-
-
-
         console.log("home bill", response.data);
+
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
       }
@@ -86,16 +87,11 @@ function Home() {
           setBatch(response.data);
           const batchName = response.data[0].batch;
           setBatchname(batchName);
-          const responseanno = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
-          console.log('Announcements', responseanno);
-          setAnnouncements(responseanno.data)
           console.log('Batch Name:', batchName);
           console.log('Batch details>>:', response.data);
-          const responsemet = await TokenRequest.get(`/student/getdatamaterial?batchname=${batchname}`);
-          console.log(responsemet.data);
-
-
-
+          const response1 = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchName}`);
+          console.log(response1.data);
+          setHomeAnnouncement(response1.data[response1.data.length - 1])
           break;
         case 'reviews':
           response = await TokenRequest.get(`/student/getdatareview?student_id=${student_id}`);
@@ -111,6 +107,16 @@ function Home() {
         case 'bill':
           response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
           setBill(response.data);
+          console.log(response.data);
+          break;
+        case 'material':
+          response = await TokenRequest.get(`/student/getdatamaterial?batchname=${batchname}`);
+          setMaterial(response.data);
+          console.log(response.data);
+          break;
+        case 'announcement':
+          response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
+          setAnnouncement(response.data)
           console.log(response.data);
           break;
         default:
@@ -190,11 +196,11 @@ function Home() {
                 pathname: '/ClassVideo',
               }} style={{ textDecoration: 'none' }}
                 state={{ batchname }} className="topsection_card_userhomepage_down_video" >
-                <h3><IoIosVideocam style={{ height: '35px', width: '35px' }} /></h3>
+                <h3><IoIosVideocam style={{ height: '25px', width: '25px' }} /></h3>
               </Link>
-              <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('bill')}>
+              <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('announcement')}>
                 <span className='res_down_menus'>Announcements</span>
-                <h3><HiOutlineSpeakerphone style={{ height: '30px', width: '30px' }} /></h3>
+                <h3><HiOutlineSpeakerphone style={{ height: '22px', width: '22px' }} /></h3>
               </div>
 
               <h3 onClick={logout} className='menus_right'><IoIosLogOut />  </h3>
@@ -227,19 +233,18 @@ function Home() {
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
               <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Payment</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
+            <div className="topsection_card_userhomepage" onClick={() => fetchData('announcement')}>
               <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
             </div>
             <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
               <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
+            <div className="topsection_card_userhomepage" onClick={() => fetchData('material')}>
               <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
+            <a className="topsection_card_userhomepage" href='https://www.techwingsys.com/'>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
-            </div>
-            <br />
+            </a>
 
             <button className="topsection_card_userhomepage_button" onClick={() => fetchData('bill')}>
               <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help&support</span></h5>
@@ -490,6 +495,84 @@ function Home() {
 
           )}
 
+          {/* Sections study materails*/}
+
+          {activeSection === 'material' && (
+            <div className="material-container">
+              <h1 className="material-title">Study Material</h1>
+              {loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : (
+                <div className="material-content">
+                  {material.length === 0 ? (
+                    <p className="no-material">No study material available</p>
+                  ) : (
+                    <ul className="material-list">
+                      {material.map((item) => (
+                        <li key={item.material_id} className="material-item">
+                          <h3>{item.material_title}</h3>
+                          <p>{item.material_description}</p>
+                          {item.material_file && (
+                            <a
+                              href={item.material_file.replace('../', '')}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Download Material
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Sections study announcement*/}
+
+          {activeSection === 'announcement' && (
+            <div className="announcement-container">
+              <h1 className="announcement-title">Announcements</h1>
+              {loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : announcement.length === 0 ? (
+                <p className="no-announcement">No announcements available</p>
+              ) : (
+                <div className="announcement-grid">
+                  {announcement
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
+                    .map((item) => (
+                      <div key={item.id} className="announcement-card">
+                        <h3 className="announcement-card-title">{item.title}</h3>
+                        <p className="announcement-description">{item.description}</p>
+                        {item.image && (
+                          <div className="announcement-image">
+                            <img
+                              src={`https://your-backend-url/uploads/${item.image}`}
+                              alt={item.title}
+                            />
+                          </div>
+                        )}
+                        <p className="announcement-date">
+                          Posted on: {new Date(item.created_at).toLocaleDateString()}
+                        </p>
+                        <p className="announcement-batch">Batch: {item.batch}</p>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          )}
+
+
+
+
 
 
 
@@ -533,17 +616,32 @@ function Home() {
         {/* Sections Announcement*/}
 
         <div className="third_section_main">
-          <div className="announcement_card">
-            <h3 className="announcement_title">Recent Annoncements</h3>
-            <div className="announcement_icon">
-              📢
+          {homeAnnouncement ? (
+            <div className="announcement_card">
+              <h3 className="announcement_title">Recent Announcements</h3>
+              <div className="announcement_icon">📢</div>
+              <div className="announcement_content">
+                <h3 className="announcement_title">{homeAnnouncement.title}</h3>
+                <p className="announcement_text">{homeAnnouncement.description}</p>
+                {homeAnnouncement.image && (
+                  <div className="announcement_image">
+                    <img
+                      src={`https://techwingsys/uploads/${homeAnnouncement.image}`}
+                      alt="Announcement"
+                    />
+                  </div>
+                )}
+                <p className="announcement_date">
+                  Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
+                </p>
+                <p className="announcement_batch">Batch: {homeAnnouncement.batch}</p>
+              </div>
             </div>
-            <div className="announcement_content">
-              <h3 className="announcement_title">Important Announcement!</h3>
-              <p className="announcement_text">Our new course schedule is now live. Check the updates and stay tuned for more details!</p>
-            </div>
-          </div>
+          ) : (
+            <p>No recent announcements available.</p>
+          )}
         </div>
+
 
       </div>
 
@@ -573,14 +671,14 @@ function Home() {
             <span className='res_down_menus'>Tests</span>
             <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
-          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('material')}>
             <span className='res_down_menus'>Study Material</span>
             <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
-          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
+          <a className="topsection_card_userhomepage_down" href='https://www.techwingsys.com/'>
             <span className='res_down_menus'>Our Website</span>
             <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
-          </div>
+          </a>
         </div>
       </div>
 

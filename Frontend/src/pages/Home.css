@@ -414,7 +414,7 @@ select {
 /* Batch Details Section */
 .batch-details-container {
   padding: 20px;
-  background-color:#fff;
+  background-color: #fff;
   max-width: 100%;
   margin: 0 auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -849,11 +849,9 @@ select {
 }
 
 .topsection_card_userhomepage:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px var(--hover-shadow);
   cursor: pointer;
   background-color: #f5f5f5;
-  color: blue;
+  color: rgb(47, 47, 164);
 }
 
 .topsection_card_userhomepage_button {
@@ -1007,6 +1005,12 @@ select {
   .third_section_main {
     display: none;
   }
+  
+.logo_nav {
+  height: 45px;
+  width: 180px;
+
+}
 }
 
 @media screen and (max-width: 600px) {
@@ -1060,18 +1064,260 @@ select {
     width: 96%;
 
   }
+
   .emi-status-text {
     font-size: 17px;
-   
+
   }
-  .batch-header h3{
+
+  .batch-header h3 {
     font-size: 17px;
   }
-  .batch-header p{
+
+  .batch-header p {
     font-size: 13px;
   }
   
+.logo_nav {
+  height: 30px;
+  width: 120px;
+
+}
+.topsection_card_userhomepage_down_video{
+  font-size: 20px;
+}
+
+.menus_right {
+  margin-top: 7px;
+  font-size: 23px;
+}
+
+
+}
+
+
+/* study materials */
+.material-container {
+  padding: 20px;
+}
+
+.material-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.material-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.material-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.no-material {
+  color: red;
+  font-size: 18px;
+}
+
+/* announcements all */
+
+.announcement-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.announcement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.announcement-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.announcement-description {
+  color: #555;
+}
+
+.announcement-image img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.announcement-date,
+.announcement-batch {
+  font-size: 12px;
+  color: #888;
+}
 
 
 
+/* General Responsive Font Size Adjustments */
+@media screen and (max-width: 1000px) {
+  .topsection_card_userhomepage h3,
+  .sidebar_bottom_text,
+  .batch-header h3,
+  .batch-body p,
+  .batch-footer p,
+  .announcement_title,
+  .announcement_text,
+  .material-title,
+  .no-material,
+  .announcement-card-title,
+  .announcement-description,
+  .announcement-date,
+  .announcement-batch {
+    font-size: 90%; /* Reduce font size by 10% */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topsection_card_userhomepage h3,
+  .sidebar_bottom_text,
+  .batch-header h3,
+  .batch-body p,
+  .batch-footer p,
+  .announcement_title,
+  .announcement_text,
+  .material-title,
+  .no-material,
+  .announcement-card-title,
+  .announcement-description,
+  .announcement-date,
+  .announcement-batch {
+    font-size: 85%; /* Reduce font size by 15% */
+  }
+
+  .attendance-title,
+  .attendance-percentage,
+  .filter-btn,
+  .back-btn,
+  .home-title,
+  .card-title,
+  .status-text,
+  .review-body p,
+  .no-reviews,
+  .batch-title,
+  .batch-header h3,
+  .status,
+  .batch-body p,
+  .batch-footer p,
+  .no-batch-data,
+  .bill-container h1,
+  .bill-card h3,
+  .bill-card .bill-body p,
+  .pay-now-btn,
+  .back-btn {
+    font-size: 90%; /* Reduce font size by 10% */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topsection_card_userhomepage h3,
+  .sidebar_bottom_text,
+  .batch-header h3,
+  .batch-body p,
+  .batch-footer p,
+  .announcement_title,
+  .announcement_text,
+  .material-title,
+  .no-material,
+  .announcement-card-title,
+  .announcement-description,
+  .announcement-date,
+  .announcement-batch {
+    font-size: 80%; /* Reduce font size by 20% */
+  }
+
+  .attendance-title,
+  .attendance-percentage,
+  .filter-btn,
+  .back-btn,
+  .home-title,
+  .card-title,
+  .status-text,
+  .review-body p,
+  .no-reviews,
+  .batch-title,
+  .batch-header h3,
+  .status,
+  .batch-body p,
+  .batch-footer p,
+  .no-batch-data,
+  .bill-container h1,
+  .bill-card h3,
+  .bill-card .bill-body p,
+  .pay-now-btn,
+  .back-btn {
+    font-size: 85%; /* Reduce font size by 15% */
+  }
+
+  .logo_nav {
+    height: 30px;
+    width: 120px;
+  }
+
+  .topsection_card_userhomepage_down_video {
+    font-size: 20px;
+  }
+
+  .menus_right {
+    margin-top: 7px;
+    font-size: 23px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .topsection_card_userhomepage h3,
+  .sidebar_bottom_text,
+  .batch-header h3,
+  .batch-body p,
+  .batch-footer p,
+  .announcement_title,
+  .announcement_text,
+  .material-title,
+  .no-material,
+  .announcement-card-title,
+  .announcement-description,
+  .announcement-date,
+  .announcement-batch {
+    font-size: 75%; /* Reduce font size by 25% */
+  }
+
+  .attendance-title,
+  .attendance-percentage,
+  .filter-btn,
+  .back-btn,
+  .home-title,
+  .card-title,
+  .status-text,
+  .review-body p,
+  .no-reviews,
+  .batch-title,
+  .batch-header h3,
+  .status,
+  .batch-body p,
+  .batch-footer p,
+  .no-batch-data,
+  .bill-container h1,
+  .bill-card h3,
+  .bill-card .bill-body p,
+  .pay-now-btn,
+  .back-btn {
+    font-size: 80%; /* Reduce font size by 20% */
+  }
 }

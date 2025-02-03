@@ -167,17 +167,27 @@ router.get('/getdatavideos', async (req, res) => {
 
 router.get('/getdataAnnouncements', async (req, res) => {
     const { batchname } = req.query;
-    console.log(batchname);
+    console.log(req.query);
 
+    console.log(1);
+
+    console.log(batchname);
+    console.log(2);
     if (!batchname) {
         return res.status(400).json('batchname is required');
+        console.log(0);
     }
 
     const query = 'SELECT * FROM tbl_announcements WHERE batch = ?';
-
+    console.log(3);
     try {
+        
         const [results] = await db.query(query, [batchname]);
+        console.log(results);
+        
+        console.log(4);
         if (results.length === 0) {
+            console.log(5);
             return res.status(404).json('No announcements found for this batch');
         }
         return res.status(200).json(results);
@@ -186,6 +196,7 @@ router.get('/getdataAnnouncements', async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
 router.get('/getdatamaterial', async (req, res) => {
     const { batchname } = req.query;
     console.log(batchname);
