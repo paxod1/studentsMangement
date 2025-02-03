@@ -151,7 +151,7 @@ function ClassVideo() {
                     ref={playerRef}
                     url={selectedVideo.video_link}
                     width="100%"
-                    height={isFullscreen ? "calc(100vh - 100px)" : "550px"}
+                    height={isFullscreen ? "calc(100vh - 100px)" : "500px"}
                     playing={isPlaying}
                     volume={volume}
                     onProgress={handleProgress}
