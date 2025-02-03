@@ -84,15 +84,15 @@ function ClassVideo() {
     }
   };
 
- 
+
+
+  const resetInactivityTimeout = () => {
+    setShowControls(true);
+    clearTimeout(inactivityTimeout.current);
+    inactivityTimeout.current = setTimeout(() => setShowControls(false), 5000);
+  };
 
   useEffect(() => {
-    const resetInactivityTimeout = () => {
-      setShowControls(true);
-      clearTimeout(inactivityTimeout.current);
-      inactivityTimeout.current = setTimeout(() => setShowControls(false), 5000);
-    };
-
     const handleUserInteraction = () => {
       resetInactivityTimeout();
     };
@@ -106,6 +106,7 @@ function ClassVideo() {
       document.removeEventListener("touchstart", handleUserInteraction);
     };
   }, []);
+
 
 
   const formatTime = (seconds) => {
