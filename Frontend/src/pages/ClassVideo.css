@@ -340,34 +340,6 @@ footer {
     /* Position sidebar at the bottom on small screens */
   }
 
-  .main-content {
-    margin-left: 0;
-    padding: 15px;
-  }
-
-  .logo_nav_video {
-    height: 30px;
-    width: 140px;
-  }
-
-  .menus_right_video {
-    width: 80px;
-    /* Adjust button width for mobile */
-    height: 40px;
-    margin-right: 10px;
-    color: black;
-    padding: 5px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border: none;
-    background-color: white;
-    color: #6a5af9;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 30px;
-  }
-
 
 
 
@@ -435,4 +407,33 @@ footer {
     margin: 0 10px;
     color: white;
   }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .logo_nav_video {
+    height: 30px;
+    width: 140px;
+  }
+
+  .menus_right_video {
+    width: 80px;
+    /* Adjust button width for mobile */
+    height: 40px;
+    margin-right: 10px;
+    color: black;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    background-color: white;
+    color: #6a5af9;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 30px;
+  }
+
 }
