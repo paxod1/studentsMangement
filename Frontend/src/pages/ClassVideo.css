@@ -287,6 +287,7 @@ footer {
   animation: spin 2s linear infinite;
 }
 
+/* Additional mobile styling */
 
 
 @media (max-width: 768px) and (orientation: landscape) {
@@ -367,6 +368,13 @@ footer {
     font-size: 30px;
   }
 
+
+
+
+}
+
+@media (max-width: 600px) {
+
   .custom-controls {
 
     bottom: 0;
@@ -378,7 +386,7 @@ footer {
     align-items: center;
     gap: 10px;
     z-index: 20;
-    bottom: -5%;
+    bottom: -2%;
   }
 
 
@@ -427,6 +435,4 @@ footer {
     margin: 0 10px;
     color: white;
   }
-
-
 }
