@@ -142,7 +142,10 @@ function ClassVideo() {
 
         <div className="d-flex flex-column flex-md-row">
           <div className="main-content" ref={wrapperRef} onMouseMove={resetInactivityTimeout}>
-            <h2>{selectedVideo ? selectedVideo.video_title : "Select a Video"}</h2>
+            <h2 style={{ display: isFullscreen ? "none" : "block" }}>
+              {selectedVideo ? selectedVideo.video_title : "Select a Video"}
+            </h2>
+
 
             <div className="video-container p-3">
               {selectedVideo ? (

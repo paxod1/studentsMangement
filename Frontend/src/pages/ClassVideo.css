@@ -419,10 +419,7 @@ footer {
   }
 
   .menus_right_video {
-    width: 80px;
-    /* Adjust button width for mobile */
-    height: 40px;
-    margin-right: 10px;
+  
     color: black;
     padding: 5px;
     display: flex;
@@ -435,5 +432,10 @@ footer {
     text-decoration: none;
     font-size: 30px;
   }
+  .menus_right_video_text{
+    display: none;
+  }
 
 }
+
+
