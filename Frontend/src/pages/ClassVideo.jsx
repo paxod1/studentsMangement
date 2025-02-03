@@ -1,3 +1,8 @@
+
+
+
+
+
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { TokenRequest } from "../AxiosCreate";
@@ -15,9 +20,12 @@ function ClassVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [played, setPlayed] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const playerRef = useRef(null);
   const wrapperRef = useRef(null);
+  const [activeVideoIndex, setActiveVideoIndex] = useState(null);
+
 
   const initialBatchname = location.state?.batchname || localStorage.getItem("batchname");
   const [batchname, setBatchname] = useState(initialBatchname);
@@ -43,78 +51,83 @@ function ClassVideo() {
     ? videos.filter((video) => video.video_title.toLowerCase().includes(searchQuery.toLowerCase()))
     : videos;
 
-  const handleProgress = (progress) => {
-    setPlayed(progress.played);
-  };
-
   const handleScrubChange = (e) => {
     const seekTime = parseFloat(e.target.value);
     setPlayed(seekTime);
-
     if (playerRef.current) {
-      playerRef.current.seekTo(seekTime); // Seek the video to the selected time
+      playerRef.current.seekTo(seekTime);
     }
   };
 
+  const handleProgress = (progress) => {
+    setPlayed(progress.playedSeconds);
+  };
+
+  const handleVolumeChange = (e) => {
+    setVolume(parseFloat(e.target.value));
+  };
+
+  const handleDuration = (dur) => {
+    setDuration(dur);
+  };
 
   const toggleFullscreen = () => {
     if (wrapperRef.current) {
       if (!isFullscreen) {
         if (wrapperRef.current.requestFullscreen) {
           wrapperRef.current.requestFullscreen();
-        } else if (wrapperRef.current.mozRequestFullScreen) { // Firefox
-          wrapperRef.current.mozRequestFullScreen();
-        } else if (wrapperRef.current.webkitRequestFullscreen) { // Safari
+        } else if (wrapperRef.current.webkitRequestFullscreen) {
           wrapperRef.current.webkitRequestFullscreen();
-        } else if (wrapperRef.current.msRequestFullscreen) { // IE/Edge
+        } else if (wrapperRef.current.mozRequestFullScreen) {
+          wrapperRef.current.mozRequestFullScreen();
+        } else if (wrapperRef.current.msRequestFullscreen) {
           wrapperRef.current.msRequestFullscreen();
         }
       } else {
         if (document.exitFullscreen) {
           document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { // Firefox
-          document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Safari
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // IE/Edge
-          document.msExitFullscreen();
         }
       }
       setIsFullscreen(!isFullscreen);
     }
   };
 
-
-  // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(document.fullscreenElement !== null);
     };
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-      document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
     };
   }, []);
+
+  const formatTime = (seconds) => {
+    if (isNaN(seconds)) return "00:00";
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const handleVideoSelection = (video, index) => {
+    setSelectedVideo(video);
+    setActiveVideoIndex(index);
+  };
+
 
   return (
     <div>
       <section className="navbar_main_video">
         <div className="inner_div_nav_video">
           <div className="leftnav_video">
-            <img src="../../public/logo (1).png" className="logo_nav_video" alt="" />
+            <img src="https://techwingsys.com/tws-logo.png" className="logo_nav_video" alt="" />
           </div>
           <div className="rightnav_video">
             <Link style={{ textDecoration: "none" }} to={"/"}>
               <button className="menus_right_video">
-                <AiFillHome /> Home page
+                <AiFillHome /> <span className="menus_right_video_text">Home page</span> 
               </button>
             </Link>
           </div>
@@ -123,19 +136,23 @@ function ClassVideo() {
 
       <section className="video_displaysec">
         <div className="d-flex flex-column flex-md-row">
-          <div className="main-content" ref={wrapperRef}  >
+          <div className="main-content" ref={wrapperRef}>
             <h2>{selectedVideo ? selectedVideo.video_title : "Select a Video"}</h2>
 
-            <div className="video-container p-3" ref={playerRef}   >
+
+            <div className="video-container p-3">
               {selectedVideo ? (
-                <div className="video-wrapper"     >
+                <div className="video-wrapper">
                   <ReactPlayer
+                    ref={playerRef}
                     url={selectedVideo.video_link}
-                    width={isFullscreen ? "100%" : "100%"} // Full width for fullscreen
-                    height={isFullscreen ? "calc(100vh - 100px)" : "500px"} // Reduced height in fullscreen
+                    width="100%"
+                    height={isFullscreen ? "calc(90vh - 100px)" : "500px"}
                     playing={isPlaying}
                     volume={volume}
                     onProgress={handleProgress}
+                    onDuration={handleDuration}
+                    
                     pip={false}
                     controls={false}
                     config={{
@@ -153,8 +170,8 @@ function ClassVideo() {
                     }}
                     onContextMenu={(e) => e.preventDefault()}
                     controlsList="nodownload"
+                    className='video_screen'
                   />
-
 
                   <div className="custom-controls">
                     {/* Play/Pause Button */}
@@ -170,23 +187,25 @@ function ClassVideo() {
                         min={0}
                         max={1}
                         step="0.01"
-                        value={played} 
-                        onChange={handleScrubChange}
-                        className="timeline-slider"
+                        value={volume}
+                        onChange={handleVolumeChange}
+                        className="volume-slider"
                       />
                     </div>
 
-                    {/* Timeline Scrubber */}
-                    <div className="timeline">
+                    {/* Timeline Scrubber with Time Display */}
+                    <div className="timeline-wrapper">
+                      <span style={{ color: 'white' }}>{formatTime(played)}</span>
                       <input
                         type="range"
                         min={0}
-                        max={1}
-                        step="0.01"
+                        max={duration}
+                        step="0.1"
                         value={played}
                         onChange={handleScrubChange}
                         className="timeline-slider"
                       />
+                      <span style={{ color: 'white' }}>{formatTime(duration)}</span>
                     </div>
 
                     {/* Fullscreen Toggle */}
@@ -194,18 +213,19 @@ function ClassVideo() {
                       {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
                     </button>
                   </div>
-
                   {/* Shield */}
                   <div className="video-shield" />
                 </div>
               ) : (
-                <p>Loading videos...</p>
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
               )}
             </div>
           </div>
 
           <div className="sidebar p-10">
-            <h4 className="mb-3">Course Content</h4>
+            <h4 className="mb-3 text-white">Course Content</h4>
             <input
               type="text"
               value={searchQuery}
@@ -219,10 +239,10 @@ function ClassVideo() {
                   <li key={index} className="list-group-item">
                     <a
                       href="#"
-                      className="text-decoration-none"
+                      className={`text-decoration-none ${activeVideoIndex === index ? 'active-video' : ''}`}
                       onClick={(e) => {
                         e.preventDefault();
-                        setSelectedVideo(video);
+                        handleVideoSelection(video, index);
                       }}
                     >
                       {video.video_title}
@@ -234,6 +254,9 @@ function ClassVideo() {
               )}
             </ul>
           </div>
+
+
+
         </div>
       </section>
 

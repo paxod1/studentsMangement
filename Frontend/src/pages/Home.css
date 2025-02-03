@@ -36,9 +36,11 @@
 /* Loading Spinner */
 .loading-spinner {
   width: 100%;
+  height: 60vh;
   display: flex;
   justify-content: center;
   text-align: center;
+  align-items: center;
 }
 
 .spinner {
@@ -720,7 +722,7 @@ select {
 
 .logo_nav {
   height: 45px;
-  width: 180px;
+  width: 200px;
 
 }
 
@@ -850,8 +852,18 @@ select {
 
 .topsection_card_userhomepage:hover {
   cursor: pointer;
-  background-color: #f5f5f5;
-  color: rgb(47, 47, 164);
+  background-color: #e3f2fd;
+  color: #007bff;
+  border-radius: 10px;
+}
+
+.topsection_card_userhomepage.active {
+  background-color: #e3f2fd;
+  /* Keep it as active state */
+  color: #007bff;
+  cursor: default;
+  /* Prevent pointer cursor */
+  border-radius: 10px;
 }
 
 .topsection_card_userhomepage_button {
@@ -862,12 +874,12 @@ select {
   border: none;
   border-radius: 5px;
   text-decoration: none;
-  background-color: #3721fb;
+  background-color: #1083fd;
   margin-bottom: 5px;
 }
 
 .topsection_card_userhomepage_button:hover {
-  background-color: #1b02fa;
+  background-color: #007bff;
 }
 
 .topsection_card_userhomepage h3 {
@@ -939,7 +951,7 @@ select {
 .topsection_card_userhomepage_down h3 {
   font-size: 0.8rem;
   margin: 5px 0 0 0;
-  color: var(--secondary-color);
+  color: #007bff;
 }
 
 .topsection_card_userhomepage_down:hover {
@@ -954,7 +966,7 @@ select {
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #007bff;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -1005,12 +1017,12 @@ select {
   .third_section_main {
     display: none;
   }
-  
-.logo_nav {
-  height: 45px;
-  width: 180px;
 
-}
+  .logo_nav {
+    height: 45px;
+    width: 180px;
+
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -1077,20 +1089,21 @@ select {
   .batch-header p {
     font-size: 13px;
   }
-  
-.logo_nav {
-  height: 30px;
-  width: 120px;
 
-}
-.topsection_card_userhomepage_down_video{
-  font-size: 20px;
-}
+  .logo_nav {
+    height: 30px;
+    width: 120px;
 
-.menus_right {
-  margin-top: 7px;
-  font-size: 23px;
-}
+  }
+
+  .topsection_card_userhomepage_down_video {
+    font-size: 20px;
+  }
+
+  .menus_right {
+    margin-top: 7px;
+    font-size: 23px;
+  }
 
 
 }
@@ -1168,6 +1181,7 @@ select {
 
 /* General Responsive Font Size Adjustments */
 @media screen and (max-width: 1000px) {
+
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
   .batch-header h3,
@@ -1181,11 +1195,13 @@ select {
   .announcement-description,
   .announcement-date,
   .announcement-batch {
-    font-size: 90%; /* Reduce font size by 10% */
+    font-size: 90%;
+    /* Reduce font size by 10% */
   }
 }
 
 @media screen and (max-width: 768px) {
+
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
   .batch-header h3,
@@ -1199,7 +1215,8 @@ select {
   .announcement-description,
   .announcement-date,
   .announcement-batch {
-    font-size: 85%; /* Reduce font size by 15% */
+    font-size: 85%;
+    /* Reduce font size by 15% */
   }
 
   .attendance-title,
@@ -1222,11 +1239,13 @@ select {
   .bill-card .bill-body p,
   .pay-now-btn,
   .back-btn {
-    font-size: 90%; /* Reduce font size by 10% */
+    font-size: 90%;
+    /* Reduce font size by 10% */
   }
 }
 
 @media screen and (max-width: 600px) {
+
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
   .batch-header h3,
@@ -1240,7 +1259,8 @@ select {
   .announcement-description,
   .announcement-date,
   .announcement-batch {
-    font-size: 80%; /* Reduce font size by 20% */
+    font-size: 80%;
+    /* Reduce font size by 20% */
   }
 
   .attendance-title,
@@ -1263,7 +1283,8 @@ select {
   .bill-card .bill-body p,
   .pay-now-btn,
   .back-btn {
-    font-size: 85%; /* Reduce font size by 15% */
+    font-size: 85%;
+    /* Reduce font size by 15% */
   }
 
   .logo_nav {
@@ -1282,6 +1303,7 @@ select {
 }
 
 @media screen and (max-width: 480px) {
+
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
   .batch-header h3,
@@ -1295,7 +1317,8 @@ select {
   .announcement-description,
   .announcement-date,
   .announcement-batch {
-    font-size: 75%; /* Reduce font size by 25% */
+    font-size: 75%;
+    /* Reduce font size by 25% */
   }
 
   .attendance-title,
@@ -1318,6 +1341,15 @@ select {
   .bill-card .bill-body p,
   .pay-now-btn,
   .back-btn {
-    font-size: 80%; /* Reduce font size by 20% */
+    font-size: 80%;
+    /* Reduce font size by 20% */
   }
+}
+
+.home-container_tests {
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

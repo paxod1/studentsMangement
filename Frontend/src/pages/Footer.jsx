@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="footer-container">
       <div className="footer-top">
         <div className="footer-logo">
-          <img src="/logo (1).png" alt="Logo" />
+          <img src="https://techwingsys.com/tws-logo.png" alt="Logo" />
           <h3>Student Management</h3>
         </div>
         <div className="footer-links">

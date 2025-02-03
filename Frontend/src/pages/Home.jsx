@@ -40,6 +40,7 @@ function Home() {
   const [material, setMaterial] = useState([])
   const [homeAnnouncement, setHomeAnnouncement] = useState([])
   const [announcement, setAnnouncement] = useState([])
+  const [activeMenu, setActiveMenu] = useState("");
 
 
 
@@ -54,20 +55,22 @@ function Home() {
   }
 
   useEffect(() => {
+    setLoading(true);
     if (logininfom) {
-      setLoading(true);
+
       setStudent_id(logininfom.student_id);
-      setInitialLoading(false);
+
     }
   }, [logininfom]);
 
   useEffect(() => {
     if (student_id && activeSection === 'dashboard') {
-      fetchData('batchDetails');
+
       async function billhome() {
+        await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         console.log("home bill", response.data);
-
+        setInitialLoading(false)
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
       }
@@ -77,6 +80,7 @@ function Home() {
 
 
   const fetchData = async (section) => {
+    setActiveMenu(section);
     if (!student_id) return;
     setLoading(true);
     try {
@@ -171,7 +175,6 @@ function Home() {
     return (
       <div className="loading-spinner">
         <div className="spinner"></div>
-        <p>Loading...</p>
       </div>
     );
   }
@@ -215,45 +218,40 @@ function Home() {
 
         <div className="topSectionMain_div_userHomepage">
           <div className="topsection_inner_div_userHompage">
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('batchDetails')}>
-              <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'> Overview</span></h3>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'batchDetails' ? 'active' : ''}`} onClick={() => fetchData('batchDetails')}>
+              <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'>Overview</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('reviews')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'reviews' ? 'active' : ''}`} onClick={() => fetchData('reviews')}>
               <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'>Result</span></h3>
             </div>
-            <Link to={{
-              pathname: '/ClassVideo',
-            }} style={{ textDecoration: 'none' }}
-              state={{ batchname }} className="topsection_card_userhomepage" >
+            <Link to={{ pathname: '/ClassVideo' }} style={{ textDecoration: 'none' }} state={{ batchname }} className={`topsection_card_userhomepage ${activeMenu === 'video' ? 'active' : ''}`}>
               <h3><IoIosVideocam style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Video</span></h3>
             </Link>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('attendance')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'attendance' ? 'active' : ''}`} onClick={() => fetchData('attendance')}>
               <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Attendance</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'bill' ? 'active' : ''}`} onClick={() => fetchData('bill')}>
               <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Payment</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('announcement')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'announcement' ? 'active' : ''}`} onClick={() => fetchData('announcement')}>
               <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('bill')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'tests' ? 'active' : ''}`} onClick={() => fetchData('tests')}>
               <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
             </div>
-            <div className="topsection_card_userhomepage" onClick={() => fetchData('material')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
               <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
             </div>
-            <a className="topsection_card_userhomepage" href='https://www.techwingsys.com/'>
+            <a className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} href='https://www.techwingsys.com/'>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
             </a>
-
-            <button className="topsection_card_userhomepage_button" onClick={() => fetchData('bill')}>
-              <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help&support</span></h5>
+            <button className={`topsection_card_userhomepage_button ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
+              <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help & Support</span></h5>
             </button>
             <h3 className='sidebar_bottom_text'>Kochi's Premier IT Training Institute</h3>
-
-
           </div>
         </div>
+
 
 
 
@@ -354,7 +352,7 @@ function Home() {
           )}
 
 
-
+          {/*  Sections reviews*/}
 
           {activeSection === 'reviews' && (
             <div className="home-container">
@@ -393,6 +391,16 @@ function Home() {
                   )}
                 </div>
               )}
+            </div>
+          )}
+
+
+          {/*  Sections tests*/}
+
+          {activeSection === 'tests' && (
+            <div className="home-container_tests">
+              <h1 style={{color:'#6a5af9'}}>comming soon..........</h1>
+
             </div>
           )}
 
