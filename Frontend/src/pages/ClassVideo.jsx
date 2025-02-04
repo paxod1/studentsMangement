@@ -153,7 +153,7 @@ function ClassVideo() {
                   <ReactPlayer
                     ref={playerRef}
                     url={selectedVideo.video_link}
-                    width={isFullscreen ? "150%" : "100%"}
+                    width={isFullscreen ? "100%" : "100%"}
                     height={isFullscreen ? "calc(100vh - 120px)" : "500px"}
                     playing={isPlaying}
                     volume={volume}
