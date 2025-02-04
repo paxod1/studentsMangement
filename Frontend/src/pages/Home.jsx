@@ -819,7 +819,7 @@ function Home() {
 
 
 
-      <Footer />
+      <Footer className="footer_home" />
     </div >
   );
 }

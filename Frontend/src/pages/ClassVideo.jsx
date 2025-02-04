@@ -268,7 +268,7 @@ function ClassVideo() {
         </div>
       </section>
 
-      <Footer />
+      <Footer className="footer_video" />
     </div>
   );
 }

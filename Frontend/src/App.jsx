@@ -4,7 +4,8 @@ import Login from './pages/Login'
 import { useSelector } from 'react-redux';
 import Home from './pages/Home';
 import ClassVideo from './pages/ClassVideo';
-
+import { ToastContainer } from 'react-toastify';
+import ChangePass from './pages/ChangePass';
 
 function App() {
 
@@ -27,10 +28,16 @@ function App() {
       element: token ? <ClassVideo /> : <Login />
 
     },
+    {
+      path: "/ChangePass",
+      element: token ? <ChangePass /> : <Login />
+
+    }
   ])
   return (
     <div>
       <RouterProvider router={app} />
+      <ToastContainer />
     </div>
   )
 }

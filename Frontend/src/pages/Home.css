@@ -1203,6 +1203,7 @@ select {
 }
 
 @media screen and (max-width: 768px) {
+
   .balance-amount,
   .due-date,
   .pay-status {
@@ -1309,7 +1310,7 @@ select {
     font-size: 23px;
   }
 
- 
+
 }
 
 @media screen and (max-width: 480px) {
@@ -1353,6 +1354,10 @@ select {
   .back-btn {
     font-size: 80%;
     /* Reduce font size by 20% */
+  }
+
+  .footer_home {
+    display: none;
   }
 }
 

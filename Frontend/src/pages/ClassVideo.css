@@ -10,7 +10,7 @@
   border-radius: 10px;
   overflow: hidden;
   position: relative;
- 
+
 }
 
 /* Video shield to block interactions */
@@ -22,7 +22,8 @@
   height: 100%;
   z-index: 10;
   background: transparent;
-  pointer-events: all; /* Block all pointer events */
+  pointer-events: all;
+  /* Block all pointer events */
 }
 
 /* Sidebar styling */
@@ -243,6 +244,7 @@ footer {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -312,6 +314,7 @@ footer {
     height: 40px;
     margin-right: 0;
     font-size: 14px;
+    border: none;
   }
 }
 
@@ -345,9 +348,17 @@ footer {
     background-color: white;
     color: #6a5af9;
     font-size: 30px;
+    border: none;
   }
 
   .menus_right_video_text {
+    display: none;
+  }
+
+}
+
+@media (max-width: 500px) {
+  .footer_video {
     display: none;
   }
 }
