@@ -638,6 +638,7 @@ select {
 .due-date,
 .pay-status {
   margin: 5px 0;
+  font-size: 19px;
 }
 
 
@@ -1301,6 +1302,12 @@ select {
     margin-top: 7px;
     font-size: 23px;
   }
+  .balance-amount,
+.due-date,
+.pay-status {
+
+  font-size: 16px;
+}
 }
 
 @media screen and (max-width: 480px) {
