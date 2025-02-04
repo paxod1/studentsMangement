@@ -221,39 +221,23 @@ router.get('/getdatamaterial', async (req, res) => {
 
 
 // change password
-
-
 router.post('/change-password', async (req, res) => {
     const { userId, currentPassword, newPassword } = req.body;
-
-    // Validate request
     if (!userId || !currentPassword || !newPassword) {
         return res.status(400).json({ message: 'All fields are required' });
     }
-
     try {
-        // Fetch user by userId
         const [results] = await db.query('SELECT * FROM tbl_login1 WHERE id = ?', [userId]);
-
         if (results.length === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
-
         const user = results[0];
-
-        // Check if the current password matches
         if (currentPassword !== user.password) {
             return res.status(401).json({ message: 'Current password is incorrect' });
         }
-
-        // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        // Update the password in the database
         await db.query('UPDATE tbl_login1 SET password = ? WHERE id = ?', [hashedPassword, userId]);
-
         return res.status(200).json({ message: 'Password updated successfully' });
-
     } catch (err) {
         console.error('Error updating password:', err);
         return res.status(500).json({ error: 'Database error' });

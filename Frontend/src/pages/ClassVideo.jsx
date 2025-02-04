@@ -178,7 +178,7 @@ function ClassVideo() {
                     controlsList="nodownload"
                     className='video_screen'
                   />
-                  <div className="video-shield" />
+                  <div className="video-shield" style={height="calc(105vh - 120px)" } />
 
                   {showControls && (
                     <div>
