@@ -178,7 +178,8 @@ function ClassVideo() {
                     controlsList="nodownload"
                     className='video_screen'
                   />
-                  <div className="video-shield" style={height="calc(105vh - 120px)" } />
+                  <div className="video-shield" style={{ height: isFullscreen ? "calc(105vh - 120px)" : "500px" }} />
+
 
                   {showControls && (
                     <div>
