@@ -147,7 +147,7 @@ function ClassVideo() {
             </h2>
 
 
-            <div className="video-container p-3" style={{ width: isFullscreen ? "100%" : "100%", height:isFullscreen ? "100%" : "100%" }}>
+            <div className="video-container p-3" style={{ width: isFullscreen ? "100%" : "100%", height: isFullscreen ? "100%" : "100%" }}>
               {selectedVideo ? (
                 <div className="video-wrapper" >
                   <ReactPlayer
@@ -245,7 +245,7 @@ function ClassVideo() {
             />
             <ul className="list-group">
               {filteredVideos.length > 0 ? (
-                filteredVideos.map((video, index) => (
+                [...filteredVideos].reverse().map((video, index) => (
                   <li key={index} className="list-group-item">
                     <a
                       href="#"
@@ -263,6 +263,7 @@ function ClassVideo() {
                 <p>No videos found with the selected title.</p>
               )}
             </ul>
+
           </div>
         </div>
       </section>

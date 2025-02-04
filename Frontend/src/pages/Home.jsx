@@ -41,6 +41,7 @@ function Home() {
   const [homeAnnouncement, setHomeAnnouncement] = useState([])
   const [announcement, setAnnouncement] = useState([])
   const [activeMenu, setActiveMenu] = useState("");
+  const [nodata, setNodata] = useState(false)
 
 
 
@@ -87,52 +88,122 @@ function Home() {
       let response;
       switch (section) {
         case 'batchDetails':
+          setActiveSection('batchDetails');
           response = await TokenRequest.get(`/student/getdatatraining?student_id=${student_id}`);
           setBatch(response.data);
-          const batchName = response.data[0].batch;
+
+          const batchName = response.data[0]?.batch || 'No Batch Assigned';
           setBatchname(batchName);
+
           console.log('Batch Name:', batchName);
-          console.log('Batch details>>:', response.data);
-          const response1 = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchName}`);
-          console.log(response1.data);
-          setHomeAnnouncement(response1.data[response1.data.length - 1])
+          console.log('Batch details:', response.data);
+
+          if (batchName) {
+            try {
+              const announcementResponse = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchName}`);
+              if (announcementResponse.data.length > 0) {
+                setHomeAnnouncement(announcementResponse.data[announcementResponse.data.length - 1]);
+              } else {
+                setHomeAnnouncement({ message: "No announcements available." });
+              }
+            } catch (error) {
+              console.warn("Error fetching announcements:", error);
+              setHomeAnnouncement({ message: "Unable to fetch announcements." });
+            }
+          } else {
+            setHomeAnnouncement({ message: "No batch name found." });
+          }
           break;
+
         case 'reviews':
+          setActiveSection('reviews');
           response = await TokenRequest.get(`/student/getdatareview?student_id=${student_id}`);
-          setReviews(response.data);
+          if (response.data.length === 0) {
+            setReviews([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setReviews(response.data);
+          }
           console.log(response.data);
           break;
+
         case 'attendance':
+          setActiveSection('attendance');
           response = await TokenRequest.get(`/student/getdataattendance?student_id=${student_id}&year=${selectedYear}&month=${selectedMonth}`);
-          setAttendance(response.data);
-          setFilteredAttendance(response.data);
+          if (response.data.length === 0) {
+            setAttendance([]);
+            setFilteredAttendance([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setAttendance(response.data);
+            setFilteredAttendance(response.data);
+          }
           console.log(response.data);
           break;
+
         case 'bill':
+          setActiveSection('bill');
           response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
-          setBill(response.data);
+          if (response.data.length === 0) {
+            setBill([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setBill(response.data);
+          }
           console.log(response.data);
           break;
+
         case 'material':
+          setActiveSection('material');
           response = await TokenRequest.get(`/student/getdatamaterial?batchname=${batchname}`);
-          setMaterial(response.data);
+          if (response.data.length === 0) {
+            setMaterial([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setMaterial(response.data);
+          }
           console.log(response.data);
           break;
+
         case 'announcement':
+          setActiveSection('announcement');
           response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
-          setAnnouncement(response.data)
+
+          if (response.data.length === 0) {
+            setAnnouncement([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setAnnouncement(response.data);
+          }
           console.log(response.data);
           break;
+        case 'tests':
+          setActiveSection('tests');
+
+          break;
+
         default:
           break;
       }
-      setActiveSection(section);
+
+
     } catch (err) {
       console.error(`Error fetching ${section} data:`, err);
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleAttendanceFilter = (status) => {
     if (status === 'all') {
@@ -300,53 +371,59 @@ function Home() {
                 <button onClick={() => fetchData('attendance')} className="filter-btn">Apply Filter</button>
               </div>
 
-              {loading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
+              {nodata ? (
+                <div className='box_notdata'>
+                  <h1>No data found</h1>
                 </div>
               ) : (
-                <div className="attendance-content">
-                  <div className="attendance-filter-buttons">
-                    <button onClick={() => handleAttendanceFilter('all')} className="filter-btn">All</button>
-                    <button onClick={() => handleAttendanceFilter('Present')} className="filter-btn present-btn">Present</button>
-                    <button onClick={() => handleAttendanceFilter('Absent')} className="filter-btn absent-btn">Absent</button>
+                loading ? (
+                  <div className="loading-spinner">
+                    <div className="spinner"></div>
                   </div>
+                ) : (
+                  <div className="attendance-content">
+                    <div className="attendance-filter-buttons">
+                      <button onClick={() => handleAttendanceFilter('all')} className="filter-btn">All</button>
+                      <button onClick={() => handleAttendanceFilter('Present')} className="filter-btn present-btn">Present</button>
+                      <button onClick={() => handleAttendanceFilter('Absent')} className="filter-btn absent-btn">Absent</button>
+                    </div>
 
-                  {filteredAttendance.length === 0 ? (
-                    <p
-                      className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
-                    >
-                      Attendance: {calculateAttendancePercentage().toFixed(2)}%
-                    </p>
-                  ) : (
-                    <div>
+                    {filteredAttendance.length === 0 ? (
                       <p
                         className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
                       >
                         Attendance: {calculateAttendancePercentage().toFixed(2)}%
                       </p>
-                      <table className="attendance-table">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredAttendance.map((record, index) => {
-                            const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
-                            return (
-                              <tr key={index} className={statusClass}>
-                                <td>{record.date_taken}</td>
-                                <td>{record.attendance}</td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
+                    ) : (
+                      <div>
+                        <p
+                          className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
+                        >
+                          Attendance: {calculateAttendancePercentage().toFixed(2)}%
+                        </p>
+                        <table className="attendance-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {filteredAttendance.map((record, index) => {
+                              const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
+                              return (
+                                <tr key={index} className={statusClass}>
+                                  <td>{record.date_taken}</td>
+                                  <td>{record.attendance}</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                )
               )}
             </div>
           )}
@@ -364,7 +441,9 @@ function Home() {
               ) : (
                 <div className="review-card-container">
                   {reviews.length === 0 ? (
-                    <p className="no-reviews">No reviews or marks available</p>
+                    <div className="box_notdata">
+                      <p className="no-reviews box_notdata">No reviews or marks available</p>
+                    </div>
                   ) : (
                     reviews.map((review, index) => {
                       const status = getPassFailStatus(review);
@@ -373,6 +452,8 @@ function Home() {
                         parseInt(review.technical) +
                         parseInt(review.viva) +
                         (parseInt(review.theory) || 0);
+                      const progressPercentage = ((totalMarks / 150) * 100).toFixed(2);
+
                       return (
                         <div key={index} className={`review-card ${status === 'pass' ? 'pass-card' : 'fail-card'}`}>
                           <div className="review-header">
@@ -384,6 +465,24 @@ function Home() {
                             <p><strong>Technical:</strong> {review.technical}</p>
                             <p><strong>Viva:</strong> {review.viva}</p>
                             <p><strong>Total Marks:</strong> {totalMarks}/150</p>
+
+                            {/* Progress Bar */}
+                            <div className="marks-progress_main">
+                              <div className="marks-progress">
+                                <div
+                                  className="marks-progress-line"
+                                  style={{
+                                    width: `${progressPercentage}%`,
+                                    backgroundColor: status === 'pass' ? '#4caf50' : '#f44336',
+                                  }}
+                                >
+                                  <span className="progress-text"  style={{
+                                   
+                                    color: status === 'pass' ? '#4caf50' : '#f44336',
+                                  }}>{progressPercentage}%</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       );
@@ -395,11 +494,13 @@ function Home() {
           )}
 
 
+
+
           {/*  Sections tests*/}
 
           {activeSection === 'tests' && (
             <div className="home-container_tests">
-              <h1 style={{color:'#6a5af9'}}>comming soon..........</h1>
+              <h1 style={{ color: '#6a5af9' }}>coming soon.....</h1>
 
             </div>
           )}
@@ -429,7 +530,9 @@ function Home() {
                   </div>
                 ) : (
                   batch.length === 0 ? (
-                    <p className="no-batch-data">No batch data available</p>
+                    <div className="box_notdata">
+                      <p className="no-batch-data">No batch data available</p>
+                    </div>
                   ) : (
                     // Batch Details Section
                     batch.map((batchItem, index) => (
@@ -515,7 +618,9 @@ function Home() {
               ) : (
                 <div className="material-content">
                   {material.length === 0 ? (
-                    <p className="no-material">No study material available</p>
+                    <div className="box_notdata">
+                      <p className="no-material">No study material available</p>
+                    </div>
                   ) : (
                     <ul className="material-list">
                       {material.map((item) => (
@@ -545,12 +650,19 @@ function Home() {
           {activeSection === 'announcement' && (
             <div className="announcement-container">
               <h1 className="announcement-title">Announcements</h1>
-              {loading ? (
+
+              {nodata ? (
+                <div>
+                  <h1>No data found</h1>
+                </div>
+              ) : loading ? (
                 <div className="loading-spinner">
                   <div className="spinner"></div>
                 </div>
               ) : announcement.length === 0 ? (
-                <p className="no-announcement">No announcements available</p>
+                <div className="box_notdata">
+                  <p className="no-announcement">No announcements available</p>
+                </div>
               ) : (
                 <div className="announcement-grid">
                   {announcement
@@ -596,7 +708,9 @@ function Home() {
                 </div>
               ) : (
                 bill.length === 0 ? (
-                  <p>No bill data available</p>
+                  <div className="box_notdata">
+                    <p >No bill data available</p>
+                  </div>
                 ) : (
                   bill.map((record, index) => (
                     <div key={index} className="bill-card">
@@ -624,7 +738,7 @@ function Home() {
         {/* Sections Announcement*/}
 
         <div className="third_section_main">
-          {homeAnnouncement ? (
+          {homeAnnouncement && homeAnnouncement.title ? (
             <div className="announcement_card">
               <h3 className="announcement_title">Recent Announcements</h3>
               <div className="announcement_icon">📢</div>
@@ -646,9 +760,20 @@ function Home() {
               </div>
             </div>
           ) : (
-            <p>No recent announcements available.</p>
+            <div className="no_announcement_message">
+              <div className="announcement_card">
+                <h3 className="announcement_title">Recent Announcements</h3>
+                <div className="announcement_icon">📢</div>
+                <div className="announcement_content">
+                  <h3 className="announcement_title">No recent announcements available.</h3>
+
+                </div>
+              </div>
+
+            </div>
           )}
         </div>
+
 
 
       </div>
@@ -695,7 +820,7 @@ function Home() {
 
 
       <Footer />
-    </div>
+    </div >
   );
 }
 
