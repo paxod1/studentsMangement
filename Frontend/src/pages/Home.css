@@ -1203,6 +1203,12 @@ select {
 }
 
 @media screen and (max-width: 768px) {
+  .balance-amount,
+  .due-date,
+  .pay-status {
+
+    font-size: 13px;
+  }
 
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
@@ -1302,12 +1308,8 @@ select {
     margin-top: 7px;
     font-size: 23px;
   }
-  .balance-amount,
-.due-date,
-.pay-status {
 
-  font-size: 16px;
-}
+ 
 }
 
 @media screen and (max-width: 480px) {
@@ -1367,16 +1369,16 @@ select {
   width: 100%;
   display: flex;
   justify-content: center;
-  
+
 }
 
-.marks-progress_main{
+.marks-progress_main {
   width: 100%;
   display: flex;
   justify-content: center;
   height: 30px;
   align-items: center;
- 
+
 }
 
 .marks-progress {
