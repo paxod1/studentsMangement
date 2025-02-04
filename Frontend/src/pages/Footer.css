@@ -67,12 +67,9 @@
   color: #1b1a1a;
 }
 
-@media screen and (max-width: 768px) {
-  .footer-logo img {
-    width: 150px;
-    height: 5%;
-    margin-bottom: 10px;
-  
+@media screen and (max-width: 500px) {
+  .footer-container{
+    display: none;
   }
 
 }

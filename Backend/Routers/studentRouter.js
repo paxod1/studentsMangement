@@ -44,7 +44,7 @@ router.get('/check', verifyToken, async (req, res) => {
     res.status(200).json('helooo')
 });
 
-router.get('/getdatareview', async (req, res) => {
+router.get('/getdatareview',verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -65,7 +65,7 @@ router.get('/getdatareview', async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
-router.get('/getdatatraining', async (req, res) => {
+router.get('/getdatatraining',verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -89,7 +89,7 @@ router.get('/getdatatraining', async (req, res) => {
 
 
 
-router.get('/getdataattendance', async (req, res) => {
+router.get('/getdataattendance',verifyToken, async (req, res) => {
     const { student_id, year, month } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -121,7 +121,7 @@ router.get('/getdataattendance', async (req, res) => {
 
 
 
-router.get('/getdatabill', async (req, res) => {
+router.get('/getdatabill',verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -143,7 +143,7 @@ router.get('/getdatabill', async (req, res) => {
     }
 });
 
-router.get('/getdatavideos', async (req, res) => {
+router.get('/getdatavideos',verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(batchname);
 
@@ -165,7 +165,7 @@ router.get('/getdatavideos', async (req, res) => {
     }
 });
 
-router.get('/getdataAnnouncements', async (req, res) => {
+router.get('/getdataAnnouncements',verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(req.query);
 
@@ -197,7 +197,7 @@ router.get('/getdataAnnouncements', async (req, res) => {
     }
 });
 
-router.get('/getdatamaterial', async (req, res) => {
+router.get('/getdatamaterial',verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(batchname);
 
@@ -221,13 +221,13 @@ router.get('/getdatamaterial', async (req, res) => {
 
 
 // change password
-router.post('/change-password', async (req, res) => {
-    const { userId, currentPassword, newPassword } = req.body;
-    if (!userId || !currentPassword || !newPassword) {
+router.post('/change-password',verifyToken, async (req, res) => {
+    const { student_id, currentPassword, newPassword } = req.body;
+    if (!student_id || !currentPassword || !newPassword) {
         return res.status(400).json({ message: 'All fields are required' });
     }
     try {
-        const [results] = await db.query('SELECT * FROM tbl_login1 WHERE id = ?', [userId]);
+        const [results] = await db.query('SELECT * FROM tbl_login1 WHERE student_id = ?', [student_id]);
         if (results.length === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -243,6 +243,32 @@ router.post('/change-password', async (req, res) => {
         return res.status(500).json({ error: 'Database error' });
     }
 });
+
+router.get('/getdataAnnouncementsid',verifyToken, async (req, res) => {
+    const { student_id } = req.query;  // Get student_id from query parameters
+    console.log(req.query);
+
+    if (!student_id) {
+        return res.status(400).json('student_id is required');
+    }
+
+    const query = 'SELECT * FROM tbl_announcements WHERE student_id = ?';  // Change the filter to student_id
+    console.log('Fetching announcements for student_id:', student_id);
+
+    try {
+        const [results] = await db.query(query, [student_id]);
+        console.log(results);
+
+        if (results.length === 0) {
+            return res.status(404).json('No announcements found for this student');
+        }
+        return res.status(200).json(results);  // Send results back as JSON
+    } catch (err) {
+        console.error("Query execution error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
 
 
 module.exports = router;

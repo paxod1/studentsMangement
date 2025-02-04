@@ -10,9 +10,10 @@ function ChangePass() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const userId = useSelector((state) => state.userlogin?.LoginInfo[0]?.id); // Get user ID from Redux store
+    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
+    const student_id = logininfom.student_id 
 
-    console.log(userId);
+    console.log(student_id);
 
     async function handleChangePassword() {
         if (newPassword !== confirmPassword) {
@@ -23,7 +24,7 @@ function ChangePass() {
         setLoading(true); // Show spinner
         try {
             const response = await TokenRequest.post('/student/change-password', {
-                userId,
+                student_id,
                 currentPassword,
                 newPassword
             });

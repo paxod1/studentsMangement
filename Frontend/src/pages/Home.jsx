@@ -42,6 +42,7 @@ function Home() {
   const [announcement, setAnnouncement] = useState([])
   const [activeMenu, setActiveMenu] = useState("");
   const [nodata, setNodata] = useState(false)
+  const [personalAnn, setPersonalAnn] = useState([])
 
 
 
@@ -184,6 +185,25 @@ function Home() {
 
           } else {
             setAnnouncement(response.data);
+          }
+          console.log(response.data);
+          break;
+        case 'tests':
+          setActiveSection('tests');
+
+          break;
+
+        case 'personalannouncement':
+          setActiveSection('personalannouncement');
+          response = await TokenRequest.get(`/student/getdataAnnouncementsid?student_id=${student_id}`);
+
+          if (response.data.length === 0) {
+            setPersonalAnn([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setPersonalAnn(response.data);
           }
           console.log(response.data);
           break;
@@ -476,8 +496,8 @@ function Home() {
                                     backgroundColor: status === 'pass' ? '#4caf50' : '#f44336',
                                   }}
                                 >
-                                  <span className="progress-text"  style={{
-                                   
+                                  <span className="progress-text" style={{
+
                                     color: status === 'pass' ? '#4caf50' : '#f44336',
                                   }}>{progressPercentage}%</span>
                                 </div>
@@ -650,6 +670,7 @@ function Home() {
           {activeSection === 'announcement' && (
             <div className="announcement-container">
               <h1 className="announcement-title">Announcements</h1>
+              <button onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
 
               {nodata ? (
                 <div>
@@ -690,6 +711,54 @@ function Home() {
             </div>
           )}
 
+
+
+
+          {/* Sections personal announcement*/}
+
+
+          {activeSection === 'announcement' && (
+            <div className="announcement-container">
+              <h1 className="announcement-title">Announcements</h1>
+              <button onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
+
+              {nodata ? (
+                <div>
+                  <h1>No data found</h1>
+                </div>
+              ) : loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : personalAnn.length === 0 ? (
+                <div className="box_notdata">
+                  <p className="no-announcement">No announcements available</p>
+                </div>
+              ) : (
+                <div className="announcement-grid">
+                  {personalAnn
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) 
+                    .map((item) => (
+                      <div key={item.id} className="announcement-card">
+                        <h3 className="announcement-card-title">{item.title}</h3>
+                        <p className="announcement-description">{item.description}</p>
+                        {item.image && (
+                          <div className="announcement-image">
+                            <img
+                              src={`https://your-backend-url/uploads/${item.image}`}
+                              alt={item.title}
+                            />
+                          </div>
+                        )}
+                        <p className="announcement-date">
+                          Posted on: {new Date(item.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          )}
 
 
 
@@ -819,7 +888,7 @@ function Home() {
 
 
 
-      <Footer className="footer_home" />
+      <Footer />
     </div >
   );
 }

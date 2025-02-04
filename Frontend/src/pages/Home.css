@@ -828,7 +828,7 @@ select {
   box-sizing: border-box;
   box-shadow: 1px 1px 1px 2px #cccccc45;
   position: fixed;
-  z-index: 1001;
+
 }
 
 .topsection_inner_div_userHompage {
