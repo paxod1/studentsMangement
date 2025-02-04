@@ -4,6 +4,15 @@
   padding-bottom: 7%;
 }
 
+/* Video container styling */
+.video-container {
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Video shield to block interactions */
 .video-shield {
   position: absolute;
   top: 0;
@@ -12,9 +21,8 @@
   height: 100%;
   z-index: 10;
   background: transparent;
-  pointer-events: all;
+  pointer-events: all; /* Block all pointer events */
 }
-
 
 /* Sidebar styling */
 .sidebar {
@@ -24,11 +32,9 @@
   top: 5vh;
   left: 0;
   background: white;
-  /* Gradient background */
   color: #fff;
   padding: 20px;
   border-radius: 10px 0 0 10px;
-  /* Rounded corners */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   transition: all 0.3s ease;
@@ -77,26 +83,11 @@
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    top: 0;
-    border-radius: 0;
-  }
-}
-
+/* Main content area */
 .main-content {
   margin-left: 320px;
   padding: 20px;
   width: 60%;
-}
-
-/* Video container styling */
-.video-container {
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
 }
 
 /* Footer styling */
@@ -107,31 +98,7 @@ footer {
   left: 0;
 }
 
-/* Responsive styles for smaller screens */
-@media (max-width: 868px) {
-  .video_displaysec {
-    padding-top: 10%;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    bottom: 0;
-    /* Position sidebar at the bottom */
-  }
-
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .video-container {
-    height: auto;
-    /* Adjust video height for mobile */
-  }
-}
-
+/* Navbar styling */
 .navbar_main_video {
   height: 70px;
   width: 100%;
@@ -169,7 +136,6 @@ footer {
 
 .menus_right_video {
   width: 120px;
-  /* Adjust button width for mobile */
   height: 30px;
   margin-right: 10px;
   color: black;
@@ -186,31 +152,10 @@ footer {
   text-decoration: none;
 }
 
-
-
-
-/* video*/
+/* Video wrapper and controls */
 .video-wrapper {
   position: relative;
   height: 100%;
-}
-
-.video-container {
-  position: relative;
-  background-color: #000;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.video-shield {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background: transparent;
-  pointer-events: all;
 }
 
 .custom-controls {
@@ -225,7 +170,6 @@ footer {
   gap: 10px;
   z-index: 20;
 }
-
 
 .control-btn {
   background: none;
@@ -268,18 +212,12 @@ footer {
   padding: 0 1rem;
 }
 
-.timeline-slider {
-  flex-grow: 1;
-  margin: 0 10px;
-  color: white;
-}
-
 .active-video {
   color: #4e8dff;
-  /* Active video color */
   font-weight: bold;
 }
 
+/* Loading spinner */
 .loading-spinner {
   width: 100%;
   height: 60vh;
@@ -299,38 +237,60 @@ footer {
   animation: spin 2s linear infinite;
 }
 
-/* Additional mobile styling */
-
-
-@media (max-width: 768px) and (orientation: landscape) {
-  .video-shield {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    background: transparent;
-    pointer-events: all;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
-  .video-container {
-    width: 100vw;
-    /* Full viewport width */
-    height: calc(100vh - 50px);
-    /* Adjust height as per your design */
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    top: 0;
     border-radius: 0;
   }
 
   .main-content {
     margin-left: 0;
-    padding: 10px;
     width: 100%;
+  }
+
+  .video_displaysec {
+    padding-top: 10%;
+  }
+
+  .video-container {
+    height: auto;
+  }
+}
+
+@media (max-width: 868px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    bottom: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-container {
+    width: 100vw;
+    height: calc(100vh - 50px);
+    border-radius: 0;
   }
 
   .sidebar {
     display: none;
-    /* Hide the sidebar in landscape for better video focus */
   }
 
   .navbar_main_video {
@@ -345,99 +305,28 @@ footer {
     display: none;
   }
 
-
   .menus_right_video {
     width: 100%;
     height: 40px;
     margin-right: 0;
     font-size: 14px;
   }
-
-  .video-container {
-    width: 100%;
-    height: 400px;
-    /* Make video container shorter on small screens */
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    bottom: 0;
-    /* Position sidebar at the bottom on small screens */
-  }
-
-
-
-
 }
 
 @media (max-width: 600px) {
   .video_displaysec {
     padding-top: 20%;
     padding-bottom: 7%;
-
   }
 
   .custom-controls {
-
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.347);
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 20;
     bottom: -2%;
+    background: rgba(0, 0, 0, 0.347);
   }
 
-
-  .control-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .volume-control {
-
-    display: none;
-  }
-
+  .volume-control,
   .volume-slider {
-
     display: none;
-  }
-
-  .timeline {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .timeline-slider {
-    width: 100%;
-    cursor: pointer;
-  }
-
-  .timeline-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-
-  .timeline-slider {
-    flex-grow: 1;
-    margin: 0 10px;
-    color: white;
   }
 
   .main-content {
@@ -451,34 +340,12 @@ footer {
   }
 
   .menus_right_video {
-
-    color: black;
-    padding: 5px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border: none;
     background-color: white;
     color: #6a5af9;
-    cursor: pointer;
-    text-decoration: none;
     font-size: 30px;
   }
 
   .menus_right_video_text {
     display: none;
   }
-
-  .video-shield {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    background: transparent;
-    pointer-events: all;
-  }
-
-
 }

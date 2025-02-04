@@ -178,6 +178,7 @@ function ClassVideo() {
                     controlsList="nodownload"
                     className='video_screen'
                   />
+                  <div className="video-shield" />
 
                   {showControls && (
                     <div>
@@ -221,7 +222,7 @@ function ClassVideo() {
                           {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
                         </button>
                       </div>
-                      <div className="video-shield" />
+                     
                     </div>
                   )}
                 </div>
