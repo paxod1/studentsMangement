@@ -10,6 +10,7 @@
   border-radius: 10px;
   overflow: hidden;
   position: relative;
+ 
 }
 
 /* Video shield to block interactions */
@@ -156,6 +157,7 @@ footer {
 .video-wrapper {
   position: relative;
   height: 100%;
+  width: 100%;
 }
 
 .custom-controls {

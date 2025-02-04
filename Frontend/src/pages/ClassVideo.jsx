@@ -147,14 +147,14 @@ function ClassVideo() {
             </h2>
 
 
-            <div className="video-container p-3">
+            <div className="video-container p-3" style={{ width: isFullscreen ? "100%" : "100%", height:isFullscreen ? "100%" : "100%" }}>
               {selectedVideo ? (
-                <div className="video-wrapper">
+                <div className="video-wrapper" >
                   <ReactPlayer
                     ref={playerRef}
                     url={selectedVideo.video_link}
                     width={isFullscreen ? "100%" : "100%"}
-                    height={isFullscreen ? "calc(100vh - 120px)" : "500px"}
+                    height={isFullscreen ? "calc(105vh - 120px)" : "500px"}
                     playing={isPlaying}
                     volume={volume}
                     onProgress={handleProgress}
@@ -222,7 +222,7 @@ function ClassVideo() {
                           {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
                         </button>
                       </div>
-                     
+
                     </div>
                   )}
                 </div>
