@@ -41,7 +41,9 @@ function Home() {
   const [activeMenu, setActiveMenu] = useState("");
   const [nodata, setNodata] = useState(false)
   const [personalAnn, setPersonalAnn] = useState([])
+  const [student, setSutdent] = useState([])
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
+
 
 
 
@@ -69,9 +71,13 @@ function Home() {
       async function billhome() {
         await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
+        let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
         console.log("home bill", response.data);
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
+        setSutdent(response2.data)
+        console.log("student", response2.data);
+
       }
       billhome();
     }
@@ -733,13 +739,13 @@ function Home() {
                     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                     .map((item) => (
                       <div key={item.message_id} className="announcement-card">
-              
+
                         <h3 className="announcement-card-title">{item.message_details}</h3>
 
-  
+
                         <p className="announcement-description">{item.message_details}</p>
 
-      
+
                         <p className="announcement-date">
                           Posted on: {new Date(item.created_at).toLocaleDateString()}
                         </p>

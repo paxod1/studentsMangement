@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
             }
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '1d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: user.student_id, token, user });
+            return res.status(200).json({ student_id: user.student_id, token,});
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -65,6 +65,32 @@ router.get('/getdatareview', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
+
+router.get('/getstudent', verifyToken, async (req, res) => {
+    const { student_id } = req.query;
+    if (!student_id) {
+        return res.status(400).json('student_id is required');
+    }
+    const parsedStudentId = parseInt(student_id);
+    if (isNaN(parsedStudentId)) {
+        return res.status(400).json('Invalid student_id');
+    }
+    const query = 'SELECT * FROM tbl_student WHERE student_id = ?';
+    try {
+        const [results] = await db.query(query, [parsedStudentId]);
+        if (results.length === 0) {
+            return res.status(404).json('Student not found');
+        }
+        return res.status(200).json(results);
+    } catch (err) {
+        console.error("Query execution error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+
+
 router.get('/getdatatraining', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
