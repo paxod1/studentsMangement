@@ -614,9 +614,6 @@ function Home() {
                             <p><strong><FaRegKeyboard style={{ marginRight: '8px' }} />Training Method:</strong> {batchItem.training_method}</p>
                             <p><strong><IoIosCard style={{ marginRight: '8px' }} />Course Fee:</strong> {batchItem.fee}/-</p>
                           </div>
-                          <div className="batch-footer">
-                            <p><strong>Training ID:</strong> {batchItem.training_id}</p>
-                          </div>
                         </div>
                       </div>
                     ))
