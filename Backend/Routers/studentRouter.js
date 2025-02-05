@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
             }
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '1d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: user.student_id, token, username: user.username });
+            return res.status(200).json({ student_id: user.student_id, token, user });
         }
     } catch (err) {
         console.error('Error querying database:', err);
