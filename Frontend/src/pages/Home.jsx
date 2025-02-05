@@ -868,10 +868,6 @@ function Home() {
             <span className='res_down_menus'>Study Material</span>
             <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
-          <a className="topsection_card_userhomepage_down" href='https://www.techwingsys.com/'>
-            <span className='res_down_menus'>Our Website</span>
-            <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
-          </a>
         </div>
       </div>
 
