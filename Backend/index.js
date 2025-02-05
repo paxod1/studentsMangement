@@ -10,18 +10,21 @@ const app = express();
 
 
 const corsOptions = {
-  origin: 'https://students-mangement.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  origin: (origin, callback) => {
+    const allowedOrigins = ['https://students-mangement.vercel.app'];
+    
+    // Allow requests with no origin (like server-to-server calls)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 };
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log(`Request Origin: ${req.headers.origin}`);
-  console.log(`Request Headers: ${JSON.stringify(req.headers)}`);
-  next();
-});
 
 
 
