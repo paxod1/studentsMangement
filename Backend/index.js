@@ -7,16 +7,8 @@ const studentRouter = require('./Routers/studentRouter');
 dotenv.config();
 
 const app = express();
+app.use(cors());
 
-
-const corsOptions = {
-  origin: true, // Allow all origins for debugging
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight requests
 
 
 
