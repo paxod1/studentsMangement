@@ -1435,3 +1435,11 @@ select {
   padding: 5px;
   margin-bottom: 10px;
 }
+
+
+@media screen and (max-width: 500px) {
+
+  .second_section_main {
+    padding-bottom: 15%;
+  }
+}
