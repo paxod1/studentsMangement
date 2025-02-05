@@ -828,6 +828,7 @@ select {
   box-sizing: border-box;
   box-shadow: 1px 1px 1px 2px #cccccc45;
   position: fixed;
+  z-index: 1001;
 
 }
 
@@ -1253,7 +1254,20 @@ select {
   }
 }
 
+.change_password_button {
+  text-decoration: none;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+  background-color: #3c9aff;
+}
+
 @media screen and (max-width: 600px) {
+  .change_password_button {
+    display: none;
+  }
 
   .topsection_card_userhomepage h3,
   .sidebar_bottom_text,
@@ -1312,6 +1326,7 @@ select {
 
 
 }
+
 
 @media screen and (max-width: 480px) {
 
@@ -1410,4 +1425,13 @@ select {
   right: 5px;
   font-size: 12px;
   color: #4caf50;
+}
+
+.anouncement_button_per {
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
 }

@@ -32,18 +32,16 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
-  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
   const [paymentData, setPaymentData] = useState([])
   const [batchname, setBatchname] = useState('')
   const navigate = useNavigate()
-  const [initialLoading, setInitialLoading] = useState(true);
   const [material, setMaterial] = useState([])
   const [homeAnnouncement, setHomeAnnouncement] = useState([])
   const [announcement, setAnnouncement] = useState([])
   const [activeMenu, setActiveMenu] = useState("");
   const [nodata, setNodata] = useState(false)
   const [personalAnn, setPersonalAnn] = useState([])
-
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
 
 
@@ -72,7 +70,6 @@ function Home() {
         await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         console.log("home bill", response.data);
-        setInitialLoading(false)
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
       }
@@ -204,6 +201,8 @@ function Home() {
 
           } else {
             setPersonalAnn(response.data);
+            console.log("personalAnn", personalAnn);
+
           }
           console.log(response.data);
           break;
@@ -262,13 +261,6 @@ function Home() {
     return (presentCount / totalDays) * 100;
   };
 
-  if (initialLoading) {
-    return (
-      <div className="loading-spinner">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
 
 
 
@@ -296,6 +288,7 @@ function Home() {
                 <span className='res_down_menus'>Announcements</span>
                 <h3><HiOutlineSpeakerphone style={{ height: '22px', width: '22px' }} /></h3>
               </div>
+              <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
 
               <h3 onClick={logout} className='menus_right'><IoIosLogOut />  </h3>
 
@@ -670,7 +663,7 @@ function Home() {
           {activeSection === 'announcement' && (
             <div className="announcement-container">
               <h1 className="announcement-title">Announcements</h1>
-              <button onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
+              <button className='anouncement_button_per' onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
 
               {nodata ? (
                 <div>
@@ -717,10 +710,10 @@ function Home() {
           {/* Sections personal announcement*/}
 
 
-          {activeSection === 'announcement' && (
+          {activeSection === 'personalannouncement' && (
             <div className="announcement-container">
               <h1 className="announcement-title">Announcements</h1>
-              <button onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
+              <button className='anouncement_button_per' onClick={() => fetchData('announcement')}>Announcements</button>
 
               {nodata ? (
                 <div>
@@ -737,19 +730,16 @@ function Home() {
               ) : (
                 <div className="announcement-grid">
                   {personalAnn
-                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) 
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                     .map((item) => (
-                      <div key={item.id} className="announcement-card">
-                        <h3 className="announcement-card-title">{item.title}</h3>
-                        <p className="announcement-description">{item.description}</p>
-                        {item.image && (
-                          <div className="announcement-image">
-                            <img
-                              src={`https://your-backend-url/uploads/${item.image}`}
-                              alt={item.title}
-                            />
-                          </div>
-                        )}
+                      <div key={item.message_id} className="announcement-card">
+              
+                        <h3 className="announcement-card-title">{item.message_details}</h3>
+
+  
+                        <p className="announcement-description">{item.message_details}</p>
+
+      
                         <p className="announcement-date">
                           Posted on: {new Date(item.created_at).toLocaleDateString()}
                         </p>
@@ -759,6 +749,7 @@ function Home() {
               )}
             </div>
           )}
+
 
 
 

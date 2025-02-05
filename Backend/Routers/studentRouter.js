@@ -44,7 +44,7 @@ router.get('/check', verifyToken, async (req, res) => {
     res.status(200).json('helooo')
 });
 
-router.get('/getdatareview',verifyToken, async (req, res) => {
+router.get('/getdatareview', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -65,7 +65,7 @@ router.get('/getdatareview',verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
-router.get('/getdatatraining',verifyToken, async (req, res) => {
+router.get('/getdatatraining', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -89,7 +89,7 @@ router.get('/getdatatraining',verifyToken, async (req, res) => {
 
 
 
-router.get('/getdataattendance',verifyToken, async (req, res) => {
+router.get('/getdataattendance', verifyToken, async (req, res) => {
     const { student_id, year, month } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -121,7 +121,7 @@ router.get('/getdataattendance',verifyToken, async (req, res) => {
 
 
 
-router.get('/getdatabill',verifyToken, async (req, res) => {
+router.get('/getdatabill', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
         return res.status(400).json('student_id is required');
@@ -143,7 +143,7 @@ router.get('/getdatabill',verifyToken, async (req, res) => {
     }
 });
 
-router.get('/getdatavideos',verifyToken, async (req, res) => {
+router.get('/getdatavideos', verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(batchname);
 
@@ -165,7 +165,7 @@ router.get('/getdatavideos',verifyToken, async (req, res) => {
     }
 });
 
-router.get('/getdataAnnouncements',verifyToken, async (req, res) => {
+router.get('/getdataAnnouncements', verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(req.query);
 
@@ -197,7 +197,7 @@ router.get('/getdataAnnouncements',verifyToken, async (req, res) => {
     }
 });
 
-router.get('/getdatamaterial',verifyToken, async (req, res) => {
+router.get('/getdatamaterial', verifyToken, async (req, res) => {
     const { batchname } = req.query;
     console.log(batchname);
 
@@ -221,30 +221,35 @@ router.get('/getdatamaterial',verifyToken, async (req, res) => {
 
 
 // change password
-router.post('/change-password',verifyToken, async (req, res) => {
+router.post('/change-password', verifyToken, async (req, res) => {
     const { student_id, currentPassword, newPassword } = req.body;
     if (!student_id || !currentPassword || !newPassword) {
         return res.status(400).json({ message: 'All fields are required' });
     }
+
     try {
         const [results] = await db.query('SELECT * FROM tbl_login1 WHERE student_id = ?', [student_id]);
         if (results.length === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
         const user = results[0];
+        console.log(user);
+
         if (currentPassword !== user.password) {
             return res.status(401).json({ message: 'Current password is incorrect' });
         }
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await db.query('UPDATE tbl_login1 SET password = ? WHERE id = ?', [hashedPassword, userId]);
+        await db.query('UPDATE tbl_login1 SET password = ? WHERE student_id = ?', [newPassword, user.student_id]);
         return res.status(200).json({ message: 'Password updated successfully' });
     } catch (err) {
+
         console.error('Error updating password:', err);
         return res.status(500).json({ error: 'Database error' });
     }
 });
 
-router.get('/getdataAnnouncementsid',verifyToken, async (req, res) => {
+
+
+router.get('/getdataAnnouncementsid', verifyToken, async (req, res) => {
     const { student_id } = req.query;  // Get student_id from query parameters
     console.log(req.query);
 
@@ -252,7 +257,7 @@ router.get('/getdataAnnouncementsid',verifyToken, async (req, res) => {
         return res.status(400).json('student_id is required');
     }
 
-    const query = 'SELECT * FROM tbl_announcements WHERE student_id = ?';  // Change the filter to student_id
+    const query = 'SELECT * FROM tbl_student_messages WHERE student_id = ?';  // Change the filter to student_id
     console.log('Fetching announcements for student_id:', student_id);
 
     try {
