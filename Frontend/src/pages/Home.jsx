@@ -75,8 +75,8 @@ function Home() {
         console.log("home bill", response.data);
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
-        setSutdent(response2.data)
-        console.log("student", response2.data);
+        setSutdent(response2.data[0].name)
+        console.log("student", response2.data[0].name);
 
       }
       billhome();
@@ -598,7 +598,9 @@ function Home() {
 
                         <div key={index} className="batch-card">
                           <h1 className="batch-title">Batch Details</h1>
+                          <h3>{student}</h3>
                           <div className="batch-header">
+
                             <h3>{batchItem.batch || "Batch Name Not Available"} {batchItem.course_name}</h3>
                             <p className="status">{batchItem.status || "Status Not Available"}</p>
                           </div>
