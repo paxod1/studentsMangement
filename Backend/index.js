@@ -10,20 +10,13 @@ const app = express();
 
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = ['https://students-mangement.vercel.app'];
-    
-    // Allow requests with no origin (like server-to-server calls)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins for debugging
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 
 
