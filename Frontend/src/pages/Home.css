@@ -1190,9 +1190,9 @@ select {
   .batch-header h3,
   .batch-body p,
   .batch-footer p,
-  .announcement_title,
+
   .announcement_text,
-  .material-title,
+
   .no-material,
   .announcement-card-title,
   .announcement-description,
@@ -1217,10 +1217,10 @@ select {
   .batch-header h3,
   .batch-body p,
   .batch-footer p,
-  .announcement_title,
+
   .announcement_text,
-  .material-title,
-  .no-material,
+
+
   .announcement-card-title,
   .announcement-description,
   .announcement-date,
@@ -1229,22 +1229,19 @@ select {
     /* Reduce font size by 15% */
   }
 
-  .attendance-title,
   .attendance-percentage,
   .filter-btn,
   .back-btn,
-  .home-title,
   .card-title,
   .status-text,
   .review-body p,
   .no-reviews,
-  .batch-title,
+
   .batch-header h3,
   .status,
   .batch-body p,
   .batch-footer p,
   .no-batch-data,
-  .bill-container h1,
   .bill-card h3,
   .bill-card .bill-body p,
   .pay-now-btn,
@@ -1274,10 +1271,9 @@ select {
   .batch-header h3,
   .batch-body p,
   .batch-footer p,
-  .announcement_title,
   .announcement_text,
-  .material-title,
-  .no-material,
+
+
   .announcement-card-title,
   .announcement-description,
   .announcement-date,
@@ -1286,22 +1282,19 @@ select {
     /* Reduce font size by 20% */
   }
 
-  .attendance-title,
+
   .attendance-percentage,
   .filter-btn,
   .back-btn,
-  .home-title,
   .card-title,
   .status-text,
   .review-body p,
   .no-reviews,
-  .batch-title,
   .batch-header h3,
   .status,
   .batch-body p,
   .batch-footer p,
   .no-batch-data,
-  .bill-container h1,
   .bill-card h3,
   .bill-card .bill-body p,
   .pay-now-btn,
@@ -1335,9 +1328,8 @@ select {
   .batch-header h3,
   .batch-body p,
   .batch-footer p,
-  .announcement_title,
   .announcement_text,
-  .material-title,
+
   .no-material,
   .announcement-card-title,
   .announcement-description,
@@ -1347,22 +1339,19 @@ select {
     /* Reduce font size by 25% */
   }
 
-  .attendance-title,
+
   .attendance-percentage,
   .filter-btn,
   .back-btn,
-  .home-title,
   .card-title,
   .status-text,
   .review-body p,
   .no-reviews,
-  .batch-title,
   .batch-header h3,
   .status,
   .batch-body p,
   .batch-footer p,
   .no-batch-data,
-  .bill-container h1,
   .bill-card h3,
   .bill-card .bill-body p,
   .pay-now-btn,
@@ -1444,28 +1433,67 @@ select {
   }
 }
 
-
+/* tasks */
 
 .task-container {
-  padding: 20px;
+  padding: 16px;
   background-color: #f9f9f9;
 }
 
 .task-title {
   font-size: 24px;
   font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
 }
 
 .task-summary {
-  margin-bottom: 20px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.summary-box {
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-size: 16px;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+  max-width: 180px;
+}
+
+.summary-box.completed {
+  background-color: #28a745;
+}
+
+.summary-box.pending {
+  background-color: #ffc107;
+}
+
+.summary-box.late {
+  background-color: #dc3545;
+}
+
+.summary-box.total {
+  background-color: #007bff;
+  width: 100%;
+}
+
+.summary-icon {
+  font-size: 18px;
+  margin-right: 8px;
 }
 
 .task-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 16px;
 }
 
 .task-table th,
@@ -1473,6 +1501,7 @@ select {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
+  font-size: 14px;
 }
 
 .task-status-completed {
@@ -1487,3 +1516,62 @@ select {
   background-color: #ffe0e0;
 }
 
+@media screen and (max-width: 768px) {
+  .task-title {
+    font-size: 20px;
+  }
+
+  .summary-box {
+    padding: 10px;
+    font-size: 12px;
+    max-width: 160px;
+  }
+
+  .summary-icon {
+    font-size: 16px;
+  }
+
+  .task-table th,
+  .task-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .task-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  .summary-box.total {
+    width: 100%;
+    max-width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .summary-box:not(.total) {
+    width: calc(31.33% - 8px);
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+
+  .text_total_inner {
+    margin-top: 20px;
+
+  }
+
+  .text_task_inner {
+    margin-top: 20px;
+  }
+}

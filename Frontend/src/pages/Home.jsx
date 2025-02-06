@@ -8,7 +8,8 @@ import { LogoutData } from '../Redux/UserSlice';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { FaCalendar, FaCalendarMinus, FaIdCard, FaList, FaRegKeyboard, FaSchool } from "react-icons/fa";
+import { AiOutlineLogout } from "react-icons/ai";
+import { FaCalendar, FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaHourglassHalf, FaIdCard, FaList, FaRegKeyboard, FaSchool, FaTasks } from "react-icons/fa";
 import { MdInsertChart } from "react-icons/md";
 import { IoIosVideocam } from "react-icons/io";
 import { FaCalendarCheck } from "react-icons/fa";
@@ -20,6 +21,9 @@ import { FaChrome } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { FaClock } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
+import { BiTask } from "react-icons/bi";
+
+
 
 function Home() {
   const [student_id, setStudent_id] = useState('');
@@ -313,7 +317,7 @@ function Home() {
               </div>
               <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
 
-              <h3 onClick={logout} className='menus_right'><IoIosLogOut />  </h3>
+              <h3 onClick={logout} className='menus_right'><AiOutlineLogout />  </h3>
 
 
             </div>
@@ -347,7 +351,7 @@ function Home() {
               <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
             </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('task')}>
-              <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
+              <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
             </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
               <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
@@ -449,15 +453,24 @@ function Home() {
                             </tr>
                           </thead>
                           <tbody>
-                            {filteredAttendance.map((record, index) => {
-                              const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
-                              return (
-                                <tr key={index} className={statusClass}>
-                                  <td>{record.date_taken}</td>
-                                  <td>{record.attendance}</td>
-                                </tr>
-                              );
-                            })}
+                            {filteredAttendance
+                              .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken)) // Sorting by date (most recent first)
+                              .map((record, index) => {
+                                const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
+                                return (
+                                  <tr key={index} className={statusClass}>
+                                    <td>
+                                      {new Date(record.date_taken).toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric',
+                                      })}
+                                    </td>
+                                    <td>{record.attendance}</td>
+                                  </tr>
+                                );
+                              })}
+
                           </tbody>
                         </table>
                       </div>
@@ -470,60 +483,74 @@ function Home() {
 
 
           {/*  Sections tasks*/}
-          {activeSection === 'task' && (
-  <div className="task-container">
-    <h1 className="task-title">Task Records</h1>
-    <div className="task-summary">
-      <p>Total Tasks: {task.length}</p>
-      <p>Completed: {getTaskCounts('Completed')}</p>
-      <p>Pending: {getTaskCounts('Pending')}</p>
-      <p>Late Submit: {getTaskCounts('Late Submit')}</p>
-    </div>
 
-    {nodata ? (
-      <div className="box-notdata">
-        <h1>No Tasks Found</h1>
-      </div>
-    ) : loading ? (
-      <div className="loading-spinner">
-        <div className="spinner"></div>
-      </div>
-    ) : (
-      <div className="task-content">
-        <table className="task-table">
-          <thead>
-            <tr>
-              <th>Task ID</th>
-              <th>Description</th>
-              <th>Batch</th>
-              <th>Date Assigned</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {task
-              .sort((a, b) => new Date(b.date_assigned) - new Date(a.date_assigned))
-              .map((task, index) => (
-                <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
-                  <td>{task.task_id}</td>
-                  <td>{task.task_description}</td>
-                  <td>{task.batch}</td>
-                  <td>
-                    {new Date(task.date_assigned).toLocaleDateString('en-IN', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </td>
-                  <td>{task.task_status}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
-    )}
-  </div>
-)}
+
+          {activeSection === 'task' && (
+            <div className="task-container">
+              <h1 className="task-title">Task Records</h1>
+
+              {/* Task Summary with Icons */}
+              <div className="task-summary">
+                <div className="summary-box total">
+                  <FaTasks className="summary-icon totalicon " />
+                  <p className='text_total_inner'>Total Tasks: {task.length}</p>
+                </div>
+
+                <div className="summary-box pending">
+                  <FaHourglassHalf className="summary-icon" />
+                  <p className='text_total_inner'>Pending:{getTaskCounts('Pending')}</p>
+                </div>
+                <div className="summary-box late">
+                  <FaExclamationCircle className="summary-icon" />
+                  <p className='text_total_inner'>Late : {getTaskCounts('Late Submit')}</p>
+                </div>
+                <div className="summary-box completed">
+                  <FaCheckCircle className="summary-icon" />
+                  <p className='text_total_inner'> Completed: {getTaskCounts('Completed')}</p>
+                </div>
+              </div>
+
+              {/* Task Table */}
+              {nodata ? (
+                <div className="box-notdata">
+                  <h1>No Tasks Found</h1>
+                </div>
+              ) : loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : (
+                <div className="task-content">
+                  <table className="task-table">
+                    <thead>
+                      <tr>
+                        <th>Description</th>
+                        <th>Date Assigned</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {task
+                        .sort((a, b) => new Date(b.date_assigned) - new Date(a.date_assigned))
+                        .map((task, index) => (
+                          <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
+                            <td>{task.task_description}</td>
+                            <td>
+                              {new Date(task.date_assigned).toLocaleDateString('en-IN', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric',
+                              })}
+                            </td>
+                            <td>{task.task_status}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
 
 
 
@@ -717,7 +744,7 @@ function Home() {
                 <div className="material-content">
                   {material.length === 0 ? (
                     <div className="box_notdata">
-                      <p className="no-material">No study material available</p>
+                      <p className="no-material">No materials yet now</p>
                     </div>
                   ) : (
                     <ul className="material-list">
@@ -944,7 +971,10 @@ function Home() {
             <span className='res_down_menus'>Payment</span>
             <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
-
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('task')}>
+            <span className='res_down_menus'>Task</span>
+            <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          </div>
           <div className="topsection_card_userhomepage_down" onClick={() => fetchData('tests')}>
             <span className='res_down_menus'>Tests</span>
             <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
