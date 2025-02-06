@@ -626,7 +626,7 @@ function Home() {
 
           {activeSection === 'tests' && (
             <div className="home-container_tests">
-              <h1 style={{ color: '#6a5af9' }}>coming soon.....</h1>
+              <h1 style={{ color: '#6a5af9' }}>No Test Yet Now</h1>
 
             </div>
           )}
