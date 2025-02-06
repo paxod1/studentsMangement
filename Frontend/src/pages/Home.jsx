@@ -42,6 +42,7 @@ function Home() {
   const [nodata, setNodata] = useState(false)
   const [personalAnn, setPersonalAnn] = useState([])
   const [student, setSutdent] = useState([])
+  const [task ,setTask]=useState([])
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
 
@@ -212,6 +213,22 @@ function Home() {
           }
           console.log(response.data);
           break;
+          case 'task':
+          setActiveSection('task');
+          response = await TokenRequest.get(`/student/getTasks?student_id=${student_id}`);
+
+          if (response.data.length === 0) {
+            setTask([]);
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            setTask(response.data);
+            console.log("setTask", personalAnn);
+
+          }
+          console.log(response.data);
+          break;
         case 'tests':
           setActiveSection('tests');
 
@@ -329,9 +346,13 @@ function Home() {
             <div className={`topsection_card_userhomepage ${activeMenu === 'tests' ? 'active' : ''}`} onClick={() => fetchData('tests')}>
               <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
             </div>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('task')}>
+              <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
+            </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
               <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
             </div>
+            
             <a className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} href='https://www.techwingsys.com/'>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
             </a>
