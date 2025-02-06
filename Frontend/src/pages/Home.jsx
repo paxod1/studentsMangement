@@ -470,50 +470,53 @@ function Home() {
 
 
           {/*  Sections tasks*/}
-          <div className="task-container">
-            <h1 className="task-title">Task Records</h1>
-            <div className="task-summary">
-              <p>Total Tasks: {task.length}</p>
-              <p>Completed: {getTaskCounts('Completed')}</p>
-              <p>Pending: {getTaskCounts('Pending')}</p>
-              <p>Late Submit: {getTaskCounts('Late Submit')}</p>
-            </div>
+          {activeSection === 'task' && (
+            <div className="task-container">
+              <h1 className="task-title">Task Records</h1>
+              <div className="task-summary">
+                <p>Total Tasks: {task.length}</p>
+                <p>Completed: {getTaskCounts('Completed')}</p>
+                <p>Pending: {getTaskCounts('Pending')}</p>
+                <p>Late Submit: {getTaskCounts('Late Submit')}</p>
+              </div>
 
-            {nodata ? (
-              <div className="box-notdata">
-                <h1>No Tasks Found</h1>
-              </div>
-            ) : loading ? (
-              <div className="loading-spinner">
-                <div className="spinner"></div>
-              </div>
-            ) : (
-              <div className="task-content">
-                <table className="task-table">
-                  <thead>
-                    <tr>
-                      <th>Task ID</th>
-                      <th>Description</th>
-                      <th>Batch</th>
-                      <th>Date Assigned</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {task.map((task, index) => (
-                      <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
-                        <td>{task.task_id}</td>
-                        <td>{task.task_description}</td>
-                        <td>{task.batch}</td>
-                        <td>{new Date(task.date_assigned).toLocaleDateString()}</td>
-                        <td>{task.task_status}</td>
+              {nodata ? (
+                <div className="box-notdata">
+                  <h1>No Tasks Found</h1>
+                </div>
+              ) : loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : (
+                <div className="task-content">
+                  <table className="task-table">
+                    <thead>
+                      <tr>
+                        <th>Task ID</th>
+                        <th>Description</th>
+                        <th>Batch</th>
+                        <th>Date Assigned</th>
+                        <th>Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+                    </thead>
+                    <tbody>
+                      {task.map((task, index) => (
+                        <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
+                          <td>{task.task_id}</td>
+                          <td>{task.task_description}</td>
+                          <td>{task.batch}</td>
+                          <td>{new Date(task.date_assigned).toLocaleDateString()}</td>
+                          <td>{task.task_status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
 
 
           {/*  Sections reviews*/}
