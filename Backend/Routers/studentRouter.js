@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
             if (password !== user.password) {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
-            const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '1d' });
+            const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
             console.log("login sucess");
             return res.status(200).json({ student_id: user.student_id, token,});
         }
