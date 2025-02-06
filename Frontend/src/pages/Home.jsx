@@ -42,7 +42,7 @@ function Home() {
   const [nodata, setNodata] = useState(false)
   const [personalAnn, setPersonalAnn] = useState([])
   const [student, setSutdent] = useState([])
-  const [task ,setTask]=useState([])
+  const [task, setTask] = useState([])
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
 
@@ -213,7 +213,7 @@ function Home() {
           }
           console.log(response.data);
           break;
-          case 'task':
+        case 'task':
           setActiveSection('task');
           response = await TokenRequest.get(`/student/getTasks?student_id=${student_id}`);
 
@@ -285,7 +285,7 @@ function Home() {
   };
 
 
-
+  const getTaskCounts = (status) => task.filter((task) => task.task_status === status).length;
 
   return (
     <div>
@@ -352,7 +352,7 @@ function Home() {
             <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
               <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
             </div>
-            
+
             <a className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} href='https://www.techwingsys.com/'>
               <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
             </a>
@@ -467,6 +467,53 @@ function Home() {
               )}
             </div>
           )}
+
+
+          {/*  Sections tasks*/}
+          <div className="task-container">
+            <h1 className="task-title">Task Records</h1>
+            <div className="task-summary">
+              <p>Total Tasks: {task.length}</p>
+              <p>Completed: {getTaskCounts('Completed')}</p>
+              <p>Pending: {getTaskCounts('Pending')}</p>
+              <p>Late Submit: {getTaskCounts('Late Submit')}</p>
+            </div>
+
+            {nodata ? (
+              <div className="box-notdata">
+                <h1>No Tasks Found</h1>
+              </div>
+            ) : loading ? (
+              <div className="loading-spinner">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              <div className="task-content">
+                <table className="task-table">
+                  <thead>
+                    <tr>
+                      <th>Task ID</th>
+                      <th>Description</th>
+                      <th>Batch</th>
+                      <th>Date Assigned</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {task.map((task, index) => (
+                      <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
+                        <td>{task.task_id}</td>
+                        <td>{task.task_description}</td>
+                        <td>{task.batch}</td>
+                        <td>{new Date(task.date_assigned).toLocaleDateString()}</td>
+                        <td>{task.task_status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
 
 
           {/*  Sections reviews*/}

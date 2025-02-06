@@ -1443,3 +1443,47 @@ select {
     padding-bottom: 15%;
   }
 }
+
+
+
+.task-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.task-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.task-summary {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.task-status-completed {
+  background-color: #e0ffe0;
+}
+
+.task-status-pending {
+  background-color: #fff4e5;
+}
+
+.task-status-late {
+  background-color: #ffe0e0;
+}
+
