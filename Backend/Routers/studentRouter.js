@@ -75,7 +75,7 @@ router.get('/getProjects', verifyToken, async (req, res) => {
     if (isNaN(parsedStudentId)) {
         return res.status(400).json('Invalid student_id');
     }
-    const query = 'SELECT * FROM tbl_Projects WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_projects WHERE student_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
