@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
             }
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: user.student_id, token,});
+            return res.status(200).json({ student_id: user.student_id, token, });
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -81,6 +81,7 @@ router.get('/getProjects', verifyToken, async (req, res) => {
         if (results.length === 0) {
             return res.status(404).json('Student not found');
         }
+        console.log(results);
         return res.status(200).json(results);
     } catch (err) {
         console.error("Query execution error:", err.message);
