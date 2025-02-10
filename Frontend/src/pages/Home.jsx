@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { TokenRequest } from '../AxiosCreate';
 import { useSelector } from 'react-redux';
 import './Home.css';
-import { IoIosLogOut } from "react-icons/io";
 import { useDispatch } from 'react-redux'
 import { LogoutData } from '../Redux/UserSlice';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from "react-icons/ai";
-import { FaCalendar, FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaHourglassHalf, FaIdCard, FaList, FaRegKeyboard, FaSchool, FaTasks } from "react-icons/fa";
+import {
+  FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaHourglassHalf,
+  FaIdCard, FaList, FaRegKeyboard, FaSchool, FaTasks
+} from "react-icons/fa";
 import { MdInsertChart } from "react-icons/md";
 import { IoIosVideocam } from "react-icons/io";
 import { FaCalendarCheck } from "react-icons/fa";
@@ -196,11 +198,23 @@ function Home() {
           }
           console.log(response.data);
           break;
-        case 'tests':
-          setActiveSection('tests');
 
+        case 'Project':
+          setActiveSection('Project');
+
+          response = await TokenRequest.get(`/student/getProjects?student_id=${student_id}`);
+
+          if (response.data.length === 0) {
+         
+            setActiveSection(' ');
+            setNodata(true)
+
+          } else {
+            
+            console.log("Project", personalAnn);
+
+          }
           break;
-
         case 'personalannouncement':
           setActiveSection('personalannouncement');
           response = await TokenRequest.get(`/student/getdataAnnouncementsid?student_id=${student_id}`);
@@ -319,7 +333,6 @@ function Home() {
 
               <h3 onClick={logout} className='menus_right'><AiOutlineLogout />  </h3>
 
-
             </div>
 
           </div>
@@ -347,10 +360,10 @@ function Home() {
             <div className={`topsection_card_userhomepage ${activeMenu === 'announcement' ? 'active' : ''}`} onClick={() => fetchData('announcement')}>
               <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
             </div>
-            <div className={`topsection_card_userhomepage ${activeMenu === 'tests' ? 'active' : ''}`} onClick={() => fetchData('tests')}>
-              <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tests</span></h3>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'Project' ? 'active' : ''}`} onClick={() => fetchData('Project')}>
+              <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Project</span></h3>
             </div>
-            <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('task')}>
+            <div className={`topsection_card_userhomepage ${activeMenu === 'task' ? 'active' : ''}`} onClick={() => fetchData('task')}>
               <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
             </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
