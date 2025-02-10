@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from "react-icons/ai";
 import {
-  FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaHourglassHalf,
-  FaIdCard, FaList, FaRegKeyboard, FaSchool, FaTasks
+  FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaExclamationTriangle, FaHourglassHalf,
+  FaIdCard, FaList, FaRegKeyboard, FaSchool, FaSpinner, FaTasks
 } from "react-icons/fa";
 import { MdInsertChart } from "react-icons/md";
 import { IoIosVideocam } from "react-icons/io";
@@ -24,6 +24,7 @@ import { RiCustomerService2Fill } from "react-icons/ri";
 import { FaClock } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import { BiTask } from "react-icons/bi";
+import { FaLaptopCode } from "react-icons/fa";
 
 
 
@@ -49,6 +50,7 @@ function Home() {
   const [personalAnn, setPersonalAnn] = useState([])
   const [student, setSutdent] = useState([])
   const [task, setTask] = useState([])
+  const [project, setProject] = useState([])
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
 
@@ -205,13 +207,11 @@ function Home() {
           response = await TokenRequest.get(`/student/getProjects?student_id=${student_id}`);
 
           if (response.data.length === 0) {
-         
             setActiveSection(' ');
             setNodata(true)
-
           } else {
-            
-            console.log("Project", personalAnn);
+            setProject(response.data)
+            console.log(project);
 
           }
           break;
@@ -361,7 +361,7 @@ function Home() {
               <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
             </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'Project' ? 'active' : ''}`} onClick={() => fetchData('Project')}>
-              <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Project</span></h3>
+              <h3><FaLaptopCode style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Project</span></h3>
             </div>
             <div className={`topsection_card_userhomepage ${activeMenu === 'task' ? 'active' : ''}`} onClick={() => fetchData('task')}>
               <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
@@ -515,7 +515,7 @@ function Home() {
                 </div>
                 <div className="summary-box late">
                   <FaExclamationCircle className="summary-icon" />
-                  <p className='text_total_inner'>Late : {getTaskCounts('Late Submit')}</p>
+                  <p className='text_total_inner'>Late : {getTaskCounts('Delay Completion')}</p>
                 </div>
                 <div className="summary-box completed">
                   <FaCheckCircle className="summary-icon" />
@@ -564,6 +564,72 @@ function Home() {
               )}
             </div>
           )}
+
+          {/*  Sections Projects*/}
+
+          {
+            activeSection === 'Project' &&
+            (project.length === 0 ? (
+              <div className="box-notdata">
+                <h4>No Project Yet Now</h4>
+              </div>
+            ) : (
+              <div className="project-container">
+                <h1 className="project-title">Project Records</h1>
+          
+                {/* Project Summary with Icons */}
+                <div className="project-summary">
+                  <div className="summary-box total">
+                    <FaTasks className="summary-icon totalicon" />
+                    <p className="text_total_inner">Total Projects: {project.length}</p>
+                  </div>
+                  <div className="summary-box delayed">
+                    <FaExclamationTriangle className="summary-icon" />
+                    <p className="text_total_inner">
+                      Delayed: {project.filter(proj => proj.project_status === 'delayed').length}
+                    </p>
+                  </div>
+                  <div className="summary-box pending">
+                    <FaHourglassHalf className="summary-icon" />
+                    <p className="text_total_inner">
+                      Pending: {project.filter(proj => proj.project_status === 'pending').length}
+                    </p>
+                  </div>
+                  <div className="summary-box completed">
+                    <FaCheckCircle className="summary-icon" />
+                    <p className="text_total_inner">
+                      Completed: {project.filter(proj => proj.project_status === 'completed').length}
+                    </p>
+                  </div>
+                </div>
+          
+                {/* Project Table */}
+                <div className="project-content">
+                  <table className="project-table">
+                    <thead>
+                      <tr>
+                        <th>Project Name</th>
+                        <th>Project Started</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {project.map((proj, index) => (
+                        <tr key={index} className={`project-status-${proj.project_status.toLowerCase()}`}>
+                          <td>{proj.project_description}</td>
+                          <td>{new Date(proj.date_created).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
+                          <td>{new Date(proj.deadline).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
+                          <td>{proj.project_status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))
+          }
+          
 
 
 
@@ -683,7 +749,7 @@ function Home() {
                                 <p className='balance-amount'>
                                   Balance Amount: ₹{paymentData.balance_amount}
                                 </p>
-                                <p className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString()} </div> : ' '}</p>
+                                <p className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}</p>
                               </div>
 
                               <div className="emi-progress">
@@ -988,9 +1054,9 @@ function Home() {
             <span className='res_down_menus'>Task</span>
             <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
-          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('tests')}>
-            <span className='res_down_menus'>Tests</span>
-            <h3><FaPen style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+          <div className="topsection_card_userhomepage_down" onClick={() => fetchData('Project')}>
+            <span className='res_down_menus'>Project</span>
+            <h3><FaLaptopCode style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
           </div>
           <div className="topsection_card_userhomepage_down" onClick={() => fetchData('material')}>
             <span className='res_down_menus'>Study Material</span>
