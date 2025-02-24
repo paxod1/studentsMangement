@@ -7,9 +7,14 @@ dotenv.config();
 
 const app = express();
 
-// Middleware setup
-app.use(cors());
-app.use(express.json()); 
+// CORS configuration
+app.use(cors({
+  origin: 'https://students-mangement.vercel.app',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
+
+app.use(express.json());
 
 // Route setup
 app.use('/student', studentRouter);
