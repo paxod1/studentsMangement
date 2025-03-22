@@ -8,11 +8,12 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-app.use(cors({
-  origin: 'https://students-mangement.vercel.app',
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
-}));
+app.cors()
+// app.use(cors({
+//   origin: 'https://students-mangement.vercel.app',
+//   methods: 'GET,POST,PUT,DELETE',
+//   allowedHeaders: 'Content-Type,Authorization'
+// }));
 
 app.use(express.json());
 
