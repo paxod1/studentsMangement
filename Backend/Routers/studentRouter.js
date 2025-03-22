@@ -9,14 +9,13 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log(username, password);
 
-
     if (!username || !password) {
         console.log(1);
         return res.status(400).json({ message: 'Please provide username and password' });
     }
     try {
         console.log(2);
-        const [results] = await db.query('SELECT * FROM tbl_login1 WHERE username = ?', [username]);
+        const [results] = await db.query('SELECT * FROM tbl_login WHERE username = ?', [username]);
         console.log(results);
 
         if (results.length === 0) {
@@ -25,14 +24,19 @@ router.post('/login', async (req, res) => {
         } else {
             console.log(4);
             const user = results[0];
-            console.log(user);
-            console.log(5);
             if (password !== user.password) {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
+            console.log("user>", user);
+
+            const query = 'SELECT * FROM tbl_student WHERE email = ?';
+
+            const [results1] = await db.query(query, [username]);
+            console.log("from student table", results1[0].student_id);
+
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: user.student_id, token, });
+            return res.status(200).json({ student_id: results1[0].student_id, token, });
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -40,10 +44,13 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// checking token
 router.get('/check', verifyToken, async (req, res) => {
     res.status(200).json('helooo')
 });
 
+
+// data geting students review
 router.get('/getdatareview', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
@@ -66,6 +73,7 @@ router.get('/getdatareview', verifyToken, async (req, res) => {
     }
 });
 
+// get student project data
 router.get('/getProjects', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
@@ -89,7 +97,7 @@ router.get('/getProjects', verifyToken, async (req, res) => {
     }
 });
 
-
+// get student personl details
 router.get('/getstudent', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
@@ -112,6 +120,7 @@ router.get('/getstudent', verifyToken, async (req, res) => {
     }
 });
 
+// get student tasks details
 router.get('/getTasks', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
