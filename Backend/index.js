@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-app.cors()
+app.use(cors())
 // app.use(cors({
 //   origin: 'https://students-mangement.vercel.app',
 //   methods: 'GET,POST,PUT,DELETE',
