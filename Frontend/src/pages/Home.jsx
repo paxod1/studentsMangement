@@ -25,6 +25,8 @@ import { FaClock } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import { BiTask } from "react-icons/bi";
 import { FaLaptopCode } from "react-icons/fa";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -85,7 +87,7 @@ function Home() {
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
-        console.log("student", response2.data[0].name);
+        console.log("student", response2.data[0]);
 
       }
       billhome();
@@ -97,6 +99,8 @@ function Home() {
     setActiveMenu(section);
     if (!student_id) return;
     setLoading(true);
+    console.log("hi");
+    
     try {
       let response;
       switch (section) {
@@ -107,6 +111,17 @@ function Home() {
 
           const batchName = response.data[0]?.batch || 'No Batch Assigned';
           setBatchname(batchName);
+          var statuscheck = response.data[0].status
+          console.log("status>>>>>>>>>>>>>", statuscheck);
+
+          // if status is droped the user will logout automaticaly
+          if (statuscheck == 'DROPED') {
+            toast.error("Student Droped course!");
+            dispatch(LogoutData())
+            setTimeout(() => {
+              window.location.reload();
+            }, 4000);
+          }
 
           console.log('Batch Name:', batchName);
           console.log('Batch details:', response.data);
@@ -576,7 +591,7 @@ function Home() {
             ) : (
               <div className="project-container">
                 <h1 className="project-title">Project Records</h1>
-          
+
                 {/* Project Summary with Icons */}
                 <div className="project-summary">
                   <div className="summary-box total">
@@ -602,7 +617,7 @@ function Home() {
                     </p>
                   </div>
                 </div>
-          
+
                 {/* Project Table */}
                 <div className="project-content">
                   <table className="project-table">
@@ -629,7 +644,7 @@ function Home() {
               </div>
             ))
           }
-          
+
 
 
 
