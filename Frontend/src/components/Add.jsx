@@ -5,7 +5,7 @@ function Add({ stopAd }) {
     const [imgSrc, setImgSrc] = useState('');
 
     const ad = {
-        phonesrc: 'https://www.techwingsys.com/tech102.png',
+        phonesrc: 'https://www.techwingsys.com/tech101.png',
         lapsrc: 'https://www.techwingsys.com/tech100.png'
     };
 
