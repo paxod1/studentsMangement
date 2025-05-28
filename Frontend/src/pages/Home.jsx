@@ -56,6 +56,14 @@ function Home() {
   const [project, setProject] = useState([])
   var [dueDate, setDueDate] = useState()
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
+  var [addTime, setAddTime] = useState(false)
+
+
+  function showAd() {
+    setTimeout(() => {
+      setAddTime(true)
+    }, 10000);
+  }
 
 
 
@@ -72,6 +80,7 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
+    showAd()
     if (logininfom) {
 
       setStudent_id(logininfom.student_id);
@@ -312,12 +321,7 @@ function Home() {
   if (dueDate == null) {
 
 
-    var [addTime, setAddTime] = useState(false)
 
-
-    setTimeout(() => {
-      setAddTime(true)
-    }, 10000);
 
     return (
       <div>
