@@ -313,16 +313,11 @@ function Home() {
 
 
     var [addTime, setAddTime] = useState(false)
-    function setTimedelay() {
-      setTimeout(() => {
-        setAddTime(false)
-      }, 5000);
-    }
-    
+
+
     setTimeout(() => {
-      setTimedelay()
       setAddTime(true)
-    }, 5000);
+    }, 10000);
 
     return (
       <div>
