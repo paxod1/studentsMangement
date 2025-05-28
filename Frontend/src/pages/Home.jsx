@@ -87,7 +87,7 @@ function Home() {
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
         console.log("home bill", response.data[response.data.length - 1].due_date);
-        setDueDate(response.data[response.data.length - 2].due_date ? response.data[response.data.length - 2].due_date : null)
+        setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
