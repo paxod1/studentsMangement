@@ -313,9 +313,9 @@ function Home() {
 
 
     var [addTime, setAddTime] = useState(true)
-    // setTimeout(() => {
-    //   setAddTime(false)
-    // }, 5000);
+    setTimeout(() => {
+      setAddTime(false)
+    }, 5000);
 
 
     return (
