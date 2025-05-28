@@ -312,11 +312,17 @@ function Home() {
   if (dueDate == null) {
 
 
-    var [addTime, setAddTime] = useState(true)
+    var [addTime, setAddTime] = useState(false)
+    function setTimedelay() {
+      setTimeout(() => {
+        setAddTime(false)
+      }, 5000);
+    }
+    
     setTimeout(() => {
-      setAddTime(false)
+      setTimedelay()
+      setAddTime(true)
     }, 5000);
-
 
     return (
       <div>
