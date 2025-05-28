@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import './add.css';
+import './Add.css';
 
 function Add({ stopAd }) {
     const [imgSrc, setImgSrc] = useState('');
 
     const ad = {
-        phonesrc: 'https://webneel.com/daily/sites/default/files/images/daily/06-2016/18-lg-washing-machine-print-ads-by-david-pinilla.jpg',
-        lapsrc: 'https://hawkeditorial.co.uk/wp-content/uploads/2012/01/bigstock-132512864.jpg'
+        phonesrc: 'https://www.techwingsys.com/tech101.png',
+        lapsrc: 'https://www.techwingsys.com/tech100.png'
     };
 
     useEffect(() => {
         const updateImage = () => {
-            if (window.innerWidth <= 700) {
+            if (window.innerWidth <= 750) {
                 setImgSrc(ad.phonesrc);
             } else {
                 setImgSrc(ad.lapsrc);

@@ -17,30 +17,27 @@
 .ad-card {
     width: 50%;
     position: relative;
-    border: 1px solid #ddd;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     transition: transform 0.3s ease;
-    height: 500px;
+    height: 600px;
 }
 
 .ad-card:hover {
-    transform: scale(1.03);
+    transform: scale(1.01);
 }
 
 .ad-image {
     width: 100%;
-    height: 500px;
+    height: 600px;
 }
 
 .close-btn {
     position: absolute;
     top: 0px;
-    /* place it near the top */
     right: 0px;
-    /* place it near the right edge */
     background-color: #bc0505;
     border: none;
     border-radius: 50%;
@@ -55,11 +52,15 @@
     z-index: 1001;
 }
 
-@media (max-width:700px) {
+@media (max-width:750px) {
     .ad-card {
-    width: 450px;
+        width: 320px;
+        height: 430px;
+    }
 
-    height: 450px;
-}
-    
+    .ad-image {
+        width: 100%;
+        height: 430px;
+    }
+
 }
