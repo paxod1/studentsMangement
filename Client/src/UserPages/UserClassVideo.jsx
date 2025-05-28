@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-
 import ReactPlayer from "react-player";
-import "./ClassVideo.css";
+import "../UserStyleSheet/ClassVideo.css";
 import { AiFillHome } from "react-icons/ai";
 import { PlayCircle, PauseCircle, Volume2, Maximize, Minimize } from "lucide-react";
-import Footer from "./Footer";
+import Footer from "../Componets/UserFooter";
+import { TokenRequest } from "../Axios/AxiosCreste";
+import { useSelector } from 'react-redux';
 
 function ClassVideo() {
   const location = useLocation();
@@ -23,16 +24,15 @@ function ClassVideo() {
   const [showControls, setShowControls] = useState(true);
 
   let inactivityTimeout = useRef(null);
-
-  const initialBatchname = location.state?.batchname || localStorage.getItem("batchname");
-  const [batchname, setBatchname] = useState(initialBatchname);
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
   useEffect(() => {
-    if (batchname) {
-      localStorage.setItem("batchname", batchname);
+    if (logininfom) {
       async function fetchVideos() {
         try {
-          const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchname}`);
+          const response1 = await TokenRequest.get(`/student/getdatatraining?student_id=${logininfom.student_id}`);
+          const batchName = response1.data[0]?.batch || 'No Batch Assigned';
+          const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchName}`);
           setVideos(response.data);
           setSelectedVideo(response.data.length > 0 ? response.data[response.data.length - 1] : null);
         } catch (error) {
@@ -41,7 +41,7 @@ function ClassVideo() {
       }
       fetchVideos();
     }
-  }, [batchname]);
+  }, [logininfom]);
 
   const filteredVideos = searchQuery
     ? videos.filter((video) => video.video_title.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -129,7 +129,7 @@ function ClassVideo() {
             <img src="https://techwingsys.com/tws-logo.png" className="logo_nav_video" alt="" />
           </div>
           <div className="rightnav_video">
-            <Link style={{ textDecoration: "none" }} to={"/"}>
+            <Link style={{ textDecoration: "none" }} to={"/home"}>
               <button className="menus_right_video">
                 <AiFillHome /> <span className="menus_right_video_text">Home page</span>
               </button>

@@ -1,0 +1,322 @@
+.main_home {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row; /* Ensures second and third sections are in a row */
+  flex-wrap: wrap; /* Ensures wrapping on small screens */
+}
+
+/* Second Section Main */
+.second_section_main {
+  width: 80%;
+  height: auto;
+  margin: 5px 0;
+  padding-top: 70px;
+  padding-left: 5%;
+  box-sizing: border-box;
+}
+
+/* Third Section Main */
+.third_section_main {
+  padding-top: 80px;
+  width: 20%;
+  background-color: var(--background-light);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+
+/* Batch Details Section */
+.batch-details-container {
+  padding: 20px;
+  background-color: #fff;
+  width: 80%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3%;
+  margin-left: 20%;
+}
+
+.batch-title {
+  font-size: 1.625rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.batch-card {
+  width: 80%;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.batch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.batch-header h3 {
+  font-size: 1.375rem;
+  color: #444;
+}
+
+.status {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.batch-body p,
+.batch-footer p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+.batch-body p strong,
+.batch-footer p strong {
+  color: #333;
+}
+
+.batch-footer {
+  margin-top: 15px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+}
+
+.no-batch-data {
+  font-size: 1.125rem;
+  text-align: center;
+  color: #888;
+}
+
+.back-button {
+  padding: 12px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+}
+
+.inner_box {
+  width: 105%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payment-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.payment-bill {
+  width: 96%;
+  background-color: #f9f9f9;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1%;
+}
+
+.bill-info {
+  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.balance-amount,
+.due-date,
+.pay-status {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.emi-progress {
+  display: flex;
+  align-items: center;
+  width: 85%;
+  height: 50px;
+  position: relative;
+  justify-content: center;
+}
+
+.emi-line {
+  height: 15px;
+  width: 90%;
+  background-color: #ccc;
+  position: absolute;
+  top: 55%;
+  z-index: 0;
+  left: 10%;
+  border-radius: 3px;
+}
+
+.emi-line::before {
+  content: '';
+  position: absolute;
+  width: var(--paid-percent, 0%);
+  height: 100%;
+  background-color: green;
+  transition: width 0.5s ease;
+  z-index: -1;
+  border-radius: 3px;
+}
+
+.emi-status-text {
+  font-size: 1.25rem;
+  position: absolute;
+  top: -30px;
+  left: var(--paid-percent, 0%);
+  transform: translateX(-50%);
+  z-index: 1;
+  white-space: nowrap;
+  color: green;
+}
+
+/* Announcement Card */
+.announcement_card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.announcement_card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+.announcement_icon {
+  font-size: 2rem;
+  color: #ff5722;
+}
+
+.announcement_content {
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement_title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.announcement_text {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Responsive for screens ≤ 600px */
+@media screen and (max-width: 600px) {
+
+  .main_home {
+    
+  }
+  
+  /* Second Section Main */
+  .second_section_main {
+    width: 100%;
+    margin-left: -15%;
+  }
+  
+  /* Third Section Main */
+  .third_section_main {
+    display: none;
+  }
+
+
+  .batch-details-container {
+    width: 90%;
+    padding-top: 20%;
+  }
+
+  .batch-title {
+    font-size: 1.3rem;
+  }
+
+  .batch-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .status,
+  .batch-body p,
+  .batch-footer p,
+  .balance-amount,
+  .due-date,
+  .pay-status {
+    font-size: 0.95rem;
+  }
+
+  .emi-status-text {
+    font-size: 1rem;
+  }
+
+  .no-batch-data {
+    font-size: 1rem;
+  }
+
+  .back-button {
+    font-size: 0.95rem;
+  }
+}
+
+/* Extra small screen adjustments (≤ 400px) */
+@media screen and (max-width: 400px) {
+  .batch-title {
+    font-size: 1.1rem;
+  }
+
+  .batch-header h3 {
+    font-size: 1rem;
+  }
+
+  .emi-status-text {
+    font-size: 0.95rem;
+  }
+
+  .back-button {
+    font-size: 0.9rem;
+  }
+}

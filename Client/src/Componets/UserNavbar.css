@@ -1,0 +1,54 @@
+
+.navbar_main {
+    height: 70px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: start;
+    position: fixed;
+    z-index: 1001;
+    box-shadow: 2px 1px 1px 1px #a9a8a82a;
+  }
+  
+  .inner_div_nav {
+    height: 70px;
+    width: 95%;
+    display: flex;
+  }
+  
+  .leftnav {
+    padding-left: 2%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo_nav {
+    height: 45px;
+    width: 200px;
+  
+  }
+  
+  .rightnav {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  
+  
+  }
+  
+  .menus_right {
+    font-size: 30px;
+    margin-right: 10px;
+    color: black;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+  
+  }
+  

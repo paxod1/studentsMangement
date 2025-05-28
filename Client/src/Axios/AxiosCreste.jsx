@@ -8,6 +8,7 @@ const getTokenFromLocalStorage = () => {
   // Accessing the token directly from LoginInfo
   const loginInfo = loginData.userlogin? JSON.parse(loginData.userlogin).LoginInfo[0] : null;
 
+  console.log("Login Info:", loginInfo);
 
   // Return the token or empty string if not available
   return loginInfo ? loginInfo.token : '';

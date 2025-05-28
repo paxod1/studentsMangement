@@ -10,10 +10,6 @@ import ChangePass from './pages/ChangePass';
 function App() {
 
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
-  console.log("from app.js logininfom", logininfom);
-
-
-
 
   const token = logininfom?.token;
   
