@@ -77,8 +77,9 @@
 }
 
 
-@media (max-width:700px) {
-    .payment-alert-box {
+
+@media (max-width:750px) {
+   .payment-alert-box {
         max-width: 400px;
     }
 
