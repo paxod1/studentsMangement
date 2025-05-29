@@ -28,6 +28,7 @@ import { FaLaptopCode } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from '../components/Add';
+import DueDateAlert from '../components/PaymentAlert';
 
 
 
@@ -97,6 +98,8 @@ function Home() {
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
         console.log("home bill", response.data[response.data.length - 1].due_date);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
+        console.log(response.data[response.data.length - 2].due_date);
+
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
@@ -399,10 +402,13 @@ function Home() {
           </div>
 
 
-
+          {/**calling ad */}
           {
             addTime && <Add stopAd={setAddTime} />
           }
+
+          {/**calling due */}
+          <DueDateAlert dueDateProp={'2025-05-31'} />
 
           <div className='second_section_main'>
             {/* Attendance Section */}
@@ -1078,6 +1084,7 @@ function Home() {
             </div>
           </div>
         </div>
+
 
 
 

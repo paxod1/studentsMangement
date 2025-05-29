@@ -1,0 +1,64 @@
+.main-showAlert {
+    width: 100%;
+    position: fixed;
+    bottom: 20px; /* Space from bottom */
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
+    padding: 0 10px; /* Small padding for edges on mobile */
+    box-sizing: border-box;
+}
+
+.payment-alert-box {
+    width: 100%;
+    max-width: 450px; /* Max width on larger screens */
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    padding: 15px 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+    position: relative;
+    border-radius: 10px;
+    animation: slideUp 0.4s ease;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Highlight text */
+.payment-alert-box strong {
+    color: #d9534f;
+    margin: 0 6px;
+}
+
+/* Close button styling */
+.payment-alert-box .close-btn {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.payment-alert-box .close-btn:hover {
+    color: #d9534f;
+}
+
+/* Entry animation */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}

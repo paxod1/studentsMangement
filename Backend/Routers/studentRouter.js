@@ -165,8 +165,6 @@ router.get('/getdatatraining', verifyToken, async (req, res) => {
     }
 });
 
-
-
 router.get('/getdataattendance', verifyToken, async (req, res) => {
     const { student_id, year, month } = req.query;
     if (!student_id) {
@@ -195,9 +193,6 @@ router.get('/getdataattendance', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
-
-
-
 
 router.get('/getdatabill', verifyToken, async (req, res) => {
     const { student_id } = req.query;
@@ -253,9 +248,7 @@ router.get('/getdataAnnouncements', verifyToken, async (req, res) => {
     console.log(2);
     if (!batchname) {
         return res.status(400).json('batchname is required');
-        console.log(0);
     }
-
     const query = 'SELECT * FROM tbl_announcements WHERE batch = ?';
     console.log(3);
     try {
@@ -304,7 +297,6 @@ router.post('/change-password', verifyToken, async (req, res) => {
     if (!student_id || !currentPassword || !newPassword) {
         return res.status(400).json({ message: 'All fields are required' });
     }
-
     try {
         const [results] = await db.query('SELECT * FROM tbl_login1 WHERE student_id = ?', [student_id]);
         if (results.length === 0) {
