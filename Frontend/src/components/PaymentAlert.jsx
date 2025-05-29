@@ -37,12 +37,21 @@ function DueDateAlert({ dueDateProp }) {
     return (
         <>
             {showAlert && (
-                <div className='main-showAlert'>
-                    <div className='payment-alert-box'>
-                        <span className="close-btn" onClick={handleClose}>×</span>
-                        ⚠️ <strong>Payment Alert:</strong> {daysLeft} day{daysLeft !== 1 ? 's' : ''} to pay — Due on: {formattedDate}
+                <div className="main-showAlert">
+                    <div className="payment-alert-box">
+                        <div className="alert-left">
+                            <span role="img" aria-label="reminder">🔔</span> Reminder
+                        </div>
+                        <div className="alert-message">
+                            Hey Your Installment date is {formattedDate}
+                        </div>
+                        <div className="alert-right">
+                            {daysLeft} <br /> Day{daysLeft !== 1 ? 's' : ''} Left
+                        </div>
+                        <button className="close-btn" onClick={handleClose}>×</button>
                     </div>
                 </div>
+
             )}
 
         </>
