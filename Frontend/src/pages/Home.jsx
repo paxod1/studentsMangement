@@ -20,7 +20,7 @@ import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { FaPen } from "react-icons/fa";
 import { FaNoteSticky } from "react-icons/fa6";
 import { FaChrome } from "react-icons/fa";
-import { RiCustomerService2Fill } from "react-icons/ri";
+import { RiCustomerService2Fill, RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { FaClock } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import { BiTask } from "react-icons/bi";
@@ -97,8 +97,8 @@ function Home() {
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
         console.log("home bill", response.data[response.data.length - 1].due_date);
-        setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
-        console.log(response.data[response.data.length - 2].due_date);
+        // setDueDate(response.data[response.data.length - 8].due_date ? response.data[response.data.length - 8].due_date : null)
+        // console.log(response.data[response.data.length - 2].due_date);
 
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
@@ -339,7 +339,6 @@ function Home() {
               </div>
 
               <div className='rightnav'>
-
                 <Link to={{
                   pathname: '/ClassVideo',
                 }} style={{ textDecoration: 'none' }}
@@ -767,7 +766,7 @@ function Home() {
                               <div key={paymentData.bill_id} className='payment-bill'>
                                 <div className='bill-info'>
                                   <p className='balance-amount'>
-                                    Balance Amount: ₹{paymentData.balance_amount}
+                                    Balance Amount  <RiMoneyRupeeCircleFill className='money-icon' />{paymentData.balance_amount}
                                   </p>
                                   <p className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}</p>
                                 </div>
@@ -791,9 +790,11 @@ function Home() {
                                     >
                                       {paymentData.balance_amount === 0
                                         ? 'Paid Off'
-                                        : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`}
+                                        : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% `}
                                     </p>
+
                                   </div>
+
                                 </div>
 
                               </div>

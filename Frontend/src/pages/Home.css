@@ -416,10 +416,10 @@ select {
 /* Batch Details Section */
 .batch-details-container {
   padding: 20px;
-  background-color: #fff;
+  background-color: white;
   max-width: 100%;
   margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -632,6 +632,7 @@ select {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .balance-amount,
@@ -642,12 +643,22 @@ select {
 }
 
 
+.money-icon {
+
+  color: #57a0a5;
+  margin-top: -5px;
+  margin-left: 5px;
+  margin-right: 2px;
+  font-size: 25px;
+
+
+}
 
 .emi-progress {
   display: flex;
   align-items: center;
   width: 85%;
-  height: 50px;
+  height: 60px;
   position: relative;
   justify-content: center;
 
@@ -655,14 +666,14 @@ select {
 
 
 .emi-line {
-  height: 15px;
+  height: 35px;
   width: 90%;
-  background-color: #ccc;
+  background-color: #57a0a5;
   position: absolute;
-  top: 55%;
+  top: 20%;
   z-index: 0;
   left: 10%;
-  border-radius: 3px;
+  border-radius: 20px;
 }
 
 .emi-line::before {
@@ -670,23 +681,23 @@ select {
   position: absolute;
   width: var(--paid-percent, 0%);
   height: 100%;
-  background-color: green;
+  background-color: rgb(36, 90, 91);
   transition: width 0.5s ease;
   z-index: -1;
-  border-radius: 3px;
+  border-radius: 20px;
 }
 
 .emi-status-text {
-  font-size: 20px;
+  font-size: 25px;
   position: absolute;
-  top: -30px;
-  /* Adjust if needed */
-  left: var(--paid-percent, 0%);
-  transform: translateX(-50%);
-  /* Center the text */
+  top: -3px;
+
+  /* left: var(--paid-percent, 0%);
+  transform: translateX(-50%); */
   z-index: 1;
+  right: -95px;
   white-space: nowrap;
-  color: green;
+  color: rgb(34, 124, 126);
 }
 
 
@@ -1108,6 +1119,12 @@ select {
     font-size: 23px;
   }
 
+  .emi-status-text {
+    font-size: 20px;
+    right: -73px;
+
+  }
+
 
 }
 
@@ -1475,9 +1492,11 @@ select {
 .summary-box.pending {
   background-color: #ffc107;
 }
+
 .summary-box.ongoing {
   background-color: #17a2b8;
 }
+
 .summary-box.delayed {
   background-color: #dc3545;
 }
@@ -1681,7 +1700,7 @@ select {
     padding: 8px;
     font-size: 12px;
   }
-  
+
   .summary-box.total {
     width: 95%;
     max-width: 100%;
