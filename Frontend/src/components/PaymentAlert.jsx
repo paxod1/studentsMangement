@@ -5,9 +5,13 @@ function DueDateAlert({ dueDateProp }) {
     const [daysLeft, setDaysLeft] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [formattedDate, setFormattedDate] = useState(null);
+    console.log(dueDateProp);
 
     useEffect(() => {
         if (dueDateProp) {
+
+            console.log("from payment alert");
+            
             const today = new Date();
             const dueDateObj = new Date(dueDateProp);
 

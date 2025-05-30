@@ -645,7 +645,7 @@ select {
 
 .money-icon {
 
-  color: #57a0a5;
+  color: #3c9aff;
   margin-top: -5px;
   margin-left: 5px;
   margin-right: 2px;
@@ -668,12 +668,13 @@ select {
 .emi-line {
   height: 35px;
   width: 90%;
-  background-color: #57a0a5;
+  background-color: #8abff8;
   position: absolute;
   top: 20%;
   z-index: 0;
   left: 5%;
   border-radius: 20px;
+  box-shadow: 5px 5px 5px #71a7e177;
 }
 
 .emi-line::before {
@@ -681,23 +682,23 @@ select {
   position: absolute;
   width: var(--paid-percent, 0%);
   height: 100%;
-  background-color: rgb(36, 90, 91);
+  background-color: #3c9aff;
   transition: width 0.5s ease;
   z-index: -1;
   border-radius: 20px;
 }
 
 .emi-status-text {
-  font-size: 25px;
+  font-size: 22px;
   position: absolute;
   top: -3px;
 
   /* left: var(--paid-percent, 0%);
   transform: translateX(-50%); */
   z-index: 1;
-  right: -95px;
+  right: -140px;
   white-space: nowrap;
-  color: rgb(34, 124, 126);
+  color: #3c9aff94;
 }
 
 
@@ -1119,9 +1120,14 @@ select {
     font-size: 23px;
   }
 
+  .emi-line {
+
+    left: 1%;
+  }
+
   .emi-status-text {
     font-size: 17px;
-    right: -70px;
+    right: -110px;
     top: 3px;
 
   }

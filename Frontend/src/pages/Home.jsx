@@ -55,7 +55,7 @@ function Home() {
   const [student, setSutdent] = useState([])
   const [task, setTask] = useState([])
   const [project, setProject] = useState([])
-  var [dueDate, setDueDate] = useState()
+  var [dueDate, setDueDate] = useState(null)
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
   var [addTime, setAddTime] = useState(false)
 
@@ -96,14 +96,16 @@ function Home() {
         await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
+        console.log(response);
+
         console.log("home bill", response.data[response.data.length - 1].due_date);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
-        console.log(response.data[response.data.length - 2].due_date);
 
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
       }
+
       billhome();
     }
   }, [student_id, activeSection]);
@@ -320,16 +322,36 @@ function Home() {
 
 
   const getTaskCounts = (status) => task.filter((task) => task.task_status === status).length;
-
-  if (dueDate == null) {
-
+  console.log(dueDate);
 
 
+  if (dueDate < formattedDate) {
+
+    console.log("payment is pending...");
+    return (
+      <div className="payment-container">
+        <DueDateAlert dueDateProp={dueDate} />
+        <div className="payment-card">
+          <h1 className="payment-title">🚫 Account Not Accessible</h1>
+          <p className="payment-message">
+            Your payment is pending. Please scan the QR code below to complete your payment and regain access.
+          </p>
+
+          <div className="qr-code-box">
+            <img src='https://th.bing.com/th/id/OIP.wJvGcucJn6xEv9Ilb4gIWgHaHa?cb=iwc2&rs=1&pid=ImgDetMain' alt="Scan to Pay" className="qr-code" />
+          </div>
+
+          <p className="payment-note">
+            Once the payment is confirmed, your account will be reactivated automatically.
+          </p>
+        </div>
+      </div>
+    )
+  } else {
 
     return (
       <div>
         <div className='main_home'>
-
 
           <section className='navbar_main'>
             <div className='inner_div_nav'>
@@ -357,7 +379,6 @@ function Home() {
 
             </div>
           </section>
-
 
 
           <div className="topSectionMain_div_userHomepage">
@@ -408,6 +429,8 @@ function Home() {
 
           {/**calling due */}
           <DueDateAlert dueDateProp={dueDate} />
+
+
 
           <div className='second_section_main'>
             {/* Attendance Section */}
@@ -733,17 +756,6 @@ function Home() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
             {/*  Sections Batch Details  and biil home*/}
             {activeSection === 'batchDetails' && (
               <div>
@@ -766,11 +778,19 @@ function Home() {
                               <div key={paymentData.bill_id} className='payment-bill'>
                                 <div className='bill-info'>
                                   <p className='balance-amount'>
-                                    Balance Amount  <RiMoneyRupeeCircleFill className='money-icon' />{paymentData.balance_amount}
+                                    {
+                                      paymentData.balance_amount === '0'
+                                        ? 'Payment Completed'
+                                        : (
+                                          <div>
+                                            Balance Amount <RiMoneyRupeeCircleFill className='money-icon' />{paymentData.balance_amount}
+                                          </div>
+                                        )
+                                    }
                                   </p>
-                                  <p className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}</p>
+                                  <div className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}
+                                  </div>
                                 </div>
-
                                 <div className="emi-progress">
                                   <div
                                     className="emi-line"
@@ -790,7 +810,7 @@ function Home() {
                                     >
                                       {paymentData.balance_amount === 0
                                         ? 'Paid Off'
-                                        : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% `}
+                                        : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`}
                                     </p>
 
                                   </div>
@@ -1087,36 +1107,9 @@ function Home() {
         </div>
 
 
-
-
-
-
         <Footer />
       </div >
     )
-  } else {
-    if (dueDate < formattedDate) {
-
-      console.log("payment is pending...");
-      return (
-        <div className="payment-container">
-          <div className="payment-card">
-            <h1 className="payment-title">🚫 Account Not Accessible</h1>
-            <p className="payment-message">
-              Your payment is pending. Please scan the QR code below to complete your payment and regain access.
-            </p>
-
-            <div className="qr-code-box">
-              <img src='https://th.bing.com/th/id/OIP.wJvGcucJn6xEv9Ilb4gIWgHaHa?cb=iwc2&rs=1&pid=ImgDetMain' alt="Scan to Pay" className="qr-code" />
-            </div>
-
-            <p className="payment-note">
-              Once the payment is confirmed, your account will be reactivated automatically.
-            </p>
-          </div>
-        </div>
-      )
-    }
   }
 }
 

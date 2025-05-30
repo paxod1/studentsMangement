@@ -6,13 +6,14 @@ import Home from './pages/Home';
 import ClassVideo from './pages/ClassVideo';
 import { ToastContainer } from 'react-toastify';
 import ChangePass from './pages/ChangePass';
+import Aptitude from './pages/Aptitude';
 
 function App() {
 
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
   const token = logininfom?.token;
-  
+
 
   const app = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ function App() {
       path: "/ChangePass",
       element: token ? <ChangePass /> : <Login />
 
+    },
+    {
+      path: '/Aptitude',
+      element: token ? <Aptitude /> : <Login />
     }
   ])
   return (
