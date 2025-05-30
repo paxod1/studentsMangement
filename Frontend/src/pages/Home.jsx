@@ -97,8 +97,8 @@ function Home() {
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
         console.log("home bill", response.data[response.data.length - 1].due_date);
-        // setDueDate(response.data[response.data.length - 8].due_date ? response.data[response.data.length - 8].due_date : null)
-        // console.log(response.data[response.data.length - 2].due_date);
+        setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
+        console.log(response.data[response.data.length - 2].due_date);
 
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
@@ -407,7 +407,7 @@ function Home() {
           }
 
           {/**calling due */}
-          <DueDateAlert dueDateProp={'2025-05-31'} />
+          <DueDateAlert dueDateProp={dueDate} />
 
           <div className='second_section_main'>
             {/* Attendance Section */}
