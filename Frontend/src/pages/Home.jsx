@@ -159,10 +159,13 @@ function Home() {
         case 'reviews':
           setActiveSection('reviews');
           response = await TokenRequest.get(`/student/getdatareview?student_id=${student_id}`);
+          console.log(response.data);
           if (response.data.length === 0) {
             setReviews([]);
             setActiveSection(' ');
             setNodata(true)
+
+
 
           } else {
             setReviews(response.data);
@@ -411,9 +414,9 @@ function Home() {
                 <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
               </div>
 
-              <a className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} href='https://www.techwingsys.com/'>
-                <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Our Website</span></h3>
-              </a>
+              <Link className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} to={'/Aptitude'} >
+                <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Test</span></h3>
+              </Link>
               <button className={`topsection_card_userhomepage_button ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
                 <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help & Support</span></h5>
               </button>

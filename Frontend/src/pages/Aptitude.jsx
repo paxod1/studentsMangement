@@ -62,7 +62,7 @@ function Aptitude() {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const filtered = questions.filter(q => q.month === selectedMonth);
         let total = 0;
         const wrong = [];
@@ -86,6 +86,18 @@ function Aptitude() {
         setScore(total);
         setWrongAnswers(wrong);
         setShowResult(true);
+
+        // Send the aptitude mark to the server
+        try {
+            const response = await TokenRequest.post('/addaptitudemark', {
+                student_id: loginInfo.student_id,
+                aptitude: total
+            });
+            console.log('Aptitude mark saved successfully:', response.data);
+        } catch (err) {
+            console.error('Failed to save aptitude mark:', err);
+            // You might want to show an error message to the user here
+        }
     };
 
 
@@ -222,7 +234,7 @@ function Aptitude() {
                                                         <span>Correct Answer:</span>
                                                         <strong className="correct">{item.correctAnswer}. {item.correctAnswerText}</strong>
                                                     </div>
-                                               
+
                                                 </div>
 
                                                 <div className="answer-section your-section">

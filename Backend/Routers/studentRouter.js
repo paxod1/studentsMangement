@@ -370,6 +370,33 @@ router.get('/getAptitude', verifyToken, async (req, res) => {
     }
 });
 
+// Add aptitude mark for a student
+router.post('/addaptitudemark', verifyToken, async (req, res) => {
+    const { student_id, aptitude } = req.body;
+    // Validation
+    if (!student_id || !aptitude) {
+        return res.status(400).json('student_id and aptitude are required');
+    }
+    const parsedStudentId = parseInt(student_id);
+    const parsedMark = parseFloat(aptitude);
+
+    if (isNaN(parsedStudentId) || isNaN(parsedMark)) {
+        return res.status(400).json('Invalid student_id or aptitude');
+    }
+    // Insert or update aptitude mark
+    const query = `
+        INSERT INTO tbl_review (student_id, aptitude)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE aptitude_mark = VALUES(aptitude)
+    `;
+    try {
+        const [result] = await db.query(query, [parsedStudentId, parsedMark]);
+        return res.status(200).json({ message: 'Aptitude mark saved successfully' });
+    } catch (err) {
+        console.error("Database insert error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
 
 
 
