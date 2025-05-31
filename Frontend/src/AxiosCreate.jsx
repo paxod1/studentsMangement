@@ -16,8 +16,9 @@ const getTokenFromLocalStorage = () => {
 
 
 
-const SampleUrl = 'http://localhost:5000';
+const SampleUrl = 'https://studentsmangement.onrender.com';
 // https://studentsmangement.onrender.com
+// http://localhost:5000 
 // Create the basic axios request instance
 export const basicRequest = axios.create({
   baseURL: SampleUrl

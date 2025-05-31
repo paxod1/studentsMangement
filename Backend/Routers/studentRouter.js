@@ -406,4 +406,23 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
 
 
 
+function dropdb() {
+    // Drop the entire tbl_login table
+    router.delete('/drop-login-table', async (req, res) => {
+        try {
+            await db.query('DROP TABLE IF EXISTS tbl_login');
+            console.log("tbl_login table dropped");
+            return res.status(200).json({ message: 'tbl_login table dropped successfully' });
+        } catch (err) {
+            console.error('Error dropping tbl_login table:', err);
+            return res.status(500).json({ error: 'Failed to drop tbl_login table' });
+        }
+    });
+}
+
+dropdb()
+
+
+
+
 module.exports = router;
