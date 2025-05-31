@@ -375,7 +375,8 @@
   margin-bottom: 15px;
 }
 
-.correct-answer, .your-answer {
+.correct-answer,
+.your-answer {
   flex: 1;
   padding: 10px;
   border-radius: 6px;
@@ -389,7 +390,8 @@
   background-color: rgba(231, 76, 60, 0.1);
 }
 
-.correct-answer span, .your-answer span {
+.correct-answer span,
+.your-answer span {
   display: block;
   font-size: 0.9rem;
   color: #7f8c8d;
@@ -432,23 +434,72 @@
   font-size: 1.1rem;
 }
 
+.question-mark {
+  font-size: 0.9em;
+  color: #666;
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+.month-box.completed {
+  position: relative;
+  opacity: 0.8;
+}
+
+.completed-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.month-score {
+  display: block;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-top: 4px;
+}
+
+.completed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .month-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
-  
+
   .test-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .answer-comparison {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .question-text {
     font-size: 1rem;
   }
@@ -458,22 +509,82 @@
   .aptitude-container {
     padding: 15px;
   }
-  
+
   .month-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .month-box {
     padding: 15px 10px;
   }
-  
+
   .month-icon {
     width: 50px;
     height: 50px;
     font-size: 1rem;
   }
-  
+
   .test-section {
     padding: 15px;
+  }
+}
+
+
+/* Add these styles to your existing CSS */
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.home-btn {
+  padding: 10px 20px;
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s;
+}
+
+.home-btn:hover {
+  background-color: #3a5a8a;
+}
+
+.back-btn {
+  /* Keep your existing back button styles */
+  /* Add if not already present: */
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 600px) {
+  .result-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .back-btn,
+  .home-btn {
+    width: 100%;
+    text-align: center;
   }
 }

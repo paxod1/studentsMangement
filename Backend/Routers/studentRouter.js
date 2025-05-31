@@ -358,7 +358,7 @@ router.get('/getAptitude', verifyToken, async (req, res) => {
         const [results] = await db.query(query, [batchname]);
         console.log("hi");
         console.log(results);
-        
+
         if (results.length === 0) {
             console.log("hi");
             return res.status(404).json('No Apitutde found for this batch');
@@ -372,25 +372,31 @@ router.get('/getAptitude', verifyToken, async (req, res) => {
 
 // Add aptitude mark for a student
 router.post('/addaptitudemark', verifyToken, async (req, res) => {
-    const { student_id, aptitude } = req.body;
+    const { student_id, aptitude, month } = req.body;
+
     // Validation
-    if (!student_id || !aptitude) {
-        return res.status(400).json('student_id and aptitude are required');
+    if (!student_id || !aptitude || !month) {
+        return res.status(400).json('student_id, aptitude, and month are required');
     }
+
     const parsedStudentId = parseInt(student_id);
     const parsedMark = parseFloat(aptitude);
 
     if (isNaN(parsedStudentId) || isNaN(parsedMark)) {
         return res.status(400).json('Invalid student_id or aptitude');
     }
-    // Insert or update aptitude mark
+
+    // Insert or update aptitude mark with month
     const query = `
-        INSERT INTO tbl_review (student_id, aptitude)
-        VALUES (?, ?)
-        ON DUPLICATE KEY UPDATE aptitude_mark = VALUES(aptitude)
+        INSERT INTO tbl_review (student_id, aptitude, month)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            aptitude = VALUES(aptitude),
+            month = VALUES(month)
     `;
+
     try {
-        const [result] = await db.query(query, [parsedStudentId, parsedMark]);
+        const [result] = await db.query(query, [parsedStudentId, parsedMark, month]);
         return res.status(200).json({ message: 'Aptitude mark saved successfully' });
     } catch (err) {
         console.error("Database insert error:", err.message);

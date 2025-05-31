@@ -12,6 +12,7 @@ function Aptitude() {
     const [showResult, setShowResult] = useState(false);
     const [score, setScore] = useState(0);
     const [wrongAnswers, setWrongAnswers] = useState([]);
+    const [completedTests, setCompletedTests] = useState({});
 
     const loginInfo = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
@@ -28,15 +29,64 @@ function Aptitude() {
                 const batchData = await TokenRequest.get(`/student/getdatatraining?student_id=${loginInfo.student_id}`);
                 const batchName = batchData.data[0]?.batch;
 
+                // Fetch aptitude questions
                 const res = await TokenRequest.get(`/student/getAptitude?batchname=${batchName}`);
                 const data = res.data;
 
-                setQuestions(data);
+                // Fetch completed tests
+                const reviewResponse = await TokenRequest.get(`/student/getdatareview?student_id=${loginInfo.student_id}`);
+                console.log("Review data:", reviewResponse.data);
 
+                // Create a mapping of month names to numbers
+                const monthNameToNumber = {
+                    'january': '01',
+                    'february': '02',
+                    'march': '03',
+                    'april': '04',
+                    'may': '05',
+                    'june': '06',
+                    'july': '07',
+                    'august': '08',
+                    'september': '09',
+                    'october': '10',
+                    'november': '11',
+                    'december': '12'
+                };
+
+                // Process completed tests data
+                const completedData = {};
+
+                reviewResponse.data.forEach(item => {
+                    if (item.aptitude && item.month) {
+                        const monthLower = item.month.toLowerCase().trim();
+                        console.log(monthLower);
+
+                        const monthNum = monthNameToNumber[monthLower];
+
+                        if (monthNum) {
+                            // Find the corresponding question month (YYYY-MM format)
+                            data.forEach(q => {
+                                if (q.month) {
+                                    const [year, qMonth] = q.month.split('-');
+                                    console.log(qMonth, monthNum);
+
+                                    if (qMonth === monthNum) {
+                                        completedData[q.month] = item.aptitude;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                console.log("Completed tests:", completedData);
+
+                setQuestions(data);
+                setCompletedTests(completedData);
                 const uniqueMonths = [...new Set(data.map(q => q.month))];
                 setMonths(uniqueMonths);
             } catch (err) {
-                console.error("Failed to fetch aptitude data", err);
+                console.error("Failed to fetch data", err);
             } finally {
                 setLoading(false);
             }
@@ -87,16 +137,21 @@ function Aptitude() {
         setWrongAnswers(wrong);
         setShowResult(true);
 
-        // Send the aptitude mark to the server
         try {
-            const response = await TokenRequest.post('/addaptitudemark', {
+            // Extract month name from selectedMonth (assuming format is YYYY-MM)
+            const [year, monthNum] = selectedMonth.split('-');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            const monthName = monthNames[parseInt(monthNum) - 1];
+
+            const response = await TokenRequest.post('/student/addaptitudemark', {
                 student_id: loginInfo.student_id,
-                aptitude: total
+                aptitude: total,
+                month: monthName  // Add month to the request
             });
             console.log('Aptitude mark saved successfully:', response.data);
         } catch (err) {
             console.error('Failed to save aptitude mark:', err);
-            // You might want to show an error message to the user here
         }
     };
 
@@ -118,22 +173,34 @@ function Aptitude() {
                         {months.map((month, idx) => {
                             const [year, monthNum] = month.split('-');
                             const monthName = monthNames[monthNum] || monthNum;
+                            const isCompleted = completedTests[month] !== undefined;
+
                             return (
                                 <div
                                     key={idx}
-                                    className="month-box"
-                                    onClick={() => handleMonthSelect(month)}
+                                    className={`month-box ${isCompleted ? 'completed' : ''}`}
+                                    onClick={() => !isCompleted && handleMonthSelect(month)}
                                 >
                                     <div className="month-icon">
                                         <span className="month-abbr">{monthName.substring(0, 3)}</span>
+                                        {isCompleted && <span className="completed-badge">✓</span>}
                                     </div>
                                     <div className="month-details">
                                         <span className="month-name">{monthName}</span>
                                         <span className="month-year">{year}</span>
+                                        {isCompleted && (
+                                            <span className="month-score">Score: {completedTests[month]}</span>
+                                        )}
                                     </div>
+                                    {isCompleted && (
+                                        <div className="completed-overlay">
+                                            Test Completed
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
+
                     </div>
                 </div>
             )}
@@ -162,7 +229,7 @@ function Aptitude() {
                                     <p className="question-text">
                                         <span className="question-number">{index + 1}.</span>
                                         {q.question}
-                                        {q.mark > 1 && <span className="question-mark"> ({q.mark} marks)</span>}
+                                        <span className="question-mark"> [Marks: {q.mark}]</span>
                                     </p>
                                     <div className="options">
                                         {['A', 'B', 'C', 'D'].map(opt => {
@@ -199,7 +266,7 @@ function Aptitude() {
 
                     {showResult && (
                         <div className="result-section">
-                            <div className={`result-box ${score >= totalPossibleScore * 0.7 ? 'pass' : 'fail'}`}>
+                            <div className={`result-box ${score >= totalPossibleScore * 0.5 ? 'pass' : 'fail'}`}>
                                 <h3>Test Result</h3>
                                 <div className="score-display">
                                     <div className="score-circle">
@@ -211,7 +278,7 @@ function Aptitude() {
                                     </div>
                                 </div>
                                 <div className="result-message">
-                                    {score >= totalPossibleScore * 0.7 ? (
+                                    {score >= totalPossibleScore * 0.5 ? (
                                         <span className="pass-message">Congratulations! You passed the test.</span>
                                     ) : (
                                         <span className="fail-message">Keep practicing! You'll do better next time.</span>
@@ -257,15 +324,21 @@ function Aptitude() {
                                 </div>
                             )}
 
-                            <button
-                                className="back-btn center-btn"
-                                onClick={() => {
-                                    setSelectedMonth('');
-                                    setShowResult(false);
-                                }}
-                            >
-                                ← Back to All Tests
-                            </button>
+                            <div className="result-actions">
+                                <button
+                                    className="back-btn"
+                                    onClick={() => {
+                                        setSelectedMonth('');
+                                        setShowResult(false);
+                                    }}
+                                >
+                                    ← Back to All Tests
+                                </button>
+
+                                <Link to="/" className="home-btn">
+                                    🏠 Return to Home
+                                </Link>
+                            </div>
                         </div>
                     )}
 
