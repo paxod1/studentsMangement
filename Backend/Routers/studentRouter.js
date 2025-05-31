@@ -346,17 +346,21 @@ router.get('/getdataAnnouncementsid', verifyToken, async (req, res) => {
 // exam aptitude data collect 
 router.get('/getAptitude', verifyToken, async (req, res) => {
     const { batchname } = req.query;
-    console.log(batchname);
+    console.log("from get aptitude", batchname);
 
     if (!batchname) {
         return res.status(400).json('batchname is required');
     }
-
     const query = 'SELECT * FROM tbl_aptitude WHERE batch = ?';
-
     try {
+        console.log("hi");
+
         const [results] = await db.query(query, [batchname]);
+        console.log("hi");
+        console.log(results);
+        
         if (results.length === 0) {
+            console.log("hi");
             return res.status(404).json('No Apitutde found for this batch');
         }
         return res.status(200).json(results);
