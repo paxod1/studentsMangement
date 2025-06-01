@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TokenRequest } from '../AxiosCreate';
 import './Aptitude.css';
+import { Link } from "react-router-dom"
 
 function Aptitude() {
     const [loading, setLoading] = useState(false);
