@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+ import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import ReactPlayer from "react-player";
@@ -122,6 +122,27 @@ function ClassVideo() {
     setActiveVideoIndex(index);
   };
 
+  const handleQualityChange = (quality) => {
+    const player = playerRef.current;
+    if (!player) return;
+
+    const internalPlayer = player.getInternalPlayer();
+    console.log("Internal Player:", internalPlayer); // Check if it logs YouTube player object
+
+    if (internalPlayer && internalPlayer.setPlaybackQuality) {
+      const qualityMap = {
+        '480p': 'large',
+        '720p': 'hd720',
+        '1080p': 'hd1080'
+      };
+
+      internalPlayer.setPlaybackQuality(qualityMap[quality]);
+    } else {
+      console.log("setPlaybackQuality is not available on this player.");
+    }
+  };
+
+
   return (
     <div>
       <section className="navbar_main_video">
@@ -156,7 +177,7 @@ function ClassVideo() {
                     url={selectedVideo.video_link}
                     width={isFullscreen ? "100%" : "100%"}
                     height={isFullscreen ? "calc(105vh - 120px)" : "500px"}
-                    playing={isPlaying}
+                    playing={isPlaying} 
                     volume={volume}
                     onProgress={handleProgress}
                     onDuration={handleDuration}
@@ -172,13 +193,19 @@ function ClassVideo() {
                           iv_load_policy: 3,
                           fs: 0,
                           disablekb: 1,
+                          enablejsapi: 1,
+                          origin: window.location.origin
                         },
                       },
+                    }}
+                    onPlay={() => {
+                      setTimeout(() => handleQualityChange('720p'), 10000); // best place to apply it
                     }}
                     onContextMenu={(e) => e.preventDefault()}
                     controlsList="nodownload"
                     className='video_screen'
                   />
+
                   <div className="video-shield" style={{ height: isFullscreen ? "calc(105vh - 120px)" : "500px" }} />
 
 
@@ -219,12 +246,24 @@ function ClassVideo() {
                           <span style={{ color: 'white' }}>{formatTime(duration)}</span>
                         </div>
 
+                        {/* Quality Selector */}
+                        <div className="quality-selector">
+                          <select
+                            onChange={(e) => handleQualityChange(e.target.value)}
+                            className="quality-dropdown"
+                          >
+             
+                            <option value="480p">480p</option>
+                            <option value="720p">720p</option>
+                            <option value="1080p">1080p</option>
+                          </select>
+                        </div>
+
                         {/* Fullscreen Toggle */}
                         <button onClick={toggleFullscreen} className="control-btn">
                           {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
                         </button>
                       </div>
-
                     </div>
                   )}
                 </div>
@@ -234,6 +273,8 @@ function ClassVideo() {
                 </div>
               )}
             </div>
+
+
           </div>
 
           <div className="sidebar p-10">
@@ -270,9 +311,9 @@ function ClassVideo() {
         </div>
       </section>
 
-      <Footer className="footer_video" />
+
     </div>
   );
 }
 
-export default ClassVideo;
+export default ClassVideo; 

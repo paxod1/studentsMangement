@@ -6,7 +6,7 @@
 
 /* Video container styling */
 .video-container {
-  background: #000;
+  background: #000000;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -28,14 +28,17 @@
 
 /* Sidebar styling */
 .sidebar {
-  height: 90vh;
+  height: 97vh;
   width: 300px;
   position: fixed;
   top: 5vh;
   left: 0;
   background: white;
   color: #fff;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 10px 0 0 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
@@ -250,13 +253,65 @@ footer {
   }
 }
 
+.video_screen {
+  background-color: red;
+
+}
+/* Quality Selector Styles */
+.quality-selector {
+  margin-left: 10px;
+  position: relative;
+}
+
+.quality-dropdown {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  min-width: 80px;
+}
+
+.quality-dropdown:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.quality-dropdown:focus {
+  border-color: #6a5af9;
+}
+
+.quality-dropdown option {
+  background: #333;
+  color: white;
+  padding: 10px;
+}
+
+/* Custom dropdown arrow */
+.quality-selector::after {
+  content: "▼";
+  font-size: 10px;
+  color: white;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
     top: 0;
     border-radius: 0;
-    height: 500px;
 
   }
 
@@ -277,7 +332,7 @@ footer {
 @media (max-width: 868px) {
   .sidebar {
     width: 100%;
-    height: 1000px;
+    height: 600px;
     position: relative;
     bottom: 0;
   }
@@ -293,6 +348,7 @@ footer {
     width: 100vw;
     height: calc(100vh - 50px);
     border-radius: 0;
+
   }
 
   .sidebar {
@@ -318,6 +374,7 @@ footer {
     font-size: 14px;
     border: none;
   }
+
   .footer_video {
     display: none;
   }

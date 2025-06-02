@@ -22,76 +22,76 @@ function Aptitude() {
         '05': 'May', '06': 'June', '07': 'July', '08': 'August',
         '09': 'September', '10': 'October', '11': 'November', '12': 'December'
     };
+    async function fetchQuestions() {
+        setLoading(true);
+        try {
+            const batchData = await TokenRequest.get(`/student/getdatatraining?student_id=${loginInfo.student_id}`);
+            const batchName = batchData.data[0]?.batch;
+
+            // Fetch aptitude questions
+            const res = await TokenRequest.get(`/student/getAptitude?batchname=${batchName}`);
+            const data = res.data;
+
+            // Fetch completed tests
+            const reviewResponse = await TokenRequest.get(`/student/getdatareview?student_id=${loginInfo.student_id}`);
+            console.log("Review data:", reviewResponse.data);
+
+            // Create a mapping of month names to numbers
+            const monthNameToNumber = {
+                'january': '01',
+                'february': '02',
+                'march': '03',
+                'april': '04',
+                'may': '05',
+                'june': '06',
+                'july': '07',
+                'august': '08',
+                'september': '09',
+                'october': '10',
+                'november': '11',
+                'december': '12'
+            };
+
+            // Process completed tests data
+            const completedData = {};
+
+            reviewResponse.data.forEach(item => {
+                if (item.aptitude && item.month) {
+                    const monthLower = item.month.toLowerCase().trim();
+                    console.log(monthLower);
+
+                    const monthNum = monthNameToNumber[monthLower];
+
+                    if (monthNum) {
+                        // Find the corresponding question month (YYYY-MM format)
+                        data.forEach(q => {
+                            if (q.month) {
+                                const [year, qMonth] = q.month.split('-');
+                                console.log(qMonth, monthNum);
+
+                                if (qMonth === monthNum) {
+                                    completedData[q.month] = item.aptitude;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            console.log("Completed tests:", completedData);
+
+            setQuestions(data);
+            setCompletedTests(completedData);
+            const uniqueMonths = [...new Set(data.map(q => q.month))];
+            setMonths(uniqueMonths);
+        } catch (err) {
+            console.error("Failed to fetch data", err);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        async function fetchQuestions() {
-            setLoading(true);
-            try {
-                const batchData = await TokenRequest.get(`/student/getdatatraining?student_id=${loginInfo.student_id}`);
-                const batchName = batchData.data[0]?.batch;
-
-                // Fetch aptitude questions
-                const res = await TokenRequest.get(`/student/getAptitude?batchname=${batchName}`);
-                const data = res.data;
-
-                // Fetch completed tests
-                const reviewResponse = await TokenRequest.get(`/student/getdatareview?student_id=${loginInfo.student_id}`);
-                console.log("Review data:", reviewResponse.data);
-
-                // Create a mapping of month names to numbers
-                const monthNameToNumber = {
-                    'january': '01',
-                    'february': '02',
-                    'march': '03',
-                    'april': '04',
-                    'may': '05',
-                    'june': '06',
-                    'july': '07',
-                    'august': '08',
-                    'september': '09',
-                    'october': '10',
-                    'november': '11',
-                    'december': '12'
-                };
-
-                // Process completed tests data
-                const completedData = {};
-
-                reviewResponse.data.forEach(item => {
-                    if (item.aptitude && item.month) {
-                        const monthLower = item.month.toLowerCase().trim();
-                        console.log(monthLower);
-
-                        const monthNum = monthNameToNumber[monthLower];
-
-                        if (monthNum) {
-                            // Find the corresponding question month (YYYY-MM format)
-                            data.forEach(q => {
-                                if (q.month) {
-                                    const [year, qMonth] = q.month.split('-');
-                                    console.log(qMonth, monthNum);
-
-                                    if (qMonth === monthNum) {
-                                        completedData[q.month] = item.aptitude;
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-
-                console.log("Completed tests:", completedData);
-
-                setQuestions(data);
-                setCompletedTests(completedData);
-                const uniqueMonths = [...new Set(data.map(q => q.month))];
-                setMonths(uniqueMonths);
-            } catch (err) {
-                console.error("Failed to fetch data", err);
-            } finally {
-                setLoading(false);
-            }
-        }
 
         if (loginInfo?.student_id) {
             fetchQuestions();
@@ -148,15 +148,13 @@ function Aptitude() {
             console.log(total);
             console.log(monthName);
 
-
-
-
             const response = await TokenRequest.post('/student/addaptitudemark', {
                 student_id: loginInfo.student_id,
                 aptitude: total,
                 month: monthName
             });
             console.log('Aptitude mark saved successfully:', response.data);
+            fetchQuestions()
         } catch (err) {
             console.error('Failed to save aptitude mark:', err);
         }

@@ -672,7 +672,7 @@ select {
   position: absolute;
   top: 20%;
   z-index: 0;
-  left: 5%;
+  left: 10%;
   border-radius: 20px;
   box-shadow: 5px 5px 5px #71a7e177;
 }
@@ -691,12 +691,12 @@ select {
 .emi-status-text {
   font-size: 22px;
   position: absolute;
-  top: -3px;
+  top: -33px;
 
-  /* left: var(--paid-percent, 0%);
-  transform: translateX(-50%); */
+  left: var(--paid-percent, 0%);
+  transform: translateX(-50%);
   z-index: 1;
-  right: -140px;
+  /* right: -140px; */
   white-space: nowrap;
   color: #3c9aff94;
 }
@@ -1005,6 +1005,43 @@ select {
   display: none;
 }
 
+.topsection_card_userhomepage_down-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  padding: 15px;
+  /* Required for tooltip positioning */
+}
+/* Tooltip Styling */
+.res_down_menus-more {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
+}
+.topsection_card_userhomepage_down-more:hover .res_down_menus-more {
+  display: block;
+  /* Show tooltip on hover */
+  opacity: 1;
+  
+}
 
 
 /* Responsive Styles */
@@ -1055,7 +1092,7 @@ select {
     padding-left: 0;
     margin: 0;
 
-    background-color: #f9f9f9;
+    background-color: white;
   }
 
   .third_section_main {
@@ -1120,15 +1157,11 @@ select {
     font-size: 23px;
   }
 
-  .emi-line {
 
-    left: 1%;
-  }
 
   .emi-status-text {
     font-size: 17px;
-    right: -110px;
-    top: 3px;
+    top: -27px;
 
   }
 

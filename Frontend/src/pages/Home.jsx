@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from "react-icons/ai";
 import {
-  FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaExclamationTriangle, FaHourglassHalf,
+  FaCalendarMinus, FaCheckCircle, FaExclamationCircle, FaExclamationTriangle, FaFolderOpen, FaHourglassHalf,
   FaIdCard, FaList, FaRegKeyboard, FaSchool, FaSpinner, FaTasks
 } from "react-icons/fa";
 import { MdInsertChart } from "react-icons/md";
@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from '../components/Add';
 import DueDateAlert from '../components/PaymentAlert';
+import { PiExamFill } from "react-icons/pi";
 
 
 
@@ -58,6 +59,11 @@ function Home() {
   var [dueDate, setDueDate] = useState(null)
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
   var [addTime, setAddTime] = useState(false)
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleMore = () => {
+    setShowMore(prev => !prev);
+  };
 
 
   function showAd() {
@@ -415,7 +421,7 @@ function Home() {
               </div>
 
               <Link className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} to={'/Aptitude'} >
-                <h3><FaChrome style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Test</span></h3>
+                <h3><PiExamFill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Test</span></h3>
               </Link>
               <button className={`topsection_card_userhomepage_button ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
                 <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help & Support</span></h5>
@@ -1077,35 +1083,137 @@ function Home() {
         {/* Sections Sidebar Down side*/}
         <div className="topSectionMain_div_userHomepage_down">
           <div className="topsection_inner_div_userHompage_down">
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('batchDetails')}>
-              <span className='res_down_menus'>Overview</span>
-              <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} />  </h3>
-            </div>
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('reviews')}>
-              <span className='res_down_menus'>Result</span>
-              <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('batchDetails')}
+            >
+              <span className="res_down_menus">Overview</span>
+              <h3>
+                <FaList
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
 
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('attendance')}>
-              <span className='res_down_menus'>Attendance</span>
-              <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('reviews')}
+            >
+              <span className="res_down_menus">Result</span>
+              <h3>
+                <MdInsertChart
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('bill')}>
-              <span className='res_down_menus'>Payment</span>
-              <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('attendance')}
+            >
+              <span className="res_down_menus">Attendance</span>
+              <h3>
+                <FaCalendarCheck
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('task')}>
-              <span className='res_down_menus'>Task</span>
-              <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('bill')}
+            >
+              <span className="res_down_menus">Payment</span>
+              <h3>
+                <IoIosCard
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('Project')}>
-              <span className='res_down_menus'>Project</span>
-              <h3><FaLaptopCode style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('task')}
+            >
+              <span className="res_down_menus">Task</span>
+              <h3>
+                <BiTask
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
-            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('material')}>
-              <span className='res_down_menus'>Study Material</span>
-              <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
+
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={() => fetchData('Project')}
+            >
+              <span className="res_down_menus">Project</span>
+              <h3>
+                <FaLaptopCode
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
             </div>
+
+            {/* —— NEW “More” CARD —— */}
+            <div
+              className="topsection_card_userhomepage_down"
+              onClick={toggleMore}
+              style={{ position: 'relative' }}
+            >{!showMore &&
+              <span className="res_down_menus">More</span>
+              }
+              <h3>
+                <FaFolderOpen
+                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
+                />
+              </h3>
+
+              {showMore && (
+                <div
+                  className="more-dropdown"
+                  style={{
+                    position: 'absolute',
+                    bottom: '100%',     // “drop-top” sits above the card
+                    left: '-30px',
+                    background: '#fff',
+                    border: '1px solid #ccc',
+                    borderRadius: '20px',
+                    boxShadow: '2px 0px 6px rgba(0, 0, 0, 0.45)',
+                    zIndex: 10,
+                    width: '50px',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div
+                    className="topsection_card_userhomepage_down-more"
+                    onClick={() => fetchData('material')}
+                  >
+                    <span className="res_down_menus-more">Study Materia</span>
+                    <h3>
+                      <FaNoteSticky
+                        style={{ height: '25px', width: '25px' }}
+                      />
+                    </h3>
+                  </div>
+
+                  <Link
+                    className="topsection_card_userhomepage_down-more"
+                    style={{ textDecoration: 'none' }}
+                    to={'/Aptitude'}
+                  >
+                    <span className="res_down_menus-more">Test</span>
+                    <h3>
+                      <PiExamFill
+                        style={{ height: '25px', width: '25px' }}
+                      />
+                    </h3>
+                  </Link>
+
+                </div>
+              )}
+            </div>
+            {/* —— END “More” CARD —— */}
           </div>
         </div>
 
