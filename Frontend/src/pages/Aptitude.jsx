@@ -196,7 +196,7 @@ function Aptitude() {
                                         <span className="month-name">{monthName}</span>
                                         <span className="month-year">{year}</span>
                                         {isCompleted && (
-                                            <span className="month-score">Score: {completedTests[month]}</span>
+                                            <span className="month-score" >Score: {completedTests[month]}</span>
                                         )}
                                     </div>
                                     {isCompleted && (

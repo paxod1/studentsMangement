@@ -6,7 +6,7 @@ const getTokenFromLocalStorage = () => {
   const loginData = persistedLoginData ? JSON.parse(persistedLoginData) : {};
 
   // Accessing the token directly from LoginInfo
-  const loginInfo = loginData.userlogin? JSON.parse(loginData.userlogin).LoginInfo[0] : null;
+  const loginInfo = loginData.userlogin ? JSON.parse(loginData.userlogin).LoginInfo[0] : null;
 
 
   // Return the token or empty string if not available
@@ -16,7 +16,7 @@ const getTokenFromLocalStorage = () => {
 
 
 
-const SampleUrl = 'https://studentsmangement.onrender.com';
+const SampleUrl = 'http://localhost:5000';
 // https://studentsmangement.onrender.com
 // http://localhost:5000 
 // Create the basic axios request instance

@@ -6,6 +6,7 @@ import "./ClassVideo.css";
 import { AiFillHome } from "react-icons/ai";
 import { PlayCircle, PauseCircle, Volume2, Maximize, Minimize } from "lucide-react";
 import Footer from "./Footer";
+import { TokenRequest } from "../AxiosCreate";
 
 function ClassVideo() {
   const location = useLocation();

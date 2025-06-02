@@ -373,11 +373,14 @@ router.get('/getAptitude', verifyToken, async (req, res) => {
 // Add aptitude mark for a student
 router.post('/addaptitudemark', verifyToken, async (req, res) => {
     const { student_id, aptitude, month } = req.body;
-    console.log(req.body);
+    console.log("Received body:", req.body);
 
-
-    // Validation
-    if (!student_id || !aptitude || !month) {
+    // ✅ Updated validation (allows 0 as valid value)
+    if (
+        student_id === undefined ||
+        aptitude === undefined ||
+        month === undefined
+    ) {
         return res.status(400).json('student_id, aptitude, and month are required');
     }
 
@@ -388,7 +391,6 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
         return res.status(400).json('Invalid student_id or aptitude');
     }
 
-    // Insert or update aptitude mark with month
     const query = `
         INSERT INTO tbl_review (student_id, aptitude, month)
         VALUES (?, ?, ?)
@@ -405,7 +407,6 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
-
 
 
 module.exports = router;
