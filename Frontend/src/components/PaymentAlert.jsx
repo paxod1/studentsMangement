@@ -18,7 +18,7 @@ function DueDateAlert({ dueDateProp }) {
             const diffTime = dueDateObj - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            if (diffDays >= 0 && diffDays <= 7) {
+            if (diffDays >= 0 && diffDays <= 10) {
                 setDaysLeft(diffDays);
                 setShowAlert(true);
 

@@ -16,8 +16,6 @@ function UserLayout() {
             <UserDownbar />
             <Footer />
 
-
-
         </div>
     )
 }
