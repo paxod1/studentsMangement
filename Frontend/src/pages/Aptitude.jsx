@@ -144,11 +144,17 @@ function Aptitude() {
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
             const monthName = monthNames[parseInt(monthNum) - 1];
+            console.log(loginInfo.student_id);
+            console.log(total);
+            console.log(monthName);
+
+
+
 
             const response = await TokenRequest.post('/student/addaptitudemark', {
                 student_id: loginInfo.student_id,
                 aptitude: total,
-                month: monthName  // Add month to the request
+                month: monthName
             });
             console.log('Aptitude mark saved successfully:', response.data);
         } catch (err) {

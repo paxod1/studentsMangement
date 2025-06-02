@@ -373,6 +373,8 @@ router.get('/getAptitude', verifyToken, async (req, res) => {
 // Add aptitude mark for a student
 router.post('/addaptitudemark', verifyToken, async (req, res) => {
     const { student_id, aptitude, month } = req.body;
+    console.log(req.body);
+
 
     // Validation
     if (!student_id || !aptitude || !month) {
