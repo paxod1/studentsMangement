@@ -72,10 +72,6 @@ function Home() {
     }, 10000);
   }
 
-
-
-
-
   const dispatch = useDispatch()
 
   async function logout() {
@@ -102,11 +98,7 @@ function Home() {
         await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
-        console.log(response);
-
-        console.log("home bill", response.data[response.data.length - 1].due_date);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
-
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
@@ -165,13 +157,10 @@ function Home() {
         case 'reviews':
           setActiveSection('reviews');
           response = await TokenRequest.get(`/student/getdatareview?student_id=${student_id}`);
-          console.log(response.data);
           if (response.data.length === 0) {
             setReviews([]);
             setActiveSection(' ');
             setNodata(true)
-
-
 
           } else {
             setReviews(response.data);
@@ -331,12 +320,9 @@ function Home() {
 
 
   const getTaskCounts = (status) => task.filter((task) => task.task_status === status).length;
-  console.log(dueDate);
-
 
   if (dueDate < formattedDate) {
 
-    console.log("payment is pending...");
     return (
       <div className="payment-container">
         <DueDateAlert dueDateProp={dueDate} />
@@ -347,7 +333,7 @@ function Home() {
           </p>
 
           <div className="qr-code-box">
-            <img src='https://th.bing.com/th/id/OIP.wJvGcucJn6xEv9Ilb4gIWgHaHa?cb=iwc2&rs=1&pid=ImgDetMain' alt="Scan to Pay" className="qr-code" />
+            <img src='https://techwingsys.com/idfc-QR-Code-TECHWINGSYS.jpg' alt="Scan to Pay" className="qr-code" />
           </div>
 
           <p className="payment-note">
