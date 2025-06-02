@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
-    "@vidstack/player-react": "^1.6.5",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "lucide-react": "^0.474.0",
