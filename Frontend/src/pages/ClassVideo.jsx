@@ -1,10 +1,10 @@
- import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-
 import ReactPlayer from "react-player";
 import "./ClassVideo.css";
 import { AiFillHome } from "react-icons/ai";
 import { PlayCircle, PauseCircle, Volume2, Maximize, Minimize } from "lucide-react";
+import { useSelector } from 'react-redux';
 import Footer from "./Footer";
 import { TokenRequest } from "../AxiosCreate";
 
@@ -24,16 +24,15 @@ function ClassVideo() {
   const [showControls, setShowControls] = useState(true);
 
   let inactivityTimeout = useRef(null);
-
-  const initialBatchname = location.state?.batchname || localStorage.getItem("batchname");
-  const [batchname, setBatchname] = useState(initialBatchname);
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
   useEffect(() => {
-    if (batchname) {
-      localStorage.setItem("batchname", batchname);
+    if (logininfom) {
       async function fetchVideos() {
         try {
-          const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchname}`);
+          const response1 = await TokenRequest.get(`/student/getdatatraining?student_id=${logininfom.student_id}`);
+          const batchName = response1.data[0]?.batch || 'No Batch Assigned';
+          const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchName}`);
           setVideos(response.data);
           setSelectedVideo(response.data.length > 0 ? response.data[response.data.length - 1] : null);
         } catch (error) {
@@ -42,7 +41,7 @@ function ClassVideo() {
       }
       fetchVideos();
     }
-  }, [batchname]);
+  }, [logininfom]);
 
   const filteredVideos = searchQuery
     ? videos.filter((video) => video.video_title.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -122,27 +121,6 @@ function ClassVideo() {
     setActiveVideoIndex(index);
   };
 
-  const handleQualityChange = (quality) => {
-    const player = playerRef.current;
-    if (!player) return;
-
-    const internalPlayer = player.getInternalPlayer();
-    console.log("Internal Player:", internalPlayer); // Check if it logs YouTube player object
-
-    if (internalPlayer && internalPlayer.setPlaybackQuality) {
-      const qualityMap = {
-        '480p': 'large',
-        '720p': 'hd720',
-        '1080p': 'hd1080'
-      };
-
-      internalPlayer.setPlaybackQuality(qualityMap[quality]);
-    } else {
-      console.log("setPlaybackQuality is not available on this player.");
-    }
-  };
-
-
   return (
     <div>
       <section className="navbar_main_video">
@@ -151,7 +129,7 @@ function ClassVideo() {
             <img src="https://techwingsys.com/tws-logo.png" className="logo_nav_video" alt="" />
           </div>
           <div className="rightnav_video">
-            <Link style={{ textDecoration: "none" }} to={"/"}>
+            <Link style={{ textDecoration: "none" }} to={"/home"}>
               <button className="menus_right_video">
                 <AiFillHome /> <span className="menus_right_video_text">Home page</span>
               </button>
@@ -177,7 +155,7 @@ function ClassVideo() {
                     url={selectedVideo.video_link}
                     width={isFullscreen ? "100%" : "100%"}
                     height={isFullscreen ? "calc(105vh - 120px)" : "500px"}
-                    playing={isPlaying} 
+                    playing={isPlaying}
                     volume={volume}
                     onProgress={handleProgress}
                     onDuration={handleDuration}
@@ -193,19 +171,13 @@ function ClassVideo() {
                           iv_load_policy: 3,
                           fs: 0,
                           disablekb: 1,
-                          enablejsapi: 1,
-                          origin: window.location.origin
                         },
                       },
-                    }}
-                    onPlay={() => {
-                      setTimeout(() => handleQualityChange('720p'), 10000); // best place to apply it
                     }}
                     onContextMenu={(e) => e.preventDefault()}
                     controlsList="nodownload"
                     className='video_screen'
                   />
-
                   <div className="video-shield" style={{ height: isFullscreen ? "calc(105vh - 120px)" : "500px" }} />
 
 
@@ -246,24 +218,12 @@ function ClassVideo() {
                           <span style={{ color: 'white' }}>{formatTime(duration)}</span>
                         </div>
 
-                        {/* Quality Selector */}
-                        <div className="quality-selector">
-                          <select
-                            onChange={(e) => handleQualityChange(e.target.value)}
-                            className="quality-dropdown"
-                          >
-             
-                            <option value="480p">480p</option>
-                            <option value="720p">720p</option>
-                            <option value="1080p">1080p</option>
-                          </select>
-                        </div>
-
                         {/* Fullscreen Toggle */}
                         <button onClick={toggleFullscreen} className="control-btn">
                           {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
                         </button>
                       </div>
+
                     </div>
                   )}
                 </div>
@@ -273,8 +233,6 @@ function ClassVideo() {
                 </div>
               )}
             </div>
-
-
           </div>
 
           <div className="sidebar p-10">
@@ -311,9 +269,9 @@ function ClassVideo() {
         </div>
       </section>
 
-
+      <Footer className="footer_video" />
     </div>
   );
 }
 
-export default ClassVideo; 
+export default ClassVideo;

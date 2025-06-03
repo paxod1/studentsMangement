@@ -70,7 +70,7 @@
 
 /* General Container */
 .attendance-container {
-  background: #f0f0f063;
+  background: white;
   padding: 30px;
   padding-top: 20px;
 }
@@ -306,11 +306,11 @@ select {
 /* Review Cards */
 .home-container {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: white;
   max-width: 700px;
   margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .home-title {
@@ -511,10 +511,10 @@ select {
 /* bill */
 
 .bill-container {
-  background-color: #f4f7fc;
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
   margin: 20px;
   max-width: 800px;
   margin: 0 auto;
@@ -533,7 +533,7 @@ select {
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bill-card .bill-header {
@@ -1200,7 +1200,7 @@ select {
 
 .announcement-container {
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color:white;
 }
 
 .announcement-grid {
@@ -1494,7 +1494,6 @@ select {
 
 .task-container {
   padding: 16px;
-  background-color: #f9f9f9;
 }
 
 .task-title {

@@ -92,7 +92,6 @@ function Aptitude() {
     }
 
     useEffect(() => {
-
         if (loginInfo?.student_id) {
             fetchQuestions();
         }
@@ -111,7 +110,6 @@ function Aptitude() {
             [questionId]: selectedOption
         }));
     };
-
 
     const handleSubmit = async () => {
         const filtered = questions.filter(q => q.month === selectedMonth);
@@ -160,7 +158,6 @@ function Aptitude() {
         }
     };
 
-
     const filteredQuestions = questions.filter(q => q.month === selectedMonth);
     const totalPossibleScore = filteredQuestions.reduce((sum, q) => sum + q.mark, 0);
     const formattedMonth = selectedMonth ? `${monthNames[selectedMonth.split('-')[1]]} ${selectedMonth.split('-')[0]}` : '';
@@ -174,39 +171,54 @@ function Aptitude() {
             {!loading && !selectedMonth && (
                 <div className="month-selection-section">
                     <h3>Select Test Month</h3>
-                    <div className="month-grid">
-                        {months.map((month, idx) => {
-                            const [year, monthNum] = month.split('-');
-                            const monthName = monthNames[monthNum] || monthNum;
-                            const isCompleted = completedTests[month] !== undefined;
+                    {months.length === 0 ? (
+                        <div className="no-tests-available">
+                            <p>No aptitude tests are available at the moment.</p>
+                            <Link to="/home" className="home-btn">
+                                🏠 Return to Home
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="month-grid">
+                                {months.map((month, idx) => {
+                                    const [year, monthNum] = month.split('-');
+                                    const monthName = monthNames[monthNum] || monthNum;
+                                    const isCompleted = completedTests[month] !== undefined;
 
-                            return (
-                                <div
-                                    key={idx}
-                                    className={`month-box ${isCompleted ? 'completed' : ''}`}
-                                    onClick={() => !isCompleted && handleMonthSelect(month)}
-                                >
-                                    <div className="month-icon">
-                                        <span className="month-abbr">{monthName.substring(0, 3)}</span>
-                                        {isCompleted && <span className="completed-badge">✓</span>}
-                                    </div>
-                                    <div className="month-details">
-                                        <span className="month-name">{monthName}</span>
-                                        <span className="month-year">{year}</span>
-                                        {isCompleted && (
-                                            <span className="month-score" >Score: {completedTests[month]}</span>
-                                        )}
-                                    </div>
-                                    {isCompleted && (
-                                        <div className="completed-overlay">
-                                            Test Completed
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className={`month-box ${isCompleted ? 'completed' : ''}`}
+                                            onClick={() => !isCompleted && handleMonthSelect(month)}
+                                        >
+                                            <div className="month-icon">
+                                                <span className="month-abbr">{monthName.substring(0, 3)}</span>
+                                                {isCompleted && <span className="completed-badge">✓</span>}
+                                            </div>
+                                            <div className="month-details">
+                                                <span className="month-name">{monthName}</span>
+                                                <span className="month-year">{year}</span>
+                                                {isCompleted && (
+                                                    <span className="month-score">Score: {completedTests[month]}</span>
+                                                )}
+                                            </div>
+                                            {isCompleted && (
+                                                <div className="completed-overlay">
+                                                    Test Completed
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-
-                    </div>
+                                    );
+                                })}
+                            </div>
+                            <div className="month-selection-actions">
+                                <Link to="/home" className="home-btn">
+                                    🏠 Return to Home
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             )}
 
@@ -340,7 +352,7 @@ function Aptitude() {
                                     ← Back to All Tests
                                 </button>
 
-                                <Link to="/" className="home-btn">
+                                <Link to="/home" className="home-btn">
                                     🏠 Return to Home
                                 </Link>
                             </div>
@@ -356,6 +368,9 @@ function Aptitude() {
                             >
                                 ← Back to Months
                             </button>
+                            <Link to="/home" className="home-btn">
+                                🏠 Return to Home
+                            </Link>
                         </div>
                     )}
                 </div>
