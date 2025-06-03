@@ -784,14 +784,14 @@ select {
 }
 
 .announcement_title {
-  font-size: 1.2rem;
+  font-size: .9rem;
   font-weight: bold;
   color: #333;
   margin: 0;
 }
 
 .announcement_text {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #666;
   margin-top: 5px;
 }
@@ -1037,8 +1037,8 @@ select {
 
 /* Third Section Main Div */
 .third_section_main {
-  padding-top: 10px;
-  width: 20%;
+  margin-top: -250px;
+  width: 19%;
   background-color: var(--background-light);
   display: flex;
   justify-content: center;
@@ -1046,10 +1046,10 @@ select {
 }
 
 .poster-ad-section {
-  width: 83%;
+  width: 76%;
   height: 270px;
   margin-top: 62px;
-  margin-left: 16.5%;
+  margin-left: 12%;
   padding: 10px;
   background-color: transparent;
   z-index: 1000;
