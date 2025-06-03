@@ -141,6 +141,8 @@ function Home() {
           if (batchName) {
             try {
               const announcementResponse = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchName}`);
+              console.log(announcementResponse);
+
               if (announcementResponse.data.length > 0) {
                 setHomeAnnouncement(announcementResponse.data[announcementResponse.data.length - 1]);
               } else {
@@ -412,7 +414,7 @@ function Home() {
               <Link className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} to={'/Aptitude'} >
                 <h3><PiExamFill style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Test</span></h3>
               </Link>
-              <button style={{fontSize:'15px'}} className={`topsection_card_userhomepage_buttons ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
+              <button style={{ fontSize: '15px' }} className={`topsection_card_userhomepage_buttons ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
                 <div><RiCustomerService2Fill style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Help & Support</span></div>
               </button>
               <h3 className='sidebar_bottom_text'>Kochi's Premier IT Training Institute</h3>
@@ -928,7 +930,7 @@ function Home() {
                               {item.image && (
                                 <div className="announcement-image">
                                   <img
-                                    src={`https://your-backend-url/uploads/${item.image}`}
+                                    src={`https://techwingsys.com/billtws/uploads/announcements/${item.image}`}
                                     alt={item.title}
                                   />
                                 </div>
@@ -1048,7 +1050,10 @@ function Home() {
                       {homeAnnouncement.image && (
                         <div className="announcement_image">
                           <img
-                            src={`https://techwingsys/uploads/${homeAnnouncement.image}`}
+                            height={'100px'}
+                            width={'100px'}
+                            style={{marginBottom:"5px"}}
+                            src={`https://techwingsys.com/billtws/uploads/announcements/${homeAnnouncement.image}`}
                             alt="Announcement"
                           />
                         </div>
@@ -1056,7 +1061,7 @@ function Home() {
                       <p className="announcement_date">
                         Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
                       </p>
-                      <p className="announcement_batch">Batch: {homeAnnouncement.batch}</p>
+             
                     </div>
                   </div>
                 ) : (
