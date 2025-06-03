@@ -901,12 +901,12 @@ select {
   height: auto;
   margin: 5px;
   padding-left: 20%;
-  padding-top: 270px;
+  padding-top: 230px;
 }
 
 /* Third Section Main Div */
 .third_section_main {
-   padding-top: 300px;
+  padding-top: 270px;
   width: 20%;
   background-color: var(--background-light);
   display: flex;
@@ -1834,6 +1834,7 @@ select {
     height: 270px;
   }
 }
+
 .poster-ad-section {
   width: 85%;
   height: 200px;
@@ -1858,8 +1859,9 @@ select {
   .home-poster-container {
     height: 150px;
   }
+
   .second_section_main {
- 
-  padding-top: 180px;
-}
+
+    padding-top: 180px;
+  }
 }
