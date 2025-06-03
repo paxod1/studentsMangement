@@ -1110,10 +1110,9 @@ select {
 
   .second_section_main {
     padding-top: 17%;
-    width: 98%;
+    width: 99%;
     padding-left: 0;
     margin: 0;
-
     background-color: white;
   }
 
@@ -1147,7 +1146,7 @@ select {
   }
 
   .batch-card {
-    width: 96%;
+    width: 95%;
 
   }
 
@@ -1185,6 +1184,9 @@ select {
     font-size: 17px;
     top: -27px;
 
+  }
+  .inner_box{
+    width: 97%;
   }
 
 
