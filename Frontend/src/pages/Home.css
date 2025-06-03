@@ -1047,7 +1047,7 @@ select {
 
 .poster-ad-section {
   width: 83%;
-  height: 200px;
+  height: 270px;
   margin-top: 62px;
   margin-left: 16.5%;
   padding: 10px;
@@ -1878,7 +1878,8 @@ select {
     width: 100%;
     margin-left: 0;
     height: 150px;
-    margin-top: 65px; /* Keep some margin at the top */
+    margin-top: 75px; /* Keep some margin at the top */
+    margin-bottom: 15px;
   }
 
   .home-poster-container {
