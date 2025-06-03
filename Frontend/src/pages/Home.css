@@ -400,7 +400,7 @@ select {
 
 /* Batch Details Section */
 .batch-details-container {
-  padding: 20px;
+  padding: 0px;
   background-color: white;
   max-width: 100%;
   margin: 0 auto;
@@ -408,6 +408,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -10px;
 }
 
 .batch-title {
@@ -895,24 +896,6 @@ select {
   text-align: center;
 }
 
-/* Second Section Main */
-.second_section_main {
-  width: 80%;
-  height: auto;
-  margin: 5px;
-  padding-left: 20%;
-  padding-top: 230px;
-}
-
-/* Third Section Main Div */
-.third_section_main {
-  padding-top: 270px;
-  width: 20%;
-  background-color: var(--background-light);
-  display: flex;
-  justify-content: center;
-  align-items: start;
-}
 
 /* resoponsive down navbar  */
 
@@ -1031,6 +1014,58 @@ select {
 }
 
 
+
+
+
+
+
+.main-sec-second-third{
+  width: 100%;
+ 
+}
+.main-sec-second-and-third{
+  width: 100%;
+  display: flex;
+}
+/* Second Section Main */
+.second_section_main {
+  width: 80%;
+  height: auto;
+  margin: 5px;
+  padding-left: 20%;
+}
+
+/* Third Section Main Div */
+.third_section_main {
+  padding-top: 10px;
+  width: 20%;
+  background-color: var(--background-light);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.poster-ad-section {
+  width: 83%;
+  height: 200px;
+  margin-top: 62px;
+  margin-left: 16.5%;
+  padding: 10px;
+  background-color: transparent;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+
+
+
+
 /* Responsive Styles */
 @media screen and (max-width: 1000px) {
   .topSectionMain_div_userHomepage {
@@ -1064,7 +1099,7 @@ select {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .main_home {
     width: 100%;
   }
@@ -1835,25 +1870,13 @@ select {
   }
 }
 
-.poster-ad-section {
-  width: 85%;
-  height: 200px;
-  margin-top: 62px;
-  margin-left: 16.5%;
-  padding: 10px;
-  background-color: transparent;
-  z-index: 1000;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 @media screen and (max-width: 768px) {
   .poster-ad-section {
     width: 100%;
     margin-left: 0;
     height: 150px;
+    margin-top: 65px; /* Keep some margin at the top */
   }
 
   .home-poster-container {
@@ -1861,7 +1884,6 @@ select {
   }
 
   .second_section_main {
-
-    padding-top: 180px;
+    padding-top: 0px;
   }
 }

@@ -375,11 +375,7 @@ function Home() {
 
             </div>
           </section>
-          {/**calling poster ad */}
-          <section className='poster-ad-section'>
-            <HomePoster />
 
-          </section>
 
 
 
@@ -435,642 +431,650 @@ function Home() {
           <DueDateAlert dueDateProp={dueDate} />
 
 
+          <div className='main-sec-second-third'>
 
-          <div className='second_section_main'>
-            {/* Attendance Section */}
-            {activeSection === 'attendance' && (
-              <div className="attendance-container">
-                <h1 className="attendance-title">Attendance Records</h1>
-                <div className="attendance-filters">
-                  <div className="filter-group">
-                    <label htmlFor="year">Year</label>
-                    <select id="year" onChange={handleYearChange}>
-                      <option value="">Select Year</option>
-                      <option value="2025">2025</option>
-                      <option value="2024">2024</option>
-                      <option value="2023">2023</option>
-                    </select>
-                  </div>
+            {/**calling poster ad */}
+            <section className='poster-ad-section'>
+              <HomePoster />
 
-                  <div className="filter-group">
-                    <label htmlFor="month">Month</label>
-                    <select id="month" onChange={handleMonthChange}>
-                      <option value="">Select Month</option>
-                      <option value="01">January</option>
-                      <option value="02">February</option>
-                      <option value="03">March</option>
-                      <option value="04">April</option>
-                      <option value="05">May</option>
-                      <option value="06">June</option>
-                      <option value="07">July</option>
-                      <option value="08">August</option>
-                      <option value="09">September</option>
-                      <option value="10">October</option>
-                      <option value="11">November</option>
-                      <option value="12">December</option>
-                    </select>
-                  </div>
+            </section>
+            <section className='main-sec-second-and-third'>
 
-                  <button onClick={() => fetchData('attendance')} className="filter-btn">Apply Filter</button>
-                </div>
-
-                {nodata ? (
-                  <div className='box_notdata'>
-                    <h1>No data found</h1>
-                  </div>
-                ) : (
-                  loading ? (
-                    <div className="loading-spinner">
-                      <div className="spinner"></div>
-                    </div>
-                  ) : (
-                    <div className="attendance-content">
-                      <div className="attendance-filter-buttons">
-                        <button onClick={() => handleAttendanceFilter('all')} className="filter-btn">All</button>
-                        <button onClick={() => handleAttendanceFilter('Present')} className="filter-btn present-btn">Present</button>
-                        <button onClick={() => handleAttendanceFilter('Absent')} className="filter-btn absent-btn">Absent</button>
+              <div className='second_section_main'>
+                {/* Attendance Section */}
+                {activeSection === 'attendance' && (
+                  <div className="attendance-container">
+                    <h1 className="attendance-title">Attendance Records</h1>
+                    <div className="attendance-filters">
+                      <div className="filter-group">
+                        <label htmlFor="year">Year</label>
+                        <select id="year" onChange={handleYearChange}>
+                          <option value="">Select Year</option>
+                          <option value="2025">2025</option>
+                          <option value="2024">2024</option>
+                          <option value="2023">2023</option>
+                        </select>
                       </div>
 
-                      {filteredAttendance.length === 0 ? (
-                        <p
-                          className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
-                        >
-                          Attendance: {calculateAttendancePercentage().toFixed(2)}%
-                        </p>
+                      <div className="filter-group">
+                        <label htmlFor="month">Month</label>
+                        <select id="month" onChange={handleMonthChange}>
+                          <option value="">Select Month</option>
+                          <option value="01">January</option>
+                          <option value="02">February</option>
+                          <option value="03">March</option>
+                          <option value="04">April</option>
+                          <option value="05">May</option>
+                          <option value="06">June</option>
+                          <option value="07">July</option>
+                          <option value="08">August</option>
+                          <option value="09">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                      </div>
+
+                      <button onClick={() => fetchData('attendance')} className="filter-btn">Apply Filter</button>
+                    </div>
+
+                    {nodata ? (
+                      <div className='box_notdata'>
+                        <h1>No data found</h1>
+                      </div>
+                    ) : (
+                      loading ? (
+                        <div className="loading-spinner">
+                          <div className="spinner"></div>
+                        </div>
                       ) : (
-                        <div>
-                          <p
-                            className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
-                          >
-                            Attendance: {calculateAttendancePercentage().toFixed(2)}%
-                          </p>
-                          <table className="attendance-table">
-                            <thead>
-                              <tr>
-                                <th>Date</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {filteredAttendance
-                                .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken)) // Sorting by date (most recent first)
-                                .map((record, index) => {
-                                  const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
-                                  return (
-                                    <tr key={index} className={statusClass}>
-                                      <td>
-                                        {new Date(record.date_taken).toLocaleDateString('en-GB', {
-                                          day: '2-digit',
-                                          month: 'short',
-                                          year: 'numeric',
-                                        })}
-                                      </td>
-                                      <td>{record.attendance}</td>
-                                    </tr>
-                                  );
-                                })}
-
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-
-
-            {/*  Sections tasks*/}
-
-
-            {activeSection === 'task' && (
-              <div className="task-container">
-                <h1 className="task-title">Task Records</h1>
-
-                {/* Task Summary with Icons */}
-                <div className="task-summary">
-                  <div className="summary-box total">
-                    <FaTasks className="summary-icon totalicon " />
-                    <p className='text_total_inner'>Total Tasks: {task.length}</p>
-                  </div>
-
-                  <div className="summary-box pending">
-                    <FaHourglassHalf className="summary-icon" />
-                    <p className='text_total_inner'>Pending:{getTaskCounts('Pending')}</p>
-                  </div>
-                  <div className="summary-box late">
-                    <FaExclamationCircle className="summary-icon" />
-                    <p className='text_total_inner'>Late : {getTaskCounts('Delay Completion')}</p>
-                  </div>
-                  <div className="summary-box completed">
-                    <FaCheckCircle className="summary-icon" />
-                    <p className='text_total_inner'> Completed: {getTaskCounts('Completed')}</p>
-                  </div>
-                </div>
-
-                {/* Task Table */}
-                {nodata ? (
-                  <div className="box-notdata">
-                    <h1>No Tasks Found</h1>
-                  </div>
-                ) : loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : (
-                  <div className="task-content">
-                    <table className="task-table">
-                      <thead>
-                        <tr>
-                          <th>Description</th>
-                          <th>Date Assigned</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {task
-                          .sort((a, b) => new Date(b.date_assigned) - new Date(a.date_assigned))
-                          .map((task, index) => (
-                            <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
-                              <td>{task.task_description}</td>
-                              <td>
-                                {new Date(task.date_assigned).toLocaleDateString('en-IN', {
-                                  day: '2-digit',
-                                  month: 'long',
-                                  year: 'numeric',
-                                })}
-                              </td>
-                              <td>{task.task_status}</td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/*  Sections Projects*/}
-
-            {
-              activeSection === 'Project' &&
-              (project.length === 0 ? (
-                <div className="box-notdata">
-                  <h4>No Project Yet Now</h4>
-                </div>
-              ) : (
-                <div className="project-container">
-                  <h1 className="project-title">Project Records</h1>
-
-                  {/* Project Summary with Icons */}
-                  <div className="project-summary">
-                    <div className="summary-box total">
-                      <FaTasks className="summary-icon totalicon" />
-                      <p className="text_total_inner">Total Projects: {project.length}</p>
-                    </div>
-                    <div className="summary-box delayed">
-                      <FaExclamationTriangle className="summary-icon" />
-                      <p className="text_total_inner">
-                        Delayed: {project.filter(proj => proj.project_status === 'delayed').length}
-                      </p>
-                    </div>
-                    <div className="summary-box pending">
-                      <FaHourglassHalf className="summary-icon" />
-                      <p className="text_total_inner">
-                        Pending: {project.filter(proj => proj.project_status === 'pending').length}
-                      </p>
-                    </div>
-                    <div className="summary-box completed">
-                      <FaCheckCircle className="summary-icon" />
-                      <p className="text_total_inner">
-                        Completed: {project.filter(proj => proj.project_status === 'completed').length}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Project Table */}
-                  <div className="project-content">
-                    <table className="project-table">
-                      <thead>
-                        <tr>
-                          <th>Project Name</th>
-                          <th>Project Started</th>
-                          <th>Deadline</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {project.map((proj, index) => (
-                          <tr key={index} className={`project-status-${proj.project_status.toLowerCase()}`}>
-                            <td>{proj.project_description}</td>
-                            <td>{new Date(proj.date_created).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
-                            <td>{new Date(proj.deadline).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
-                            <td>{proj.project_status}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ))
-            }
-
-
-
-
-
-            {/*  Sections reviews*/}
-
-            {activeSection === 'reviews' && (
-              <div className="home-container">
-                <h1 className="home-title">Student Reviews</h1>
-                {loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : (
-                  <div className="review-card-container">
-                    {reviews.length === 0 ? (
-                      <div className="box_notdata">
-                        <p className="no-reviews box_notdata">No reviews or marks available</p>
-                      </div>
-                    ) : (
-                      reviews.map((review, index) => {
-                        const status = getPassFailStatus(review);
-                        const totalMarks =
-                          parseInt(review.aptitude) +
-                          parseInt(review.technical) +
-                          parseInt(review.viva) +
-                          (parseInt(review.theory) || 0);
-                        const progressPercentage = ((totalMarks / 150) * 100).toFixed(2);
-
-                        return (
-                          <div key={index} className={`review-card ${status === 'pass' ? 'pass-card' : 'fail-card'}`}>
-                            <div className="review-header">
-                              <h2 className="card-title">{review.month}</h2>
-                              <p className="status-text">{status.toUpperCase()}</p>
-                            </div>
-                            <div className="review-body">
-                              <p><strong>Aptitude:</strong> {review.aptitude}</p>
-                              <p><strong>Technical:</strong> {review.technical}</p>
-                              <p><strong>Viva:</strong> {review.viva}</p>
-                              <p><strong>Total Marks:</strong> {totalMarks}/150</p>
-
-                              {/* Progress Bar */}
-                              <div className="marks-progress_main">
-                                <div className="marks-progress">
-                                  <div
-                                    className="marks-progress-line"
-                                    style={{
-                                      width: `${progressPercentage}%`,
-                                      backgroundColor: status === 'pass' ? '#4caf50' : '#f44336',
-                                    }}
-                                  >
-                                    <span className="progress-text" style={{
-
-                                      color: status === 'pass' ? '#4caf50' : '#f44336',
-                                    }}>{progressPercentage}%</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-
-
-
-            {/*  Sections tests*/}
-
-            {activeSection === 'tests' && (
-              <div className="home-container_tests">
-                <h1 style={{ color: '#6a5af9' }}>No Test Yet Now</h1>
-
-              </div>
-            )}
-
-
-
-
-
-            {/*  Sections Batch Details  and biil home*/}
-            {activeSection === 'batchDetails' && (
-              <div>
-                <div className='batch-details-container'>
-                  {loading ? (
-                    <div className="loading-spinner">
-                      <div className="spinner"></div>
-                    </div>
-                  ) : (
-                    batch.length === 0 ? (
-                      <div className="box_notdata">
-                        <p className="no-batch-data">No batch data available</p>
-                      </div>
-                    ) : (
-                      // Batch Details Section
-                      batch.map((batchItem, index) => (
-                        <div className='inner_box' >
-                          <div className='payment-details'>
-                            {paymentData ? (
-                              <div key={paymentData.bill_id} className='payment-bill'>
-                                <div className='bill-info'>
-                                  <p className='balance-amount'>
-                                    {
-                                      paymentData.balance_amount === '0'
-                                        ? 'Payment Completed'
-                                        : (
-                                          <div>
-                                            Balance Amount <RiMoneyRupeeCircleFill className='money-icon' />{paymentData.balance_amount}
-                                          </div>
-                                        )
-                                    }
-                                  </p>
-                                  <div className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}
-                                  </div>
-                                </div>
-                                <div className="emi-progress">
-                                  <div
-                                    className="emi-line"
-                                    style={{
-                                      '--paid-percent': paymentData.balance_amount === 0
-                                        ? '100%'
-                                        : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
-                                    }}
-                                  >
-                                    <p
-                                      className="emi-status-text"
-                                      style={{
-                                        '--paid-percent': paymentData.balance_amount === 0
-                                          ? '100%'
-                                          : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
-                                      }}
-                                    >
-                                      {paymentData.balance_amount === 0
-                                        ? 'Paid Off'
-                                        : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`}
-                                    </p>
-
-                                  </div>
-
-                                </div>
-
-                              </div>
-                            ) : (
-                              <p>No payment details available</p>
-                            )}
+                        <div className="attendance-content">
+                          <div className="attendance-filter-buttons">
+                            <button onClick={() => handleAttendanceFilter('all')} className="filter-btn">All</button>
+                            <button onClick={() => handleAttendanceFilter('Present')} className="filter-btn present-btn">Present</button>
+                            <button onClick={() => handleAttendanceFilter('Absent')} className="filter-btn absent-btn">Absent</button>
                           </div>
 
-                          <div key={index} className="batch-card">
-                            <h1 className="batch-title">Batch Details</h1>
-                            <h3>{student}</h3>
-                            <div className="batch-header">
-
-                              <h3>{batchItem.batch || "Batch Name Not Available"} {batchItem.course_name}</h3>
-                              <p className="status">{batchItem.status || "Status Not Available"}</p>
-                            </div>
-                            <div className="batch-body">
-                              <p><strong><FaIdCard style={{ marginRight: '8px' }} />Student ID:</strong> {student_id}</p>
-                              <p><strong> <FaClock style={{ marginRight: '8px' }} />Start Time:</strong> {batchItem.start_time || "Not Available"}</p>
-                              <p><strong><FaClock style={{ marginRight: '8px' }} />End Time:</strong> {batchItem.end_time || "Not Available"}</p>
-                              <p><strong><FaSchool style={{ marginRight: '8px' }} />Course Name:</strong> {batchItem.course_name || "Not Available"}</p>
-                              <p><strong><FaCalendarMinus style={{ marginRight: '8px' }} />Batch Code:</strong> {batchItem.batch || "Not Available"}</p>
-                              <p><strong><BiLoaderCircle style={{ marginRight: '8px' }} />Course Duration:</strong> {batchItem.duration} months</p>
-                              <p><strong><FaRegKeyboard style={{ marginRight: '8px' }} />Training Method:</strong> {batchItem.training_method}</p>
-                              <p><strong><IoIosCard style={{ marginRight: '8px' }} />Course Fee:</strong> {batchItem.fee}/-</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )
-                  )}
-                </div>
-              </div>
-
-            )}
-
-            {/* Sections study materails*/}
-
-            {activeSection === 'material' && (
-              <div className="material-container">
-                <h1 className="material-title">Study Material</h1>
-                {loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : (
-                  <div className="material-content">
-                    {material.length === 0 ? (
-                      <div className="box_notdata">
-                        <p className="no-material">No materials yet now</p>
-                      </div>
-                    ) : (
-                      <ul className="material-list">
-                        {material.map((item) => (
-                          <li key={item.material_id} className="material-item">
-                            <h3>{item.material_title}</h3>
-                            <p>{item.material_description}</p>
-                            {item.material_file && (
-                              <a
-                                href={item.material_file.replace('../', '')}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                          {filteredAttendance.length === 0 ? (
+                            <p
+                              className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
+                            >
+                              Attendance: {calculateAttendancePercentage().toFixed(2)}%
+                            </p>
+                          ) : (
+                            <div>
+                              <p
+                                className={`attendance-percentage ${calculateAttendancePercentage() < 90 ? 'danger-zone' : 'safe-zone'}`}
                               >
-                                Download Material
-                              </a>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+                                Attendance: {calculateAttendancePercentage().toFixed(2)}%
+                              </p>
+                              <table className="attendance-table">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {filteredAttendance
+                                    .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken)) // Sorting by date (most recent first)
+                                    .map((record, index) => {
+                                      const statusClass = record.attendance === 'Present' ? 'present' : 'absent';
+                                      return (
+                                        <tr key={index} className={statusClass}>
+                                          <td>
+                                            {new Date(record.date_taken).toLocaleDateString('en-GB', {
+                                              day: '2-digit',
+                                              month: 'short',
+                                              year: 'numeric',
+                                            })}
+                                          </td>
+                                          <td>{record.attendance}</td>
+                                        </tr>
+                                      );
+                                    })}
 
-            {/* Sections study announcement*/}
-
-            {activeSection === 'announcement' && (
-              <div className="announcement-container">
-                <h1 className="announcement-title">Announcements</h1>
-                <button className='anouncement_button_per' onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
-
-                {nodata ? (
-                  <div>
-                    <h1>No data found</h1>
-                  </div>
-                ) : loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : announcement.length === 0 ? (
-                  <div className="box_notdata">
-                    <p className="no-announcement">No announcements available</p>
-                  </div>
-                ) : (
-                  <div className="announcement-grid">
-                    {announcement
-                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
-                      .map((item) => (
-                        <div key={item.id} className="announcement-card">
-                          <h3 className="announcement-card-title">{item.title}</h3>
-                          <p className="announcement-description">{item.description}</p>
-                          {item.image && (
-                            <div className="announcement-image">
-                              <img
-                                src={`https://your-backend-url/uploads/${item.image}`}
-                                alt={item.title}
-                              />
+                                </tbody>
+                              </table>
                             </div>
                           )}
-                          <p className="announcement-date">
-                            Posted on: {new Date(item.created_at).toLocaleDateString()}
-                          </p>
-                          <p className="announcement-batch">Batch: {item.batch}</p>
                         </div>
-                      ))}
+                      )
+                    )}
                   </div>
                 )}
-              </div>
-            )}
 
 
+                {/*  Sections tasks*/}
 
 
-            {/* Sections personal announcement*/}
+                {activeSection === 'task' && (
+                  <div className="task-container">
+                    <h1 className="task-title">Task Records</h1>
 
+                    {/* Task Summary with Icons */}
+                    <div className="task-summary">
+                      <div className="summary-box total">
+                        <FaTasks className="summary-icon totalicon " />
+                        <p className='text_total_inner'>Total Tasks: {task.length}</p>
+                      </div>
 
-            {activeSection === 'personalannouncement' && (
-              <div className="announcement-container">
-                <h1 className="announcement-title">Announcements</h1>
-                <button className='anouncement_button_per' onClick={() => fetchData('announcement')}>Announcements</button>
+                      <div className="summary-box pending">
+                        <FaHourglassHalf className="summary-icon" />
+                        <p className='text_total_inner'>Pending:{getTaskCounts('Pending')}</p>
+                      </div>
+                      <div className="summary-box late">
+                        <FaExclamationCircle className="summary-icon" />
+                        <p className='text_total_inner'>Late : {getTaskCounts('Delay Completion')}</p>
+                      </div>
+                      <div className="summary-box completed">
+                        <FaCheckCircle className="summary-icon" />
+                        <p className='text_total_inner'> Completed: {getTaskCounts('Completed')}</p>
+                      </div>
+                    </div>
 
-                {nodata ? (
-                  <div>
-                    <h1>No data found</h1>
-                  </div>
-                ) : loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : personalAnn.length === 0 ? (
-                  <div className="box_notdata">
-                    <p className="no-announcement">No announcements available</p>
-                  </div>
-                ) : (
-                  <div className="announcement-grid">
-                    {personalAnn
-                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                      .map((item) => (
-                        <div key={item.message_id} className="announcement-card">
-
-                          <h3 className="announcement-card-title">{item.message_details}</h3>
-
-
-                          <p className="announcement-description">{item.message_details}</p>
-
-
-                          <p className="announcement-date">
-                            Posted on: {new Date(item.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                      ))}
+                    {/* Task Table */}
+                    {nodata ? (
+                      <div className="box-notdata">
+                        <h1>No Tasks Found</h1>
+                      </div>
+                    ) : loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : (
+                      <div className="task-content">
+                        <table className="task-table">
+                          <thead>
+                            <tr>
+                              <th>Description</th>
+                              <th>Date Assigned</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {task
+                              .sort((a, b) => new Date(b.date_assigned) - new Date(a.date_assigned))
+                              .map((task, index) => (
+                                <tr key={index} className={`task-status-${task.task_status.toLowerCase()}`}>
+                                  <td>{task.task_description}</td>
+                                  <td>
+                                    {new Date(task.date_assigned).toLocaleDateString('en-IN', {
+                                      day: '2-digit',
+                                      month: 'long',
+                                      year: 'numeric',
+                                    })}
+                                  </td>
+                                  <td>{task.task_status}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
 
+                {/*  Sections Projects*/}
 
-
-
-
-
-
-
-            {/* Sections Bill*/}
-
-            {activeSection === 'bill' && (
-              <div className="bill-container">
-                <h1>Bill Details</h1>
-                {loading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
-                  </div>
-                ) : (
-                  bill.length === 0 ? (
-                    <div className="box_notdata">
-                      <p >No bill data available</p>
+                {
+                  activeSection === 'Project' &&
+                  (project.length === 0 ? (
+                    <div className="box-notdata">
+                      <h4>No Project Yet Now</h4>
                     </div>
                   ) : (
-                    bill.map((record, index) => (
-                      <div key={index} className="bill-card">
-                        <div className="bill-header">
-                          <h3>Bill ID: {record.bill_id}</h3>
-                          <p><strong>Pay Status:</strong> {record.pay_status}</p>
+                    <div className="project-container">
+                      <h1 className="project-title">Project Records</h1>
+
+                      {/* Project Summary with Icons */}
+                      <div className="project-summary">
+                        <div className="summary-box total">
+                          <FaTasks className="summary-icon totalicon" />
+                          <p className="text_total_inner">Total Projects: {project.length}</p>
                         </div>
-                        <div className="bill-body">
-                          <p><strong>Amount:</strong> ₹{record.amount}</p>
-                          <p><strong>Balance Amount:</strong> ₹{record.balance_amount}</p>
-                          <p><strong>Payment Method:</strong> {record.pay_method}</p>
-                          <p><strong>Pay Date:</strong> {new Date(record.pay_date).toLocaleDateString()}</p>
-                          <p><strong>Due Date:</strong> {new Date(record.due_date).toLocaleDateString()}</p>
-                          <p><strong>Number of EMIs:</strong> {record.no_of_emi}</p>
-                          <p><strong>Training ID:</strong> {record.training_id}</p>
+                        <div className="summary-box delayed">
+                          <FaExclamationTriangle className="summary-icon" />
+                          <p className="text_total_inner">
+                            Delayed: {project.filter(proj => proj.project_status === 'delayed').length}
+                          </p>
+                        </div>
+                        <div className="summary-box pending">
+                          <FaHourglassHalf className="summary-icon" />
+                          <p className="text_total_inner">
+                            Pending: {project.filter(proj => proj.project_status === 'pending').length}
+                          </p>
+                        </div>
+                        <div className="summary-box completed">
+                          <FaCheckCircle className="summary-icon" />
+                          <p className="text_total_inner">
+                            Completed: {project.filter(proj => proj.project_status === 'completed').length}
+                          </p>
                         </div>
                       </div>
-                    ))
-                  )
-                )}
-              </div>
-            )}
-          </div>
 
-          {/* Sections Announcement*/}
-
-          <div className="third_section_main">
-            {homeAnnouncement && homeAnnouncement.title ? (
-              <div className="announcement_card">
-                <h3 className="announcement_title">Recent Announcements</h3>
-                <div className="announcement_icon">📢</div>
-                <div className="announcement_content">
-                  <h3 className="announcement_title">{homeAnnouncement.title}</h3>
-                  <p className="announcement_text">{homeAnnouncement.description}</p>
-                  {homeAnnouncement.image && (
-                    <div className="announcement_image">
-                      <img
-                        src={`https://techwingsys/uploads/${homeAnnouncement.image}`}
-                        alt="Announcement"
-                      />
+                      {/* Project Table */}
+                      <div className="project-content">
+                        <table className="project-table">
+                          <thead>
+                            <tr>
+                              <th>Project Name</th>
+                              <th>Project Started</th>
+                              <th>Deadline</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {project.map((proj, index) => (
+                              <tr key={index} className={`project-status-${proj.project_status.toLowerCase()}`}>
+                                <td>{proj.project_description}</td>
+                                <td>{new Date(proj.date_created).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
+                                <td>{new Date(proj.deadline).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
+                                <td>{proj.project_status}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  )}
-                  <p className="announcement_date">
-                    Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
-                  </p>
-                  <p className="announcement_batch">Batch: {homeAnnouncement.batch}</p>
-                </div>
-              </div>
-            ) : (
-              <div className="no_announcement_message">
-                <div className="announcement_card">
-                  <h3 className="announcement_title">Recent Announcements</h3>
-                  <div className="announcement_icon">📢</div>
-                  <div className="announcement_content">
-                    <h3 className="announcement_title">No recent announcements available.</h3>
+                  ))
+                }
+
+
+
+
+
+                {/*  Sections reviews*/}
+
+                {activeSection === 'reviews' && (
+                  <div className="home-container">
+                    <h1 className="home-title">Student Reviews</h1>
+                    {loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : (
+                      <div className="review-card-container">
+                        {reviews.length === 0 ? (
+                          <div className="box_notdata">
+                            <p className="no-reviews box_notdata">No reviews or marks available</p>
+                          </div>
+                        ) : (
+                          reviews.map((review, index) => {
+                            const status = getPassFailStatus(review);
+                            const totalMarks =
+                              parseInt(review.aptitude) +
+                              parseInt(review.technical) +
+                              parseInt(review.viva) +
+                              (parseInt(review.theory) || 0);
+                            const progressPercentage = ((totalMarks / 150) * 100).toFixed(2);
+
+                            return (
+                              <div key={index} className={`review-card ${status === 'pass' ? 'pass-card' : 'fail-card'}`}>
+                                <div className="review-header">
+                                  <h2 className="card-title">{review.month}</h2>
+                                  <p className="status-text">{status.toUpperCase()}</p>
+                                </div>
+                                <div className="review-body">
+                                  <p><strong>Aptitude:</strong> {review.aptitude}</p>
+                                  <p><strong>Technical:</strong> {review.technical}</p>
+                                  <p><strong>Viva:</strong> {review.viva}</p>
+                                  <p><strong>Total Marks:</strong> {totalMarks}/150</p>
+
+                                  {/* Progress Bar */}
+                                  <div className="marks-progress_main">
+                                    <div className="marks-progress">
+                                      <div
+                                        className="marks-progress-line"
+                                        style={{
+                                          width: `${progressPercentage}%`,
+                                          backgroundColor: status === 'pass' ? '#4caf50' : '#f44336',
+                                        }}
+                                      >
+                                        <span className="progress-text" style={{
+
+                                          color: status === 'pass' ? '#4caf50' : '#f44336',
+                                        }}>{progressPercentage}%</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+
+
+
+                {/*  Sections tests*/}
+
+                {activeSection === 'tests' && (
+                  <div className="home-container_tests">
+                    <h1 style={{ color: '#6a5af9' }}>No Test Yet Now</h1>
 
                   </div>
-                </div>
+                )}
 
+
+
+
+
+                {/*  Sections Batch Details  and biil home*/}
+                {activeSection === 'batchDetails' && (
+                  <div>
+                    <div className='batch-details-container'>
+                      {loading ? (
+                        <div className="loading-spinner">
+                          <div className="spinner"></div>
+                        </div>
+                      ) : (
+                        batch.length === 0 ? (
+                          <div className="box_notdata">
+                            <p className="no-batch-data">No batch data available</p>
+                          </div>
+                        ) : (
+                          // Batch Details Section
+                          batch.map((batchItem, index) => (
+                            <div className='inner_box' >
+                              <div className='payment-details'>
+                                {paymentData ? (
+                                  <div key={paymentData.bill_id} className='payment-bill'>
+                                    <div className='bill-info'>
+                                      <p className='balance-amount'>
+                                        {
+                                          paymentData.balance_amount === '0'
+                                            ? 'Payment Completed'
+                                            : (
+                                              <div>
+                                                Balance Amount <RiMoneyRupeeCircleFill className='money-icon' />{paymentData.balance_amount}
+                                              </div>
+                                            )
+                                        }
+                                      </p>
+                                      <div className='due-date'>{paymentData.due_date ? <div> Due Date: {new Date(paymentData.due_date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} </div> : ' '}
+                                      </div>
+                                    </div>
+                                    <div className="emi-progress">
+                                      <div
+                                        className="emi-line"
+                                        style={{
+                                          '--paid-percent': paymentData.balance_amount === 0
+                                            ? '100%'
+                                            : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
+                                        }}
+                                      >
+                                        <p
+                                          className="emi-status-text"
+                                          style={{
+                                            '--paid-percent': paymentData.balance_amount === 0
+                                              ? '100%'
+                                              : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
+                                          }}
+                                        >
+                                          {paymentData.balance_amount === 0
+                                            ? 'Paid Off'
+                                            : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`}
+                                        </p>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+                                ) : (
+                                  <p>No payment details available</p>
+                                )}
+                              </div>
+
+                              <div key={index} className="batch-card">
+                                <h1 className="batch-title">Batch Details</h1>
+                                <h3>{student}</h3>
+                                <div className="batch-header">
+
+                                  <h3>{batchItem.batch || "Batch Name Not Available"} {batchItem.course_name}</h3>
+                                  <p className="status">{batchItem.status || "Status Not Available"}</p>
+                                </div>
+                                <div className="batch-body">
+                                  <p><strong><FaIdCard style={{ marginRight: '8px' }} />Student ID:</strong> {student_id}</p>
+                                  <p><strong> <FaClock style={{ marginRight: '8px' }} />Start Time:</strong> {batchItem.start_time || "Not Available"}</p>
+                                  <p><strong><FaClock style={{ marginRight: '8px' }} />End Time:</strong> {batchItem.end_time || "Not Available"}</p>
+                                  <p><strong><FaSchool style={{ marginRight: '8px' }} />Course Name:</strong> {batchItem.course_name || "Not Available"}</p>
+                                  <p><strong><FaCalendarMinus style={{ marginRight: '8px' }} />Batch Code:</strong> {batchItem.batch || "Not Available"}</p>
+                                  <p><strong><BiLoaderCircle style={{ marginRight: '8px' }} />Course Duration:</strong> {batchItem.duration} months</p>
+                                  <p><strong><FaRegKeyboard style={{ marginRight: '8px' }} />Training Method:</strong> {batchItem.training_method}</p>
+                                  <p><strong><IoIosCard style={{ marginRight: '8px' }} />Course Fee:</strong> {batchItem.fee}/-</p>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )
+                      )}
+                    </div>
+                  </div>
+
+                )}
+
+                {/* Sections study materails*/}
+
+                {activeSection === 'material' && (
+                  <div className="material-container">
+                    <h1 className="material-title">Study Material</h1>
+                    {loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : (
+                      <div className="material-content">
+                        {material.length === 0 ? (
+                          <div className="box_notdata">
+                            <p className="no-material">No materials yet now</p>
+                          </div>
+                        ) : (
+                          <ul className="material-list">
+                            {material.map((item) => (
+                              <li key={item.material_id} className="material-item">
+                                <h3>{item.material_title}</h3>
+                                <p>{item.material_description}</p>
+                                {item.material_file && (
+                                  <a
+                                    href={item.material_file.replace('../', '')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Download Material
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Sections study announcement*/}
+
+                {activeSection === 'announcement' && (
+                  <div className="announcement-container">
+                    <h1 className="announcement-title">Announcements</h1>
+                    <button className='anouncement_button_per' onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
+
+                    {nodata ? (
+                      <div>
+                        <h1>No data found</h1>
+                      </div>
+                    ) : loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : announcement.length === 0 ? (
+                      <div className="box_notdata">
+                        <p className="no-announcement">No announcements available</p>
+                      </div>
+                    ) : (
+                      <div className="announcement-grid">
+                        {announcement
+                          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
+                          .map((item) => (
+                            <div key={item.id} className="announcement-card">
+                              <h3 className="announcement-card-title">{item.title}</h3>
+                              <p className="announcement-description">{item.description}</p>
+                              {item.image && (
+                                <div className="announcement-image">
+                                  <img
+                                    src={`https://your-backend-url/uploads/${item.image}`}
+                                    alt={item.title}
+                                  />
+                                </div>
+                              )}
+                              <p className="announcement-date">
+                                Posted on: {new Date(item.created_at).toLocaleDateString()}
+                              </p>
+                              <p className="announcement-batch">Batch: {item.batch}</p>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+
+
+
+                {/* Sections personal announcement*/}
+
+
+                {activeSection === 'personalannouncement' && (
+                  <div className="announcement-container">
+                    <h1 className="announcement-title">Announcements</h1>
+                    <button className='anouncement_button_per' onClick={() => fetchData('announcement')}>Announcements</button>
+
+                    {nodata ? (
+                      <div>
+                        <h1>No data found</h1>
+                      </div>
+                    ) : loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : personalAnn.length === 0 ? (
+                      <div className="box_notdata">
+                        <p className="no-announcement">No announcements available</p>
+                      </div>
+                    ) : (
+                      <div className="announcement-grid">
+                        {personalAnn
+                          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                          .map((item) => (
+                            <div key={item.message_id} className="announcement-card">
+
+                              <h3 className="announcement-card-title">{item.message_details}</h3>
+
+
+                              <p className="announcement-description">{item.message_details}</p>
+
+
+                              <p className="announcement-date">
+                                Posted on: {new Date(item.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+
+
+
+
+
+
+
+                {/* Sections Bill*/}
+
+                {activeSection === 'bill' && (
+                  <div className="bill-container">
+                    <h1>Bill Details</h1>
+                    {loading ? (
+                      <div className="loading-spinner">
+                        <div className="spinner"></div>
+                      </div>
+                    ) : (
+                      bill.length === 0 ? (
+                        <div className="box_notdata">
+                          <p >No bill data available</p>
+                        </div>
+                      ) : (
+                        bill.map((record, index) => (
+                          <div key={index} className="bill-card">
+                            <div className="bill-header">
+                              <h3>Bill ID: {record.bill_id}</h3>
+                              <p><strong>Pay Status:</strong> {record.pay_status}</p>
+                            </div>
+                            <div className="bill-body">
+                              <p><strong>Amount:</strong> ₹{record.amount}</p>
+                              <p><strong>Balance Amount:</strong> ₹{record.balance_amount}</p>
+                              <p><strong>Payment Method:</strong> {record.pay_method}</p>
+                              <p><strong>Pay Date:</strong> {new Date(record.pay_date).toLocaleDateString()}</p>
+                              <p><strong>Due Date:</strong> {new Date(record.due_date).toLocaleDateString()}</p>
+                              <p><strong>Number of EMIs:</strong> {record.no_of_emi}</p>
+                              <p><strong>Training ID:</strong> {record.training_id}</p>
+                            </div>
+                          </div>
+                        ))
+                      )
+                    )}
+                  </div>
+                )}
               </div>
-            )}
+
+              {/* Sections Announcement*/}
+
+              <div className="third_section_main">
+                {homeAnnouncement && homeAnnouncement.title ? (
+                  <div className="announcement_card">
+                    <h3 className="announcement_title">Recent Announcements</h3>
+                    <div className="announcement_icon">📢</div>
+                    <div className="announcement_content">
+                      <h3 className="announcement_title">{homeAnnouncement.title}</h3>
+                      <p className="announcement_text">{homeAnnouncement.description}</p>
+                      {homeAnnouncement.image && (
+                        <div className="announcement_image">
+                          <img
+                            src={`https://techwingsys/uploads/${homeAnnouncement.image}`}
+                            alt="Announcement"
+                          />
+                        </div>
+                      )}
+                      <p className="announcement_date">
+                        Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
+                      </p>
+                      <p className="announcement_batch">Batch: {homeAnnouncement.batch}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="no_announcement_message">
+                    <div className="announcement_card">
+                      <h3 className="announcement_title">Recent Announcements</h3>
+                      <div className="announcement_icon">📢</div>
+                      <div className="announcement_content">
+                        <h3 className="announcement_title">No recent announcements available.</h3>
+
+                      </div>
+                    </div>
+
+                  </div>
+                )}
+              </div>
+            </section>
           </div>
-
-
 
         </div>
 
