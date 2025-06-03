@@ -16,11 +16,11 @@ function App() {
       <Router>
         <Routes>
           {/* Public Route */}
-          <Route path='/' element={<Login />} />
+          <Route path='/login' element={<Login />} />
 
           {/* Protected Routes Wrapper */}
           <Route element={<UserProtect />}>
-            <Route path='/home' element={<Home />} />
+            <Route path='/' element={<Home />} />
             <Route path='/ClassVideo' element={<ClassVideo />} />
             <Route path='/ChangePass' element={<ChangePass />} />
             <Route path='/Aptitude' element={<Aptitude />} />

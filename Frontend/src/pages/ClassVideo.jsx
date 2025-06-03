@@ -129,7 +129,7 @@ function ClassVideo() {
             <img src="https://techwingsys.com/tws-logo.png" className="logo_nav_video" alt="" />
           </div>
           <div className="rightnav_video">
-            <Link style={{ textDecoration: "none" }} to={"/home"}>
+            <Link style={{ textDecoration: "none" }} to={"/"}>
               <button className="menus_right_video">
                 <AiFillHome /> <span className="menus_right_video_text">Home page</span>
               </button>

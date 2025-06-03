@@ -8,7 +8,7 @@ function UserProtect() {
   const token = loginInfo?.token;
 
   if (!token) {
-    return <Navigate to='/' replace />;
+    return <Navigate to='/login' replace />;
   }
 
   return <Outlet />; // render the protected child routes

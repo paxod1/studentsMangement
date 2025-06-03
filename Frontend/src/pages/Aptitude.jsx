@@ -174,7 +174,7 @@ function Aptitude() {
                     {months.length === 0 ? (
                         <div className="no-tests-available">
                             <p>No aptitude tests are available at the moment.</p>
-                            <Link to="/home" className="home-btn">
+                            <Link to="/" className="home-btn">
                                 🏠 Return to Home
                             </Link>
                         </div>
@@ -213,7 +213,7 @@ function Aptitude() {
                                 })}
                             </div>
                             <div className="month-selection-actions">
-                                <Link to="/home" className="home-btn">
+                                <Link to="/" className="home-btn">
                                     🏠 Return to Home
                                 </Link>
                             </div>
@@ -352,7 +352,7 @@ function Aptitude() {
                                     ← Back to All Tests
                                 </button>
 
-                                <Link to="/home" className="home-btn">
+                                <Link to="/" className="home-btn">
                                     🏠 Return to Home
                                 </Link>
                             </div>
@@ -368,7 +368,7 @@ function Aptitude() {
                             >
                                 ← Back to Months
                             </button>
-                            <Link to="/home" className="home-btn">
+                            <Link to="/" className="home-btn">
                                 🏠 Return to Home
                             </Link>
                         </div>
