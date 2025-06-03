@@ -643,7 +643,7 @@ select {
 .emi-progress {
   display: flex;
   align-items: center;
-  width: 85%;
+  width: 95%;
   height: 60px;
   position: relative;
   justify-content: center;
