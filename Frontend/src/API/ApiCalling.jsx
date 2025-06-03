@@ -8,9 +8,7 @@ export const loginUser = async (data, dispatch, navigate) => {
         const LoginInfo = await basicRequest.post("/student/login", data);
         toast.success("Login Successful!");
         dispatch(LoginData(LoginInfo.data));
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
+        navigate('/home')
     } catch (err) {
         console.log('Login error:', err);
 
