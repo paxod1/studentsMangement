@@ -601,7 +601,7 @@ select {
 }
 
 .payment-bill {
-  width: 96%;
+  width: 90%;
   background-color: #f9f9f9;
   margin-bottom: 15px;
   padding: 15px;
@@ -658,7 +658,7 @@ select {
   position: absolute;
   top: 20%;
   z-index: 0;
-  left: 10%;
+  left: 1%;
   border-radius: 20px;
   box-shadow: 5px 5px 5px #71a7e177;
 }
@@ -841,14 +841,15 @@ select {
 }
 
 .topsection_card_userhomepage {
-  padding: 10px;
+
+  padding: 10px 5px 5px 5px;
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 15px;
   color: rgb(38, 38, 38);
   text-decoration: none;
   background-color: white;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .topsection_card_userhomepage:hover {
@@ -867,10 +868,10 @@ select {
   border-radius: 10px;
 }
 
-.topsection_card_userhomepage_button {
+.topsection_card_userhomepage_buttons {
   padding: 5px;
   width: 90%;
-  font-size: 0.9rem;
+  font-size: 0.5rem;
   color: white;
   border: none;
   border-radius: 5px;
@@ -884,13 +885,13 @@ select {
 }
 
 .topsection_card_userhomepage h3 {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
 .sidebar_bottom_text {
   margin-top: 3px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: black;
   text-align: center;

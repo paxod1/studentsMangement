@@ -382,38 +382,38 @@ function Home() {
           <div className="topSectionMain_div_userHomepage">
             <div className="topsection_inner_div_userHompage">
               <div className={`topsection_card_userhomepage ${activeMenu === 'batchDetails' ? 'active' : ''}`} onClick={() => fetchData('batchDetails')}>
-                <h3><FaList style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'>Overview</span></h3>
+                <h3><FaList style={{ marginRight: '4%', height: '20px', width: '20px' }} /> <span className='menus_side_home'>Overview</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'reviews' ? 'active' : ''}`} onClick={() => fetchData('reviews')}>
-                <h3><MdInsertChart style={{ marginRight: '4%', height: '25px', width: '25px' }} /> <span className='menus_side_home'>Result</span></h3>
+                <h3><MdInsertChart style={{ marginRight: '4%', height: '20px', width: '20px' }} /> <span className='menus_side_home'>Result</span></h3>
               </div>
               <Link to={{ pathname: '/ClassVideo' }} style={{ textDecoration: 'none' }} state={{ batchname }} className={`topsection_card_userhomepage ${activeMenu === 'video' ? 'active' : ''}`}>
-                <h3><IoIosVideocam style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Video</span></h3>
+                <h3><IoIosVideocam style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Video</span></h3>
               </Link>
               <div className={`topsection_card_userhomepage ${activeMenu === 'attendance' ? 'active' : ''}`} onClick={() => fetchData('attendance')}>
-                <h3><FaCalendarCheck style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Attendance</span></h3>
+                <h3><FaCalendarCheck style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Attendance</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'bill' ? 'active' : ''}`} onClick={() => fetchData('bill')}>
-                <h3><IoIosCard style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Payment</span></h3>
+                <h3><IoIosCard style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Payment</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'announcement' ? 'active' : ''}`} onClick={() => fetchData('announcement')}>
-                <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Announcements</span></h3>
+                <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Announcements</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'Project' ? 'active' : ''}`} onClick={() => fetchData('Project')}>
-                <h3><FaLaptopCode style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Project</span></h3>
+                <h3><FaLaptopCode style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Project</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'task' ? 'active' : ''}`} onClick={() => fetchData('task')}>
-                <h3><BiTask style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Tasks</span></h3>
+                <h3><BiTask style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Tasks</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'material' ? 'active' : ''}`} onClick={() => fetchData('material')}>
-                <h3><FaNoteSticky style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Study Material</span></h3>
+                <h3><FaNoteSticky style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Study Material</span></h3>
               </div>
 
               <Link className={`topsection_card_userhomepage ${activeMenu === 'website' ? 'active' : ''}`} to={'/Aptitude'} >
-                <h3><PiExamFill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Test</span></h3>
+                <h3><PiExamFill style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Test</span></h3>
               </Link>
-              <button className={`topsection_card_userhomepage_button ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
-                <h5><RiCustomerService2Fill style={{ marginRight: '4%', height: '25px', width: '25px' }} /><span className='menus_side_home'>Help & Support</span></h5>
+              <button style={{fontSize:'15px'}} className={`topsection_card_userhomepage_buttons ${activeMenu === 'helpSupport' ? 'active' : ''}`} onClick={() => fetchData('helpSupport')}>
+                <div><RiCustomerService2Fill style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Help & Support</span></div>
               </button>
               <h3 className='sidebar_bottom_text'>Kochi's Premier IT Training Institute</h3>
             </div>
