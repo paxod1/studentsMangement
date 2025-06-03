@@ -30,6 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Add from '../components/Add';
 import DueDateAlert from '../components/PaymentAlert';
 import { PiExamFill } from "react-icons/pi";
+import HomePoster from '../components/HomePoster';
 
 
 
@@ -374,6 +375,12 @@ function Home() {
 
             </div>
           </section>
+          {/**calling poster ad */}
+          <section className='poster-ad-section'>
+            <HomePoster />
+
+          </section>
+
 
 
           <div className="topSectionMain_div_userHomepage">
@@ -415,6 +422,8 @@ function Home() {
               <h3 className='sidebar_bottom_text'>Kochi's Premier IT Training Institute</h3>
             </div>
           </div>
+
+
 
 
           {/**calling ad */}

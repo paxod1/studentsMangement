@@ -14,23 +14,8 @@
   width: 100%;
   height: auto;
   display: flex;
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Loading Spinner */
@@ -38,7 +23,7 @@
   width: 100%;
   height: 60vh;
   display: flex;
-  justify-content: center;
+
   text-align: center;
   align-items: center;
 }
@@ -310,7 +295,7 @@ select {
   max-width: 700px;
   margin: 0 auto;
   border-radius: 10px;
- 
+
 }
 
 .home-title {
@@ -514,7 +499,7 @@ select {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  
+
   margin: 20px;
   max-width: 800px;
   margin: 0 auto;
@@ -915,13 +900,13 @@ select {
   width: 80%;
   height: auto;
   margin: 5px;
-  padding-top: 70px;
   padding-left: 20%;
+  padding-top: 270px;
 }
 
 /* Third Section Main Div */
 .third_section_main {
-  padding-top: 80px;
+   padding-top: 300px;
   width: 20%;
   background-color: var(--background-light);
   display: flex;
@@ -1020,6 +1005,7 @@ select {
   padding: 15px;
   /* Required for tooltip positioning */
 }
+
 /* Tooltip Styling */
 .res_down_menus-more {
   display: none;
@@ -1036,11 +1022,12 @@ select {
   z-index: 1001;
   transition: opacity 0.3s ease;
 }
+
 .topsection_card_userhomepage_down-more:hover .res_down_menus-more {
   display: block;
   /* Show tooltip on hover */
   opacity: 1;
-  
+
 }
 
 
@@ -1200,7 +1187,7 @@ select {
 
 .announcement-container {
   padding: 20px;
-  background-color:white;
+  background-color: white;
 }
 
 .announcement-grid {
@@ -1845,5 +1832,30 @@ select {
   .qr-code {
     width: 200px;
     height: 270px;
+  }
+}
+.poster-ad-section {
+  width: 85%;
+  height: 200px;
+  margin-top: 62px;
+  margin-left: 16.5%;
+  padding: 10px;
+  background-color: transparent;
+  z-index: 1000;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .poster-ad-section {
+    width: 100%;
+    margin-left: 0;
+    height: 150px;
+  }
+
+  .home-poster-container {
+    height: 150px;
   }
 }
