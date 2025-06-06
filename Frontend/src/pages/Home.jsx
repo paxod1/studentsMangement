@@ -33,6 +33,7 @@ import DueDateAlert from '../components/PaymentAlert';
 import { PiExamFill } from "react-icons/pi";
 import HomePoster from '../components/HomePoster';
 import TaskReply from '../components/TaskReply'
+import he from 'he';
 
 /**
  * Main Home component that serves as the dashboard for students
@@ -975,8 +976,8 @@ function Home() {
                           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
                           .map((item) => (
                             <div key={item.id} className="announcement-card">
-                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: item.title }}></h3>
-                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: he.decode(item.title) }}></h3>
+                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: he.decode(item.description) }}></p>
                               {item.image && (
                                 <div className="announcement-image">
                                   <img

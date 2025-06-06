@@ -22,6 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // Route setup
 app.use('/student', studentRouter);
 
