@@ -33,10 +33,13 @@ router.post('/login', async (req, res) => {
 
             const [results1] = await db.query(query, [username]);
             console.log("from student table", results1[0].student_id);
+            const querytofindTainingid = 'SELECT * FROM tbl_training WHERE student_id =? '
+            const [results2] = await db.query(querytofindTainingid, [results1[0].student_id]);
+            console.log("finding trainning id>>>", results2[0].training_id);
 
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: results1[0].student_id, token, });
+            return res.status(200).json({ student_id: results1[0].student_id, token, training_id: results2[0].training_id });
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -52,15 +55,15 @@ router.get('/check', verifyToken, async (req, res) => {
 
 // data geting students review
 router.get('/getdatareview', verifyToken, async (req, res) => {
-    const { student_id } = req.query;
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    const { training_id } = req.query;
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
-        return res.status(400).json('Invalid student_id');
+        return res.status(400).json('Invalid training_id');
     }
-    const query = 'SELECT * FROM tbl_review WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_review WHERE training_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
@@ -75,15 +78,15 @@ router.get('/getdatareview', verifyToken, async (req, res) => {
 
 // get student project data
 router.get('/getProjects', verifyToken, async (req, res) => {
-    const { student_id } = req.query;
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    const { training_id } = req.query;
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
-        return res.status(400).json('Invalid student_id');
+        return res.status(400).json('Invalid training_id');
     }
-    const query = 'SELECT * FROM tbl_projects WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_projects WHERE training_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
@@ -101,7 +104,7 @@ router.get('/getProjects', verifyToken, async (req, res) => {
 router.get('/getstudent', verifyToken, async (req, res) => {
     const { student_id } = req.query;
     if (!student_id) {
-        return res.status(400).json('student_id is required');
+        return res.status(400).json('training_id is required');
     }
     const parsedStudentId = parseInt(student_id);
     if (isNaN(parsedStudentId)) {
@@ -122,15 +125,15 @@ router.get('/getstudent', verifyToken, async (req, res) => {
 
 // get student tasks details
 router.get('/getTasks', verifyToken, async (req, res) => {
-    const { student_id } = req.query;
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    const { training_id } = req.query;
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
-        return res.status(400).json('Invalid student_id');
+        return res.status(400).json('Invalid training_id');
     }
-    const query = 'SELECT * FROM tbl_tasks WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_tasks WHERE training_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
@@ -144,15 +147,15 @@ router.get('/getTasks', verifyToken, async (req, res) => {
 });
 
 router.get('/getdatatraining', verifyToken, async (req, res) => {
-    const { student_id } = req.query;
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    const { training_id } = req.query;
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
-        return res.status(400).json('Invalid student_id');
+        return res.status(400).json('Invalid training_id');
     }
-    const query = 'SELECT * FROM tbl_training WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_training WHERE training_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
@@ -166,15 +169,15 @@ router.get('/getdatatraining', verifyToken, async (req, res) => {
 });
 
 router.get('/getdataattendance', verifyToken, async (req, res) => {
-    const { student_id, year, month } = req.query;
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    const { training_id, year, month } = req.query;
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
-        return res.status(400).json('Invalid student_id');
+        return res.status(400).json('Invalid training_id');
     }
-    let query = 'SELECT * FROM tbl_attendance WHERE student_id = ?';
+    let query = 'SELECT * FROM tbl_attendance WHERE training_id = ?';
     let queryParams = [parsedStudentId];
     if (year && month) {
         query += ' AND YEAR(date_taken) = ? AND MONTH(date_taken) = ?';
@@ -195,15 +198,15 @@ router.get('/getdataattendance', verifyToken, async (req, res) => {
 });
 
 router.get('/getdatabill', verifyToken, async (req, res) => {
-    const { student_id } = req.query;
-    if (!student_id) {
+    const { training_id} = req.query;
+    if (!training_id) {
         return res.status(400).json('student_id is required');
     }
-    const parsedStudentId = parseInt(student_id);
+    const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
         return res.status(400).json('Invalid student_id');
     }
-    const query = 'SELECT * FROM tbl_bill WHERE student_id = ?';
+    const query = 'SELECT * FROM tbl_bill WHERE training_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {
@@ -375,7 +378,7 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
     const { student_id, aptitude, month } = req.body;
     console.log("Received body:", req.body);
 
-    // ✅ Updated validation (allows 0 as valid value)
+    //  Updated validation (allows 0 as valid value)
     if (
         student_id === undefined ||
         aptitude === undefined ||
@@ -407,6 +410,105 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+// Required packages
+const ftp = require("basic-ftp");
+const multer = require('multer');
+
+
+// Multer memory storage
+const storage = multer.memoryStorage();
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+    fileFilter: (req, file, cb) => {
+        if (file.originalname.toLowerCase().endsWith('.zip')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only .zip files are allowed'), false);
+        }
+    }
+});
+
+// FTP Upload Function
+async function uploadToFTP(fileBuffer, filename) {
+    const client = new ftp.Client();
+    try {
+        await client.access({
+            host: "ftp.techwingsys.com",
+            user: "test2@techwingsys.com",  // Make sure to use correct credentials
+            password: "9995400671@Test2",
+            secure: false
+        });
+
+        // First ensure the directory exists
+        try {
+            await client.ensureDir("billtws/uploads/task");
+        } catch (dirError) {
+            console.log("Directory already exists or couldn't be created");
+        }
+
+        // Upload file directly to the task directory
+        const stream = require('stream');
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(fileBuffer);
+
+        await client.uploadFrom(bufferStream, filename);
+        console.log("File uploaded to FTP!");
+        return true;
+    } catch (err) {
+        console.error("FTP upload failed:", err);
+        throw err;
+    } finally {
+        client.close();
+    }
+}
+
+// Task Submission Route
+router.post('/submit-task', verifyToken, upload.single('file'), async (req, res) => {
+    const { task_id, description, student_id } = req.body;
+
+    if (!task_id || !description) {
+        return res.status(400).json({ message: 'Task ID and description are required' });
+    }
+
+    try {
+
+        // Check if already submitted
+        const [existingSubmission] = await db.query(
+            'SELECT * FROM tbl_taskupload WHERE task_id = ? AND student_id = ?',
+            [task_id, student_id]
+        );
+        if (existingSubmission.length > 0) {
+            return res.status(409).json({ message: 'You have already submitted this task.' });
+        }
+
+        // Upload file to FTP
+        let file = null;
+        if (req.file) {
+            file = req.file.originalname;
+            await uploadToFTP(req.file.buffer, file);
+        }
+
+        // Save submission record to DB
+        const submissionQuery = `
+            INSERT INTO tbl_taskupload
+            (task_id, student_id, description, file, created_at) 
+            VALUES (?, ?, ?, ?, NOW())
+        `;
+        const [submissionResult] = await db.query(submissionQuery, [task_id, student_id, description, file]);
+
+        res.status(201).json({
+            message: 'Task submitted successfully',
+            submissionId: submissionResult.insertId
+        });
+
+    } catch (err) {
+        console.error(' Task submission error:', err);
+        res.status(500).json({ message: 'Failed to submit task', error: err.message });
+    }
+});
+
 
 
 module.exports = router;

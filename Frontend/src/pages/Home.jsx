@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { TokenRequest } from '../AxiosCreate';
 import { useSelector } from 'react-redux';
@@ -31,42 +32,52 @@ import Add from '../components/Add';
 import DueDateAlert from '../components/PaymentAlert';
 import { PiExamFill } from "react-icons/pi";
 import HomePoster from '../components/HomePoster';
+import TaskReply from '../components/TaskReply'
 
-
-
+/**
+ * Main Home component that serves as the dashboard for students
+ * Displays various sections like attendance, tasks, projects, announcements, etc.
+ */
 function Home() {
-  const [student_id, setStudent_id] = useState('');
-  const [reviews, setReviews] = useState([]);
-  const [batch, setBatch] = useState([]);
-  const [attendance, setAttendance] = useState([]);
-  const [filteredAttendance, setFilteredAttendance] = useState([]);
-  const [bill, setBill] = useState([]);
-  const [activeSection, setActiveSection] = useState('dashboard');
-  const [loading, setLoading] = useState(false);
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [paymentData, setPaymentData] = useState([])
-  const [batchname, setBatchname] = useState('')
-  const navigate = useNavigate()
-  const [material, setMaterial] = useState([])
-  const [homeAnnouncement, setHomeAnnouncement] = useState([])
-  const [announcement, setAnnouncement] = useState([])
-  const [activeMenu, setActiveMenu] = useState("");
-  const [nodata, setNodata] = useState(false)
-  const [personalAnn, setPersonalAnn] = useState([])
-  const [student, setSutdent] = useState([])
-  const [task, setTask] = useState([])
-  const [project, setProject] = useState([])
-  var [dueDate, setDueDate] = useState(null)
-  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
-  var [addTime, setAddTime] = useState(false)
-  const [showMore, setShowMore] = useState(false);
+  // State declarations
+  const [training_id, setTraining_id] = useState(''); // Stores student ID
+  const [reviews, setReviews] = useState([]); // Stores student reviews/results
+  const [batch, setBatch] = useState([]); // Stores batch details
+  const [attendance, setAttendance] = useState([]); // Stores attendance records
+  const [filteredAttendance, setFilteredAttendance] = useState([]); // Stores filtered attendance records
+  const [bill, setBill] = useState([]); // Stores billing information
+  const [activeSection, setActiveSection] = useState('dashboard'); // Tracks currently active section
+  const [loading, setLoading] = useState(false); // Loading state
+  const [selectedYear, setSelectedYear] = useState(''); // Selected year for attendance filter
+  const [selectedMonth, setSelectedMonth] = useState(''); // Selected month for attendance filter
+  const [paymentData, setPaymentData] = useState([]) // Stores payment data
+  const [batchname, setBatchname] = useState('') // Stores batch name
+  const navigate = useNavigate() // Navigation hook
+  const [material, setMaterial] = useState([]) // Stores study materials
+  const [homeAnnouncement, setHomeAnnouncement] = useState([]) // Stores home announcements
+  const [announcement, setAnnouncement] = useState([]) // Stores all announcements
+  const [activeMenu, setActiveMenu] = useState(""); // Tracks active menu item
+  const [nodata, setNodata] = useState(false) // Flag for no data available
+  const [personalAnn, setPersonalAnn] = useState([]) // Stores personal announcements
+  const [student, setSutdent] = useState([]) // Stores student details
+  const [task, setTask] = useState([]) // Stores tasks
+  const [project, setProject] = useState([]) // Stores projects
+  var [dueDate, setDueDate] = useState(null) // Stores payment due date
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
+  var [addTime, setAddTime] = useState(false) // Controls ad display
+  const [showMore, setShowMore] = useState(false); // Controls 'More' dropdown
+  var [taskForm, setTaskForm] = useState(false) // Controls task form display
 
+  /**
+   * Toggles the 'More' dropdown menu
+   */
   const toggleMore = () => {
     setShowMore(prev => !prev);
   };
 
-
+  /**
+   * Shows advertisement after a delay
+   */
   function showAd() {
     setTimeout(() => {
       setAddTime(true)
@@ -75,6 +86,10 @@ function Home() {
 
   const dispatch = useDispatch()
 
+  /**
+   * Handles user logout
+   * Dispatches logout action and reloads the page
+   */
   async function logout() {
     dispatch(LogoutData())
     await setTimeout(() => {
@@ -82,40 +97,42 @@ function Home() {
     }, 0);
   }
 
+  // Effect to set student ID and show ad when login info changes
   useEffect(() => {
     setLoading(true);
     showAd()
     if (logininfom) {
-
-      setStudent_id(logininfom.student_id);
-
+      setTraining_id(logininfom.training_id);
     }
   }, [logininfom]);
 
+  // Effect to fetch bill and student data when training_id or active section changes
   useEffect(() => {
-    if (student_id && activeSection === 'dashboard') {
-
+    if (training_id && activeSection === 'dashboard') {
       async function billhome() {
         await fetchData('batchDetails');
-        let response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
-        let response2 = await TokenRequest.get(`/student/getstudent?student_id=${student_id}`);
+        let response = await TokenRequest.get(`/student/getdatabill?training_id=${training_id}`);
+        let response2 = await TokenRequest.get(`/student/getstudent?student_id=${logininfom.student_id}`);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
       }
-
       billhome();
     }
-  }, [student_id, activeSection]);
+  }, [training_id, activeSection]);
 
+  // Current date formatted as YYYY-MM-DD
   const date = new Date();
   const formattedDate = date.toISOString().split('T')[0];
 
-
+  /**
+   * Fetches data for different sections based on the selected menu item
+   * @param {string} section - The section to fetch data for
+   */
   const fetchData = async (section) => {
     setActiveMenu(section);
-    if (!student_id) return;
+    if (!training_id) return;
     setLoading(true);
 
     try {
@@ -123,13 +140,13 @@ function Home() {
       switch (section) {
         case 'batchDetails':
           setActiveSection('batchDetails');
-          response = await TokenRequest.get(`/student/getdatatraining?student_id=${student_id}`);
+          response = await TokenRequest.get(`/student/getdatatraining?training_id=${training_id}`);
           setBatch(response.data);
 
           const batchName = response.data[0]?.batch || 'No Batch Assigned';
           setBatchname(batchName);
           var statuscheck = response.data[0].status
-          // if status is droped the user will logout automaticaly
+          // Automatically logout if student is marked as DROPPED
           if (statuscheck == 'DROPED') {
             toast.error("Student Droped course!");
             dispatch(LogoutData())
@@ -159,12 +176,11 @@ function Home() {
 
         case 'reviews':
           setActiveSection('reviews');
-          response = await TokenRequest.get(`/student/getdatareview?student_id=${student_id}`);
+          response = await TokenRequest.get(`/student/getdatareview?training_id=${training_id}`);
           if (response.data.length === 0) {
             setReviews([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setReviews(response.data);
           }
@@ -172,13 +188,12 @@ function Home() {
 
         case 'attendance':
           setActiveSection('attendance');
-          response = await TokenRequest.get(`/student/getdataattendance?student_id=${student_id}&year=${selectedYear}&month=${selectedMonth}`);
+          response = await TokenRequest.get(`/student/getdataattendance?training_id=${training_id}&year=${selectedYear}&month=${selectedMonth}`);
           if (response.data.length === 0) {
             setAttendance([]);
             setFilteredAttendance([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setAttendance(response.data);
             setFilteredAttendance(response.data);
@@ -187,12 +202,11 @@ function Home() {
 
         case 'bill':
           setActiveSection('bill');
-          response = await TokenRequest.get(`/student/getdatabill?student_id=${student_id}`);
+          response = await TokenRequest.get(`/student/getdatabill?training_id=${training_id}`);
           if (response.data.length === 0) {
             setBill([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setBill(response.data);
           }
@@ -205,7 +219,6 @@ function Home() {
             setMaterial([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setMaterial(response.data);
           }
@@ -214,68 +227,57 @@ function Home() {
         case 'announcement':
           setActiveSection('announcement');
           response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
-
           if (response.data.length === 0) {
             setAnnouncement([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setAnnouncement(response.data);
           }
-
           break;
 
         case 'Project':
           setActiveSection('Project');
-
-          response = await TokenRequest.get(`/student/getProjects?student_id=${student_id}`);
-
+          response = await TokenRequest.get(`/student/getProjects?training_id=${training_id}`);
           if (response.data.length === 0) {
             setActiveSection(' ');
             setNodata(true)
           } else {
             setProject(response.data)
-
           }
           break;
+          
         case 'personalannouncement':
           setActiveSection('personalannouncement');
-          response = await TokenRequest.get(`/student/getdataAnnouncementsid?student_id=${student_id}`);
-
+          response = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
           if (response.data.length === 0) {
             setPersonalAnn([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setPersonalAnn(response.data);
-
           }
           break;
+          
         case 'task':
           setActiveSection('task');
-          response = await TokenRequest.get(`/student/getTasks?student_id=${student_id}`);
-
+          response = await TokenRequest.get(`/student/getTasks?training_id=${training_id}`);
           if (response.data.length === 0) {
             setTask([]);
             setActiveSection(' ');
             setNodata(true)
-
           } else {
             setTask(response.data);
           }
           break;
+          
         case 'tests':
           setActiveSection('tests');
-
           break;
 
         default:
           break;
       }
-
-
     } catch (err) {
       console.error(`Error fetching ${section} data:`, err);
     } finally {
@@ -283,7 +285,10 @@ function Home() {
     }
   };
 
-
+  /**
+   * Filters attendance records by status
+   * @param {string} status - The attendance status to filter by ('all', 'Present', 'Absent')
+   */
   const handleAttendanceFilter = (status) => {
     if (status === 'all') {
       setFilteredAttendance(attendance);
@@ -293,14 +298,27 @@ function Home() {
     }
   };
 
+  /**
+   * Handles year selection change for attendance filter
+   * @param {Object} e - The event object
+   */
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
 
+  /**
+   * Handles month selection change for attendance filter
+   * @param {Object} e - The event object
+   */
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
   };
 
+  /**
+   * Determines pass/fail status based on marks
+   * @param {Object} marks - Object containing marks data
+   * @returns {string} - 'pass' or 'fail'
+   */
   const getPassFailStatus = (marks) => {
     const aptitude = parseInt(marks.aptitude) || 0;
     const technical = parseInt(marks.technical) || 0;
@@ -312,17 +330,25 @@ function Home() {
     return totalMarks >= passThreshold ? 'pass' : 'fail';
   };
 
-  // Calculate Attendance Percentage
+  /**
+   * Calculates attendance percentage
+   * @returns {number} - Attendance percentage
+   */
   const calculateAttendancePercentage = () => {
     if (attendance.length === 0) return 0;
-
     const presentCount = attendance.filter(record => record.attendance === 'Present').length;
     const totalDays = attendance.length;
     return (presentCount / totalDays) * 100;
   };
 
-
+  /**
+   * Counts tasks by status
+   * @param {string} status - The task status to count
+   * @returns {number} - Count of tasks with the given status
+   */
   const getTaskCounts = (status) => task.filter((task) => task.task_status === status).length;
+
+  // If payment is overdue, show payment alert
 
   if (dueDate < formattedDate) {
 
@@ -549,6 +575,9 @@ function Home() {
 
                 {/*  Sections tasks*/}
 
+                {
+                  taskForm && <TaskReply />
+                }
 
                 {activeSection === 'task' && (
                   <div className="task-container">
@@ -592,6 +621,7 @@ function Home() {
                               <th>Description</th>
                               <th>Date Assigned</th>
                               <th>Status</th>
+                              <th>Upload</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -608,6 +638,9 @@ function Home() {
                                     })}
                                   </td>
                                   <td>{task.task_status}</td>
+                                  <td> <button onClick={() => { setTaskForm(true) }}>upload</button>
+                                    {taskForm && <TaskReply task={task} />}
+                                  </td>
                                 </tr>
                               ))}
                           </tbody>
@@ -616,6 +649,7 @@ function Home() {
                     )}
                   </div>
                 )}
+                
 
                 {/*  Sections Projects*/}
 
@@ -833,6 +867,9 @@ function Home() {
                                 )}
                               </div>
 
+                              {/** ****************************************************** */}
+
+
                               <div key={index} className="batch-card">
                                 <h1 className="batch-title">Batch Details</h1>
                                 <h3>{student}</h3>
@@ -842,7 +879,7 @@ function Home() {
                                   <p className="status">{batchItem.status || "Status Not Available"}</p>
                                 </div>
                                 <div className="batch-body">
-                                  <p><strong><FaIdCard style={{ marginRight: '8px' }} />Student ID:</strong> {student_id}</p>
+                                  <p><strong><FaIdCard style={{ marginRight: '8px' }} />Student ID:</strong> {training_id}</p>
                                   <p><strong> <FaClock style={{ marginRight: '8px' }} />Start Time:</strong> {batchItem.start_time || "Not Available"}</p>
                                   <p><strong><FaClock style={{ marginRight: '8px' }} />End Time:</strong> {batchItem.end_time || "Not Available"}</p>
                                   <p><strong><FaSchool style={{ marginRight: '8px' }} />Course Name:</strong> {batchItem.course_name || "Not Available"}</p>
@@ -852,6 +889,10 @@ function Home() {
                                   <p><strong><IoIosCard style={{ marginRight: '8px' }} />Course Fee:</strong> {batchItem.fee}/-</p>
                                 </div>
                               </div>
+
+                              {/** ********************************************************************/}
+
+
                             </div>
                           ))
                         )
@@ -1052,7 +1093,7 @@ function Home() {
                           <img
                             height={'100px'}
                             width={'100px'}
-                            style={{marginBottom:"5px"}}
+                            style={{ marginBottom: "5px" }}
                             src={`https://techwingsys.com/billtws/uploads/announcements/${homeAnnouncement.image}`}
                             alt="Announcement"
                           />
@@ -1061,7 +1102,7 @@ function Home() {
                       <p className="announcement_date">
                         Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
                       </p>
-             
+
                     </div>
                   </div>
                 ) : (

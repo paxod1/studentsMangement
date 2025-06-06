@@ -9,6 +9,7 @@ import ClassVideo from './pages/ClassVideo';
 import ChangePass from './pages/ChangePass';
 import Aptitude from './pages/Aptitude';
 import Login from './pages/Login';
+import TaskReply from './components/TaskReply';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path='/ClassVideo' element={<ClassVideo />} />
             <Route path='/ChangePass' element={<ChangePass />} />
             <Route path='/Aptitude' element={<Aptitude />} />
+            <Route path='/TaskReply' element={<TaskReply />} />
           </Route>
         </Routes>
       </Router>
