@@ -89,7 +89,7 @@ function TaskReply({ task }) {
         <div className="modal-overlay">
           <div className="task-reply-modal">
             <div className="modal-header">
-              <h3>Submit Task: {task?.task_description || 'Unknown Task'}</h3>
+              <h5 style={{padding:'5px'}}>Submit Task: {task?.task_description || 'Unknown Task'}</h5>
               <button
                 onClick={() => {
                   setIsOpen(false);

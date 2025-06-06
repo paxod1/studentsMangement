@@ -482,8 +482,8 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
         // Save submission record to DB
         const submissionQuery = `
             INSERT INTO tbl_taskupload
-            (task_id, student_id, description, file, created_at,training_id) 
-            VALUES (?, ?, ?, ?, NOW())
+            (task_id, student_id, description, file,training_id, created_at) 
+            VALUES (?, ?, ?, ?,?, NOW())
         `;
         const [submissionResult] = await db.query(submissionQuery, [task_id, student_id, description, file, training_id]);
 
