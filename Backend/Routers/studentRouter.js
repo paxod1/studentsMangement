@@ -410,45 +410,35 @@ router.post('/addaptitudemark', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
-// Required packages
 const ftp = require("basic-ftp");
 const multer = require('multer');
-
 
 // Multer memory storage
 const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
-    fileFilter: (req, file, cb) => {
-        if (file.originalname.toLowerCase().endsWith('.zip')) {
-            cb(null, true);
-        } else {
-            cb(new Error('Only .zip files are allowed'), false);
-        }
-    }
+    limits: { fileSize: 30 * 1024 * 1024 }, // 30 MB
+    // No file filter - accept all file types
 });
 
-// FTP Upload Function
+// FTP Upload Function (unchanged)
 async function uploadToFTP(fileBuffer, filename) {
     const client = new ftp.Client();
     try {
         await client.access({
             host: "ftp.techwingsys.com",
-            user: "test2@techwingsys.com",  // Make sure to use correct credentials
+            user: "test2@techwingsys.com",
             password: "9995400671@Test2",
             secure: false
         });
 
-        // First ensure the directory exists
         try {
             await client.ensureDir("billtws/uploads/task");
         } catch (dirError) {
             console.log("Directory already exists or couldn't be created");
         }
 
-        // Upload file directly to the task directory
         const stream = require('stream');
         const bufferStream = new stream.PassThrough();
         bufferStream.end(fileBuffer);
@@ -464,7 +454,7 @@ async function uploadToFTP(fileBuffer, filename) {
     }
 }
 
-// Task Submission Route
+// Task Submission Route (unchanged except for file size limit)
 router.post('/submit-task', verifyToken, upload.single('file'), async (req, res) => {
     const { task_id, description, student_id } = req.body;
 
@@ -473,7 +463,6 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
     }
 
     try {
-
         // Check if already submitted
         const [existingSubmission] = await db.query(
             'SELECT * FROM tbl_taskupload WHERE task_id = ? AND student_id = ?',
@@ -504,11 +493,13 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
         });
 
     } catch (err) {
-        console.error(' Task submission error:', err);
+        console.error('Task submission error:', err);
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(413).json({ message: 'File size must be less than 30MB' });
+        }
         res.status(500).json({ message: 'Failed to submit task', error: err.message });
     }
 });
-
 
 
 module.exports = router;

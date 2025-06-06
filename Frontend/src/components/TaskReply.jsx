@@ -16,9 +16,9 @@ function TaskReply({ task }) {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      // Check if file is a zip file
-      if (!selectedFile.name.toLowerCase().endsWith('.zip')) {
-        setSubmitMessage({ text: 'Only .zip files are allowed', isError: true });
+      // Check file size (30MB limit)
+      if (selectedFile.size > 30 * 1024 * 1024) {
+        setSubmitMessage({ text: 'File size must be less than 30MB', isError: true });
         e.target.value = ''; // Clear the file input
         return;
       }
@@ -27,7 +27,6 @@ function TaskReply({ task }) {
     }
   };
 
-  // submiting the file and datay
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!task || !task.task_id) {
@@ -47,15 +46,15 @@ function TaskReply({ task }) {
       const formData = new FormData();
       formData.append('task_id', task.task_id);
       formData.append('description', description);
-      formData.append('student_id', logininfom.student_id)
+      formData.append('student_id', logininfom.student_id);
       if (file) {
-        formData.append('file', file); // Note: using 'file' to match your backend's single file upload
+        formData.append('file', file);
       }
 
       const response = await TokenRequest.post('/student/submit-task', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you use token auth
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
 
@@ -116,14 +115,13 @@ function TaskReply({ task }) {
               </div>
 
               <div className="form-group">
-                <label htmlFor="file">Upload ZIP File:</label>
+                <label htmlFor="file">Upload File:</label>
                 <input
                   type="file"
                   id="file"
                   onChange={handleFileChange}
-                  accept=".zip"
                 />
-                <small>Only .zip files allowed. Max file size: 10MB.</small>
+                <small>Any file type allowed. Max file size: 30MB.</small>
               </div>
 
               {file && (
