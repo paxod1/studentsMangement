@@ -246,7 +246,7 @@ function Home() {
             setProject(response.data)
           }
           break;
-          
+
         case 'personalannouncement':
           setActiveSection('personalannouncement');
           response = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
@@ -258,7 +258,7 @@ function Home() {
             setPersonalAnn(response.data);
           }
           break;
-          
+
         case 'task':
           setActiveSection('task');
           response = await TokenRequest.get(`/student/getTasks?training_id=${training_id}`);
@@ -270,7 +270,7 @@ function Home() {
             setTask(response.data);
           }
           break;
-          
+
         case 'tests':
           setActiveSection('tests');
           break;
@@ -638,8 +638,9 @@ function Home() {
                                     })}
                                   </td>
                                   <td>{task.task_status}</td>
-                                  <td> <button onClick={() => { setTaskForm(true) }}>upload</button>
-                                    {taskForm && <TaskReply task={task} />}
+                                  <td>
+                                    <TaskReply task={task} />
+
                                   </td>
                                 </tr>
                               ))}
@@ -649,7 +650,7 @@ function Home() {
                     )}
                   </div>
                 )}
-                
+
 
                 {/*  Sections Projects*/}
 
@@ -966,8 +967,8 @@ function Home() {
                           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
                           .map((item) => (
                             <div key={item.id} className="announcement-card">
-                              <h3 className="announcement-card-title">{item.title}</h3>
-                              <p className="announcement-description">{item.description}</p>
+                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.description }}></p>
                               {item.image && (
                                 <div className="announcement-image">
                                   <img
@@ -1017,12 +1018,10 @@ function Home() {
                           .map((item) => (
                             <div key={item.message_id} className="announcement-card">
 
-                              <h3 className="announcement-card-title">{item.message_details}</h3>
+                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: item.message_details }} ></h3>
 
-
-                              <p className="announcement-description">{item.message_details}</p>
-
-
+                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.message_details }}></p>
+                            
                               <p className="announcement-date">
                                 Posted on: {new Date(item.created_at).toLocaleDateString()}
                               </p>
@@ -1086,8 +1085,12 @@ function Home() {
                     <h3 className="announcement_title">Recent Announcements</h3>
                     <div className="announcement_icon">📢</div>
                     <div className="announcement_content">
-                      <h3 className="announcement_title">{homeAnnouncement.title}</h3>
-                      <p className="announcement_text">{homeAnnouncement.description}</p>
+                      <h3 className="announcement_title" dangerouslySetInnerHTML={{ __html: homeAnnouncement.title }}></h3>
+                      <div
+                        className="announcement_text"
+                        dangerouslySetInnerHTML={{ __html: homeAnnouncement.description }}
+                      ></div>
+
                       {homeAnnouncement.image && (
                         <div className="announcement_image">
                           <img

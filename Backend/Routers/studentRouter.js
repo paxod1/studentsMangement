@@ -198,7 +198,7 @@ router.get('/getdataattendance', verifyToken, async (req, res) => {
 });
 
 router.get('/getdatabill', verifyToken, async (req, res) => {
-    const { training_id} = req.query;
+    const { training_id } = req.query;
     if (!training_id) {
         return res.status(400).json('student_id is required');
     }
@@ -456,7 +456,7 @@ async function uploadToFTP(fileBuffer, filename) {
 
 // Task Submission Route (unchanged except for file size limit)
 router.post('/submit-task', verifyToken, upload.single('file'), async (req, res) => {
-    const { task_id, description, student_id } = req.body;
+    const { task_id, description, student_id, training_id } = req.body;
 
     if (!task_id || !description) {
         return res.status(400).json({ message: 'Task ID and description are required' });
@@ -482,10 +482,10 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
         // Save submission record to DB
         const submissionQuery = `
             INSERT INTO tbl_taskupload
-            (task_id, student_id, description, file, created_at) 
+            (task_id, student_id, description, file, created_at,training_id) 
             VALUES (?, ?, ?, ?, NOW())
         `;
-        const [submissionResult] = await db.query(submissionQuery, [task_id, student_id, description, file]);
+        const [submissionResult] = await db.query(submissionQuery, [task_id, student_id, description, file, training_id]);
 
         res.status(201).json({
             message: 'Task submitted successfully',
