@@ -68,7 +68,7 @@ function TaskReply({ task }) {
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitMessage({
-        text: error.response?.data?.message || 'Failed to submit task',
+        text: error.response?.data?.message || 'Please logout and login and try again ',
         isError: true
       });
     } finally {
@@ -89,7 +89,7 @@ function TaskReply({ task }) {
         <div className="modal-overlay">
           <div className="task-reply-modal">
             <div className="modal-header">
-              <h5 style={{padding:'5px'}}>Submit Task: {task?.task_description || 'Unknown Task'}</h5>
+              <h5 style={{padding:'5'}}>Submit Task: {task?.task_description || 'Unknown Task'}</h5>
               <button
                 onClick={() => {
                   setIsOpen(false);

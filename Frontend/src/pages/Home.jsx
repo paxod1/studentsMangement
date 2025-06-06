@@ -639,7 +639,15 @@ function Home() {
                                   </td>
                                   <td>{task.task_status}</td>
                                   <td>
-                                    <TaskReply task={task} />
+
+                                    {task.task_status === 'Pending' ? <TaskReply task={task} /> : <button
+
+                                      className="upload-button"
+                                      style={{backgroundColor:'green'}}
+                                    >
+                                      Uploaded
+                                    </button>}
+
 
                                   </td>
                                 </tr>
@@ -1021,7 +1029,7 @@ function Home() {
                               <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: item.message_details }} ></h3>
 
                               <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.message_details }}></p>
-                            
+
                               <p className="announcement-date">
                                 Posted on: {new Date(item.created_at).toLocaleDateString()}
                               </p>
