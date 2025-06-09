@@ -323,22 +323,22 @@ router.post('/change-password', verifyToken, async (req, res) => {
 
 
 router.get('/getdataAnnouncementsid', verifyToken, async (req, res) => {
-    const { student_id } = req.query;  // Get student_id from query parameters
+    const { training_id } = req.query;  // Get student_id from query parameters
     console.log(req.query);
 
-    if (!student_id) {
-        return res.status(400).json('student_id is required');
+    if (!training_id) {
+        return res.status(400).json('training_id is required');
     }
 
-    const query = 'SELECT * FROM tbl_student_messages WHERE student_id = ?';  // Change the filter to student_id
-    console.log('Fetching announcements for student_id:', student_id);
+    const query = 'SELECT * FROM tbl_student_messages WHERE training_id = ?';  // Change the filter to student_id
+    console.log('Fetching announcements for training_id:', training_id);
 
     try {
-        const [results] = await db.query(query, [student_id]);
+        const [results] = await db.query(query, [training_id]);
         console.log(results);
 
         if (results.length === 0) {
-            return res.status(404).json('No announcements found for this student');
+            return res.status(404).json('No announcements found for this training');
         }
         return res.status(200).json(results);  // Send results back as JSON
     } catch (err) {
@@ -346,6 +346,8 @@ router.get('/getdataAnnouncementsid', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
+
 // exam aptitude data collect 
 router.get('/getAptitude', verifyToken, async (req, res) => {
     const { batchname } = req.query;

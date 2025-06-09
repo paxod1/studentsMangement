@@ -34,6 +34,9 @@ import { PiExamFill } from "react-icons/pi";
 import HomePoster from '../components/HomePoster';
 import TaskReply from '../components/TaskReply'
 import he from 'he';
+import { cleanHtml, getShortHtml, getShortHtmlLength } from '../components/cleanText';
+import ViewAnnou from '../components/ViewAnnou';
+
 
 /**
  * Main Home component that serves as the dashboard for students
@@ -68,6 +71,9 @@ function Home() {
   var [addTime, setAddTime] = useState(false) // Controls ad display
   const [showMore, setShowMore] = useState(false); // Controls 'More' dropdown
   var [taskForm, setTaskForm] = useState(false) // Controls task form display
+  const [viewMore, setViewMore] = useState(false);
+
+
 
   /**
    * Toggles the 'More' dropdown menu
@@ -228,18 +234,29 @@ function Home() {
         case 'announcement':
           setActiveSection('announcement');
           response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
+
           if (response.data.length === 0) {
             setAnnouncement([]);
             setActiveSection(' ');
             setNodata(true)
           } else {
             setAnnouncement(response.data);
+
           }
+
+          var response5 = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
+          if (response5.data.length == 0) {
+            setPersonalAnn('')
+          } else {
+            setPersonalAnn(response5.data);
+          }
+
           break;
 
         case 'Project':
           setActiveSection('Project');
           response = await TokenRequest.get(`/student/getProjects?training_id=${training_id}`);
+
           if (response.data.length === 0) {
             setActiveSection(' ');
             setNodata(true)
@@ -250,13 +267,15 @@ function Home() {
 
         case 'personalannouncement':
           setActiveSection('personalannouncement');
-          response = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
-          if (response.data.length === 0) {
+          var response5 = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
+          if (response5.data.length === 0) {
             setPersonalAnn([]);
             setActiveSection(' ');
             setNodata(true)
           } else {
-            setPersonalAnn(response.data);
+            setPersonalAnn(response5.data);
+            console.log(response5.data);
+
           }
           break;
 
@@ -644,7 +663,7 @@ function Home() {
                                     {task.task_status === 'Pending' ? <TaskReply task={task} /> : <button
 
                                       className="upload-button"
-                                      style={{backgroundColor:'green'}}
+                                      style={{ backgroundColor: 'green' }}
                                     >
                                       Uploaded
                                     </button>}
@@ -956,93 +975,92 @@ function Home() {
                 {activeSection === 'announcement' && (
                   <div className="announcement-container">
                     <h1 className="announcement-title">Announcements</h1>
-                    <button className='anouncement_button_per' onClick={() => fetchData('personalannouncement')}>Personal Announcements</button>
 
-                    {nodata ? (
-                      <div>
-                        <h1>No data found</h1>
-                      </div>
-                    ) : loading ? (
-                      <div className="loading-spinner">
-                        <div className="spinner"></div>
-                      </div>
-                    ) : announcement.length === 0 ? (
-                      <div className="box_notdata">
-                        <p className="no-announcement">No announcements available</p>
-                      </div>
-                    ) : (
-                      <div className="announcement-grid">
-                        {announcement
-                          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest date
-                          .map((item) => (
-                            <div key={item.id} className="announcement-card">
-                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: he.decode(item.title) }}></h3>
-                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: he.decode(item.description) }}></p>
-                              {item.image && (
-                                <div className="announcement-image">
-                                  <img
-                                    src={`https://techwingsys.com/billtws/uploads/announcements/${item.image}`}
-                                    alt={item.title}
-                                  />
+                    <div className="announcement-split-view">
+                      {/* Regular Announcements Section */}
+                      <div className="announcement-section">
+                        <h2 className="section-title">General Announcements</h2>
+                        {nodata ? (
+                          <div>
+                            <h1>No data found</h1>
+                          </div>
+                        ) : loading ? (
+                          <div className="loading-spinner">
+                            <div className="spinner"></div>
+                          </div>
+                        ) : announcement.length === 0 ? (
+                          <div className="box_notdata">
+                            <p className="no-announcement">No announcements available</p>
+                          </div>
+                        ) : (
+                          <div className="announcement-grid">
+                            {announcement
+                              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                              .map((item) => (
+                                <div key={item.id} className="announcement-card">
+                                  <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}></h3>
+                                  <p className="announcement-description" >
+                                    {getShortHtmlLength(item.description, 60)}
+                                    <span
+                                      style={{ color: 'blue', cursor: 'pointer', marginLeft: '8px' }}
+                                      onClick={() => setViewMore(true)}
+                                    >
+                                      See more
+                                    </span>
+                                  </p>
+                                  {viewMore && <ViewAnnou content={item} onClose={() => setViewMore(false)} />}
+                                  {item.image && (
+                                    <div className="announcement-image">
+                                      <img
+                                        src={`https://techwingsys.com/billtws/uploads/announcements/${item.image}`}
+                                        alt={item.title}
+                                      />
+                                    </div>
+                                  )}
+                                  <p className="announcement-date">
+                                    Posted on: {new Date(item.created_at).toLocaleDateString()}
+                                  </p>
+                                  <p className="announcement-batch">Batch: {item.batch}</p>
                                 </div>
-                              )}
-                              <p className="announcement-date">
-                                Posted on: {new Date(item.created_at).toLocaleDateString()}
-                              </p>
-                              <p className="announcement-batch">Batch: {item.batch}</p>
-                            </div>
-                          ))}
+                              ))}
+                          </div>
+                        )}
                       </div>
-                    )}
+
+                      {/* Personal Announcements Section */}
+                      <div className="announcement-section">
+                        <h2 className="section-title">Personal Announcements</h2>
+                        {nodata ? (
+                          <div>
+                            <h1>No data found</h1>
+                          </div>
+                        ) : loading ? (
+                          <div className="loading-spinner">
+                            <div className="spinner"></div>
+                          </div>
+                        ) : personalAnn.length === 0 ? (
+                          <div className="box_notdata">
+                            <p className="no-announcement">No personal announcements available</p>
+                          </div>
+                        ) : (
+                          <div className="announcement-grid">
+                            {personalAnn
+                              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                              .map((item) => (
+                                <div key={item.message_id} className="announcement-card">
+                                  <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}></h3>
+                                  <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.message_details }}></p>
+                                  <p className="announcement-date">
+                                    Posted on: {new Date(item.created_at).toLocaleDateString()}
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
-
-
-
-
-                {/* Sections personal announcement*/}
-
-
-                {activeSection === 'personalannouncement' && (
-                  <div className="announcement-container">
-                    <h1 className="announcement-title">Announcements</h1>
-                    <button className='anouncement_button_per' onClick={() => fetchData('announcement')}>Announcements</button>
-
-                    {nodata ? (
-                      <div>
-                        <h1>No data found</h1>
-                      </div>
-                    ) : loading ? (
-                      <div className="loading-spinner">
-                        <div className="spinner"></div>
-                      </div>
-                    ) : personalAnn.length === 0 ? (
-                      <div className="box_notdata">
-                        <p className="no-announcement">No announcements available</p>
-                      </div>
-                    ) : (
-                      <div className="announcement-grid">
-                        {personalAnn
-                          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                          .map((item) => (
-                            <div key={item.message_id} className="announcement-card">
-
-                              <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: item.message_details }} ></h3>
-
-                              <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.message_details }}></p>
-
-                              <p className="announcement-date">
-                                Posted on: {new Date(item.created_at).toLocaleDateString()}
-                              </p>
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-
-
 
 
 
@@ -1094,11 +1112,11 @@ function Home() {
                     <h3 className="announcement_title">Recent Announcements</h3>
                     <div className="announcement_icon">📢</div>
                     <div className="announcement_content">
-                      <h3 className="announcement_title" dangerouslySetInnerHTML={{ __html: homeAnnouncement.title }}></h3>
+                      <h3 className="announcement_title" dangerouslySetInnerHTML={{ __html: cleanHtml(homeAnnouncement.title) }}></h3>
                       <div
                         className="announcement_text"
-                        dangerouslySetInnerHTML={{ __html: homeAnnouncement.description }}
-                      ></div>
+
+                      > {getShortHtml(homeAnnouncement.description, 30)}</div>
 
                       {homeAnnouncement.image && (
                         <div className="announcement_image">
@@ -1132,13 +1150,13 @@ function Home() {
                 )}
               </div>
             </section>
-          </div>
+          </div >
 
-        </div>
+        </div >
 
 
         {/* Sections Sidebar Down side*/}
-        <div className="topSectionMain_div_userHomepage_down">
+        <div className="topSectionMain_div_userHomepage_down" >
           <div className="topsection_inner_div_userHompage_down">
             <div
               className="topsection_card_userhomepage_down"
@@ -1272,7 +1290,7 @@ function Home() {
             </div>
             {/* —— END “More” CARD —— */}
           </div>
-        </div>
+        </div >
 
 
         <Footer />

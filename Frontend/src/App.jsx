@@ -12,8 +12,10 @@ import Login from './pages/Login';
 import TaskReply from './components/TaskReply';
 
 function App() {
+
   return (
     <div>
+   
       <Router>
         <Routes>
           {/* Public Route */}
@@ -26,6 +28,7 @@ function App() {
             <Route path='/ChangePass' element={<ChangePass />} />
             <Route path='/Aptitude' element={<Aptitude />} />
             <Route path='/TaskReply' element={<TaskReply />} />
+           
           </Route>
         </Routes>
       </Router>
