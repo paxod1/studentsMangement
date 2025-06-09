@@ -503,5 +503,24 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
     }
 });
 
+// get ad
+router.get('/getad', async (req, res) => {
+  const query = 'SELECT * FROM tbl_popup';
+
+  try {
+    const [results] = await db.query(query); 
+
+    if (results.length === 0) {
+      return res.status(404).json('Data not found');
+    }
+
+    return res.status(200).json(results);
+  } catch (err) {
+    console.error("Query execution error:", err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 module.exports = router;

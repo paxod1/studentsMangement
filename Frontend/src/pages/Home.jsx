@@ -36,6 +36,8 @@ import TaskReply from '../components/TaskReply'
 import he from 'he';
 import { cleanHtml, getShortHtml, getShortHtmlLength } from '../components/cleanText';
 import ViewAnnou from '../components/ViewAnnou';
+import ViewAnnouper from '../components/ViewAnnouper';
+import { IoIosMailUnread } from "react-icons/io";
 
 
 /**
@@ -72,7 +74,15 @@ function Home() {
   const [showMore, setShowMore] = useState(false); // Controls 'More' dropdown
   var [taskForm, setTaskForm] = useState(false) // Controls task form display
   const [viewMore, setViewMore] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
+  const handleViewMore = (item) => {
+    setSelectedItem(item);
+  };
+
+  const closeViewMore = () => {
+    setSelectedItem(null);
+  };
 
 
   /**
@@ -275,7 +285,6 @@ function Home() {
           } else {
             setPersonalAnn(response5.data);
             console.log(response5.data);
-
           }
           break;
 
@@ -412,8 +421,8 @@ function Home() {
                   <h3><IoIosVideocam style={{ height: '25px', width: '25px' }} /></h3>
                 </Link>
                 <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('announcement')}>
-                  <span className='res_down_menus'>Announcements</span>
-                  <h3><HiOutlineSpeakerphone style={{ height: '22px', width: '22px' }} /></h3>
+                  <span className='res_down_menus'>Email</span>
+                  <h3><IoIosMailUnread style={{ height: '22px', width: '22px' }} /></h3>
                 </div>
                 <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
 
@@ -445,7 +454,7 @@ function Home() {
                 <h3><IoIosCard style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Payment</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'announcement' ? 'active' : ''}`} onClick={() => fetchData('announcement')}>
-                <h3><HiOutlineSpeakerphone style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Announcements</span></h3>
+                <h3><IoIosMailUnread style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Email</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'Project' ? 'active' : ''}`} onClick={() => fetchData('Project')}>
                 <h3><FaLaptopCode style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Project</span></h3>
@@ -974,12 +983,12 @@ function Home() {
 
                 {activeSection === 'announcement' && (
                   <div className="announcement-container">
-                    <h1 className="announcement-title">Announcements</h1>
+                    <h1 className="announcement-title">Email</h1>
 
                     <div className="announcement-split-view">
                       {/* Regular Announcements Section */}
                       <div className="announcement-section">
-                        <h2 className="section-title">General Announcements</h2>
+                        <h2 className="section-title">General Emails</h2>
                         {nodata ? (
                           <div>
                             <h1>No data found</h1>
@@ -990,7 +999,7 @@ function Home() {
                           </div>
                         ) : announcement.length === 0 ? (
                           <div className="box_notdata">
-                            <p className="no-announcement">No announcements available</p>
+                            <p className="no-announcement">No Email available</p>
                           </div>
                         ) : (
                           <div className="announcement-grid">
@@ -1003,12 +1012,16 @@ function Home() {
                                     {getShortHtmlLength(item.description, 60)}
                                     <span
                                       style={{ color: 'blue', cursor: 'pointer', marginLeft: '8px' }}
-                                      onClick={() => setViewMore(true)}
+                                      onClick={() => handleViewMore(item)}
                                     >
                                       See more
                                     </span>
+
                                   </p>
-                                  {viewMore && <ViewAnnou content={item} onClose={() => setViewMore(false)} />}
+                                  {selectedItem && (
+                                    <ViewAnnou content={selectedItem} onClose={closeViewMore} />
+                                  )}
+
                                   {item.image && (
                                     <div className="announcement-image">
                                       <img
@@ -1029,7 +1042,7 @@ function Home() {
 
                       {/* Personal Announcements Section */}
                       <div className="announcement-section">
-                        <h2 className="section-title">Personal Announcements</h2>
+                        <h2 className="section-title">Personal Emails</h2>
                         {nodata ? (
                           <div>
                             <h1>No data found</h1>
@@ -1040,7 +1053,7 @@ function Home() {
                           </div>
                         ) : personalAnn.length === 0 ? (
                           <div className="box_notdata">
-                            <p className="no-announcement">No personal announcements available</p>
+                            <p className="no-announcement">No personal Emails available</p>
                           </div>
                         ) : (
                           <div className="announcement-grid">
@@ -1049,7 +1062,18 @@ function Home() {
                               .map((item) => (
                                 <div key={item.message_id} className="announcement-card">
                                   <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}></h3>
-                                  <p className="announcement-description" dangerouslySetInnerHTML={{ __html: item.message_details }}></p>
+                                  <p className="announcement-description" >
+                                    {getShortHtmlLength(item.description, 60)}
+                                    <span
+                                      style={{ color: 'blue', cursor: 'pointer', marginLeft: '8px' }}
+                                      onClick={() => handleViewMore(item)}
+                                    >
+                                      See more
+                                    </span>
+                                  </p>
+                                  {selectedItem && (
+                                    <ViewAnnou content={selectedItem} onClose={closeViewMore} />
+                                  )}
                                   <p className="announcement-date">
                                     Posted on: {new Date(item.created_at).toLocaleDateString()}
                                   </p>
@@ -1264,7 +1288,7 @@ function Home() {
                     className="topsection_card_userhomepage_down-more"
                     onClick={() => fetchData('material')}
                   >
-                    <span className="res_down_menus-more">Study Materia</span>
+                    <span className="res_down_menus-more">Study Material</span>
                     <h3>
                       <FaNoteSticky
                         style={{ height: '25px', width: '25px' }}

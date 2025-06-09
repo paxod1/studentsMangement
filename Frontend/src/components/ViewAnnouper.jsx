@@ -2,18 +2,15 @@ import React from 'react';
 import './viewAnnou.css';
 import { cleanHtml } from './cleanText';
 
-function ViewAnnou({ content, onClose }) {
+function ViewAnnouper({ content, onClose }) {
     if (!content) return null;
 
-    function close() {
-        content = null;
-        onClose()
-    }
+
 
     return (
         <div className="view-annou-overlay">
             <div className="view-annou-modal">
-                <button className="close-btn" onClick={close}>✖</button>
+                <button className="close-btn" onClick={onClose}>✖</button>
 
                 <h2 className="view-title" dangerouslySetInnerHTML={{ __html: cleanHtml(content.title) }}></h2>
 
@@ -35,4 +32,4 @@ function ViewAnnou({ content, onClose }) {
     );
 }
 
-export default ViewAnnou;
+export default ViewAnnouper;
