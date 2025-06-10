@@ -38,6 +38,9 @@ import { cleanHtml, getShortHtml, getShortHtmlLength } from '../components/clean
 import ViewAnnou from '../components/ViewAnnou';
 import ViewAnnouper from '../components/ViewAnnouper';
 import { IoIosMailUnread } from "react-icons/io";
+import { IoMail } from "react-icons/io5";
+import { FaBell } from "react-icons/fa";
+import { LuBellDot } from "react-icons/lu";
 
 
 /**
@@ -1024,7 +1027,7 @@ function Home() {
                 {/* Sections study announcement*/}
                 {activeSection === 'announcement' && (
                   <div className="announcement-container">
-                    <h1 className="announcement-title">Mail Box</h1>
+                    <h1 className="announcement-title"><IoMail className='mail-icon-head' />Mail Box</h1>
 
                     {/* Gmail-style Tabs */}
                     <div className="announcement-tabs">
@@ -1055,11 +1058,12 @@ function Home() {
                               <div
                                 key={item.id || item.message_id}
                                 className={`announcement-card ${selectedItem && selectedItem.id === item.id ? 'highlighted-card' : ''}`}
-                              >
-                                <h3
+                                onClick={() => handleViewMore(item)}
+                              > <FaBell className='bell-icon-mail' />
+                                <h4
                                   className="announcement-card-title"
                                   dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}
-                                ></h3>
+                                ></h4>
                                 <p className='announcement-p-des'>
                                   {getShortHtmlLength(item.description, 10)}
                                   <span
@@ -1136,8 +1140,12 @@ function Home() {
                   {homeAnnouncement
                     .filter(item => item && item.title) // filter out empty or invalid items
                     .map((item, index) => (
-                      <div className="mailbox-card" key={index}>
-                        <h4 className="mailbox-title">{item.title}</h4>
+                      <div className="mailbox-card" key={index} onClick={() => handleViewMore(item)}>
+
+                        <h4 className="mailbox-title">
+                          <LuBellDot className='bell-icon-mail-home' />
+                          {cleanHtml(item.title)}
+                        </h4>
                         <p className="mailbox-body">
                           {getShortHtmlLength(item.description, 10)}
                           <span
