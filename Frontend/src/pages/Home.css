@@ -1104,15 +1104,17 @@ select {
   color: #ffa500;
 }
 
-.announcement-p-des{
+.announcement-p-des {
   font-size: 12px;
 }
-.announcement-p-span{
-    font-size: 12px;
-    color: #007bff;
-    margin-left: 10px;
-    cursor: pointer;
+
+.announcement-p-span {
+  font-size: 12px;
+  color: #007bff;
+  margin-left: 10px;
+  cursor: pointer;
 }
+
 .highlighted-card {
   border: 2px solid #4285f4;
   background-color: #f5f9ff;
@@ -1819,7 +1821,7 @@ select {
 }
 
 .task-table {
-  width: 90%;
+  width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
 }
@@ -2109,6 +2111,17 @@ select {
   .qr-code {
     width: 200px;
     height: 270px;
+  }
+
+  .task-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .task-table {
+    width: 90%;
+
   }
 }
 
