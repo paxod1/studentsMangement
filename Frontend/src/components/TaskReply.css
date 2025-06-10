@@ -159,7 +159,7 @@
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .task-reply-modal {
-    width: 95%;
+    width: 90%;
     max-width: 95%;
   }
   
@@ -188,7 +188,7 @@
 /* For very small screens */
 @media (max-width: 400px) {
   .form-group textarea {
-    min-height: 250px;
+    min-height: 230px;
   }
   
   .file-preview {
