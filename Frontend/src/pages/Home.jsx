@@ -75,6 +75,8 @@ function Home() {
   var [taskForm, setTaskForm] = useState(false) // Controls task form display
   const [viewMore, setViewMore] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedType, setSelectedType] = useState('batch');   // Toggle between 'batch' or 'personal'
+
 
   const handleViewMore = (item) => {
     setSelectedItem(item);
@@ -122,6 +124,7 @@ function Home() {
       setTraining_id(logininfom.training_id);
     }
   }, [logininfom]);
+
 
   // Effect to fetch bill and student data when training_id or active section changes
   useEffect(() => {
@@ -173,23 +176,46 @@ function Home() {
           }
 
           if (batchName) {
+
             try {
               const announcementResponse = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchName}`);
-              console.log(announcementResponse);
+              const responseano = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
 
-              if (announcementResponse.data.length > 0) {
-                setHomeAnnouncement(announcementResponse.data[announcementResponse.data.length - 1]);
-              } else {
-                setHomeAnnouncement({ message: "No announcements available." });
+              console.log("announcementResponse:", announcementResponse);
+              console.log("responseano:", responseano);
+
+              // Get last 3 items (if available) from each
+              const annList = announcementResponse.data.slice(-6).reverse(); // reverse for latest-first order
+              const anoList = responseano.data.slice(-6).reverse();
+
+              // Merge alternatively
+              const mergedAnnouncements = [];
+              for (let i = 0; i < 6; i++) {
+                if (annList[i]) mergedAnnouncements.push(annList[i]);
+                if (anoList[i]) mergedAnnouncements.push(anoList[i]);
+                if (mergedAnnouncements.length >= 6) break;
               }
+
+              // Fill with placeholders if less than 3
+              while (mergedAnnouncements.length < 5) {
+                mergedAnnouncements.push({ message: "No announcement available." });
+              }
+
+              setHomeAnnouncement(mergedAnnouncements);
+
             } catch (error) {
               console.warn("Error fetching announcements:", error);
-              setHomeAnnouncement({ message: "Unable to fetch announcements." });
+              setHomeAnnouncement([
+                { message: "Unable to fetch announcements." },
+                { message: "Unable to fetch second announcement." },
+                { message: "Error occurred." }
+              ]);
             }
-          } else {
-            setHomeAnnouncement({ message: "No batch name found." });
+
+
           }
           break;
+
 
         case 'reviews':
           setActiveSection('reviews');
@@ -243,25 +269,38 @@ function Home() {
 
         case 'announcement':
           setActiveSection('announcement');
-          response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
+          setLoading(true);
+          setNodata(false);
 
-          if (response.data.length === 0) {
+          try {
+            const response = await TokenRequest.get(`/student/getdataAnnouncements?batchname=${batchname}`);
+
+            if (response.data.length === 0) {
+              setAnnouncement([]);
+              setActiveSection('');
+              setNodata(true);
+            } else {
+              setAnnouncement(response.data);
+            }
+
+            const response5 = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
+            if (response5.data.length === 0) {
+              setPersonalAnn([]);
+            } else {
+              setPersonalAnn(response5.data);
+            }
+
+          } catch (error) {
+            console.error("Error fetching announcements:", error);
+            setNodata(true);
             setAnnouncement([]);
-            setActiveSection(' ');
-            setNodata(true)
-          } else {
-            setAnnouncement(response.data);
-
+            setPersonalAnn([]);
+          } finally {
+            setLoading(false);
           }
-
-          var response5 = await TokenRequest.get(`/student/getdataAnnouncementsid?training_id=${training_id}`);
-          if (response5.data.length == 0) {
-            setPersonalAnn('')
-          } else {
-            setPersonalAnn(response5.data);
-          }
-
+          setActiveSection('announcement');
           break;
+
 
         case 'Project':
           setActiveSection('Project');
@@ -313,6 +352,7 @@ function Home() {
       setLoading(false);
     }
   };
+
 
   /**
    * Filters attendance records by status
@@ -377,6 +417,8 @@ function Home() {
    */
   const getTaskCounts = (status) => task.filter((task) => task.task_status === status).length;
 
+
+
   // If payment is overdue, show payment alert
 
   if (dueDate < formattedDate) {
@@ -421,7 +463,7 @@ function Home() {
                   <h3><IoIosVideocam style={{ height: '25px', width: '25px' }} /></h3>
                 </Link>
                 <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('announcement')}>
-                  <span className='res_down_menus'>Email</span>
+                  <span className='res_down_menus'>Mail Box</span>
                   <h3><IoIosMailUnread style={{ height: '22px', width: '22px' }} /></h3>
                 </div>
                 <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
@@ -454,7 +496,7 @@ function Home() {
                 <h3><IoIosCard style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Payment</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'announcement' ? 'active' : ''}`} onClick={() => fetchData('announcement')}>
-                <h3><IoIosMailUnread style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Email</span></h3>
+                <h3><IoIosMailUnread style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Mail Box</span></h3>
               </div>
               <div className={`topsection_card_userhomepage ${activeMenu === 'Project' ? 'active' : ''}`} onClick={() => fetchData('Project')}>
                 <h3><FaLaptopCode style={{ marginRight: '4%', height: '20px', width: '20px' }} /><span className='menus_side_home'>Project</span></h3>
@@ -980,111 +1022,65 @@ function Home() {
                 )}
 
                 {/* Sections study announcement*/}
-
                 {activeSection === 'announcement' && (
                   <div className="announcement-container">
-                    <h1 className="announcement-title">Email</h1>
+                    <h1 className="announcement-title">Mail Box</h1>
 
-                    <div className="announcement-split-view">
-                      {/* Regular Announcements Section */}
-                      <div className="announcement-section">
-                        <h2 className="section-title">General Emails</h2>
-                        {nodata ? (
-                          <div>
-                            <h1>No data found</h1>
-                          </div>
-                        ) : loading ? (
-                          <div className="loading-spinner">
-                            <div className="spinner"></div>
-                          </div>
-                        ) : announcement.length === 0 ? (
-                          <div className="box_notdata">
-                            <p className="no-announcement">No Email available</p>
-                          </div>
-                        ) : (
-                          <div className="announcement-grid">
-                            {announcement
-                              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                              .map((item) => (
-                                <div key={item.id} className="announcement-card">
-                                  <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}></h3>
-                                  <p className="announcement-description" >
-                                    {getShortHtmlLength(item.description, 60)}
-                                    <span
-                                      style={{ color: 'blue', cursor: 'pointer', marginLeft: '8px' }}
-                                      onClick={() => handleViewMore(item)}
-                                    >
-                                      See more
-                                    </span>
-
-                                  </p>
-                                  {selectedItem && (
-                                    <ViewAnnou content={selectedItem} onClose={closeViewMore} />
-                                  )}
-
-                                  {item.image && (
-                                    <div className="announcement-image">
-                                      <img
-                                        src={`https://techwingsys.com/billtws/uploads/announcements/${item.image}`}
-                                        alt={item.title}
-                                      />
-                                    </div>
-                                  )}
-                                  <p className="announcement-date">
-                                    Posted on: {new Date(item.created_at).toLocaleDateString()}
-                                  </p>
-                                  <p className="announcement-batch">Batch: {item.batch}</p>
-                                </div>
-                              ))}
-                          </div>
-                        )}
+                    {/* Gmail-style Tabs */}
+                    <div className="announcement-tabs">
+                      <div
+                        className={`tab-item ${selectedType === 'batch' ? 'active-tab' : ''}`}
+                        onClick={() => setSelectedType('batch')}
+                      >
+                        📩 Batch Mails
                       </div>
-
-                      {/* Personal Announcements Section */}
-                      <div className="announcement-section">
-                        <h2 className="section-title">Personal Emails</h2>
-                        {nodata ? (
-                          <div>
-                            <h1>No data found</h1>
-                          </div>
-                        ) : loading ? (
-                          <div className="loading-spinner">
-                            <div className="spinner"></div>
-                          </div>
-                        ) : personalAnn.length === 0 ? (
-                          <div className="box_notdata">
-                            <p className="no-announcement">No personal Emails available</p>
-                          </div>
-                        ) : (
-                          <div className="announcement-grid">
-                            {personalAnn
-                              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                              .map((item) => (
-                                <div key={item.message_id} className="announcement-card">
-                                  <h3 className="announcement-card-title" dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}></h3>
-                                  <p className="announcement-description" >
-                                    {getShortHtmlLength(item.description, 60)}
-                                    <span
-                                      style={{ color: 'blue', cursor: 'pointer', marginLeft: '8px' }}
-                                      onClick={() => handleViewMore(item)}
-                                    >
-                                      See more
-                                    </span>
-                                  </p>
-                                  {selectedItem && (
-                                    <ViewAnnou content={selectedItem} onClose={closeViewMore} />
-                                  )}
-                                  <p className="announcement-date">
-                                    Posted on: {new Date(item.created_at).toLocaleDateString()}
-                                  </p>
-                                </div>
-                              ))}
-                          </div>
-                        )}
+                      <div
+                        className={`tab-item ${selectedType === 'personal' ? 'active-tab' : ''}`}
+                        onClick={() => setSelectedType('personal')}
+                      >
+                        👤 Personal Mails
                       </div>
                     </div>
+
+                    {loading ? (
+                      <div className="loading-spinner"><div className="spinner"></div></div>
+                    ) : nodata ? (
+                      <div className="box_notdata"><h1>No data found</h1></div>
+                    ) : (
+                      <div className="announcement-full">
+                        <div className="announcement-grid">
+                          {(selectedType === 'batch' ? announcement : personalAnn)
+                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            .map((item) => (
+                              <div
+                                key={item.id || item.message_id}
+                                className={`announcement-card ${selectedItem && selectedItem.id === item.id ? 'highlighted-card' : ''}`}
+                              >
+                                <h3
+                                  className="announcement-card-title"
+                                  dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}
+                                ></h3>
+                                <p className='announcement-p-des'>
+                                 {getShortHtmlLength(item.description, 10)}
+                                  <span
+                                  className='announcement-p-span'
+                                  
+                                  onClick={() => handleViewMore(item)}
+                                >
+                                  See more
+                                </span>
+                                </p>
+                               
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedItem && <ViewAnnou content={selectedItem} onClose={closeViewMore} />}
                   </div>
                 )}
+
 
 
 
@@ -1131,48 +1127,34 @@ function Home() {
               {/* Sections Announcement*/}
 
               <div className="third_section_main">
-                {homeAnnouncement && homeAnnouncement.title ? (
-                  <div className="announcement_card">
-                    <h3 className="announcement_title">Recent Announcements</h3>
-                    <div className="announcement_icon">📢</div>
-                    <div className="announcement_content">
-                      <h3 className="announcement_title" dangerouslySetInnerHTML={{ __html: cleanHtml(homeAnnouncement.title) }}></h3>
-                      <div
-                        className="announcement_text"
-
-                      > {getShortHtml(homeAnnouncement.description, 30)}</div>
-
-                      {homeAnnouncement.image && (
-                        <div className="announcement_image">
-                          <img
-                            height={'100px'}
-                            width={'100px'}
-                            style={{ marginBottom: "5px" }}
-                            src={`https://techwingsys.com/billtws/uploads/announcements/${homeAnnouncement.image}`}
-                            alt="Announcement"
-                          />
-                        </div>
-                      )}
-                      <p className="announcement_date">
-                        Posted on: {new Date(homeAnnouncement.created_at).toLocaleDateString()}
-                      </p>
-
-                    </div>
+                <div className="mailbox-container">
+                  <div className="mailbox-header">
+                    <span className="mailbox-icon">📧</span>
+                    <h2>Recent Mail Box Updates</h2>
                   </div>
-                ) : (
-                  <div className="no_announcement_message">
-                    <div className="announcement_card">
-                      <h3 className="announcement_title">Recent Announcements</h3>
-                      <div className="announcement_icon">📢</div>
-                      <div className="announcement_content">
-                        <h3 className="announcement_title">No recent announcements available.</h3>
 
+                  {homeAnnouncement
+                    .filter(item => item && item.title ) // filter out empty or invalid items
+                    .map((item, index) => (
+                      <div className="mailbox-card" key={index}>
+                        <h4 className="mailbox-title">{item.title}</h4>
+                        <p className="mailbox-body">
+                          {getShortHtmlLength(item.description, 10)}
+                          <span
+                            className="span-home-mail"
+                            onClick={() => handleViewMore(item)}
+                          >
+                            Open
+                          </span>
+                        </p>
                       </div>
-                    </div>
+                    ))}
 
-                  </div>
-                )}
+                </div>
+                {selectedItem && <ViewAnnou content={selectedItem} onClose={closeViewMore} />}
               </div>
+
+
             </section>
           </div >
 
@@ -1180,7 +1162,7 @@ function Home() {
 
 
         {/* Sections Sidebar Down side*/}
-        <div className="topSectionMain_div_userHomepage_down" >
+        <div div className="topSectionMain_div_userHomepage_down" >
           <div className="topsection_inner_div_userHompage_down">
             <div
               className="topsection_card_userhomepage_down"

@@ -3,17 +3,23 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './HomePoster.css';
+import { useEffect } from 'react';
+import { basicRequest } from '../AxiosCreate';
 
 function HomePoster() {
-  const [posterData] = useState([
-    'https://techwingsys.com/banner_2.png',
-    'https://techwingsys.com/banner_1.png',
-    'https://techwingsys.com/banner_3.png',
-    'https://techwingsys.com/banner_4.png',
-    'https://techwingsys.com/banner_5.png',
-    'https://techwingsys.com/banner_6.png',
-    'https://techwingsys.com/banner_7.png'
-  ]);
+  const [posterData, setPosterData] = useState([]);
+
+  useEffect(() => {
+    async function GetBanner() {
+      var response = await basicRequest.get('/student/getbanner');
+      console.log(response.data);
+      setPosterData(response.data)
+    }
+    GetBanner()
+
+  }, [])
+
+
 
   const settings = {
     dots: false,              // Hide the navigation dots
@@ -33,11 +39,11 @@ function HomePoster() {
   return (
     <div className="home-poster-container">
       <Slider {...settings}>
-        {posterData.map((src, index) => (
+        {posterData.map((item, index) => (
           <div key={index}>
             <img
               className="poster-img"
-              src={src}
+              src={`https://techwingsys.com/billtws/uploads/banner/${item.image}`}
               alt={`Slide ${index + 1}`}
 
             />
