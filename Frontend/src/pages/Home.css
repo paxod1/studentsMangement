@@ -1848,7 +1848,7 @@ select {
 
 @media screen and (max-width: 768px) {
   .task-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .summary-box {
@@ -1863,7 +1863,7 @@ select {
 
   .task-table th,
   .task-table td {
-    padding: 8px;
+    padding: 5px;
     font-size: 12px;
   }
 }
@@ -2120,7 +2120,7 @@ select {
   }
 
   .task-table {
-    width: 80%;
+    width: 60%;
 
   }
 }
