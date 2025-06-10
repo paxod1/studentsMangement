@@ -714,9 +714,9 @@ function Home() {
                                     {task.task_status === 'Pending' ? <TaskReply task={task} /> : <button
 
                                       className="upload-button"
-                                      style={{ backgroundColor: 'green' }}
+                                      style={{ color: 'green', backgroundColor: 'transparent' }}
                                     >
-                                      Uploaded
+                                      ✔
                                     </button>}
 
 
@@ -1061,16 +1061,16 @@ function Home() {
                                   dangerouslySetInnerHTML={{ __html: cleanHtml(item.title) }}
                                 ></h3>
                                 <p className='announcement-p-des'>
-                                 {getShortHtmlLength(item.description, 10)}
+                                  {getShortHtmlLength(item.description, 10)}
                                   <span
-                                  className='announcement-p-span'
-                                  
-                                  onClick={() => handleViewMore(item)}
-                                >
-                                  See more
-                                </span>
+                                    className='announcement-p-span'
+
+                                    onClick={() => handleViewMore(item)}
+                                  >
+                                    See more
+                                  </span>
                                 </p>
-                               
+
                               </div>
                             ))}
                         </div>
@@ -1134,7 +1134,7 @@ function Home() {
                   </div>
 
                   {homeAnnouncement
-                    .filter(item => item && item.title ) // filter out empty or invalid items
+                    .filter(item => item && item.title) // filter out empty or invalid items
                     .map((item, index) => (
                       <div className="mailbox-card" key={index}>
                         <h4 className="mailbox-title">{item.title}</h4>
