@@ -5,9 +5,14 @@ import { cleanHtml } from './cleanText';
 function ViewAnnou({ content, onClose }) {
     if (!content) return null;
 
-    function close() {
+    console.log("from view anno>>>>>>>>", content);
+
+
+
+    async function close() {
         content = null;
         onClose()
+
     }
 
     return (
