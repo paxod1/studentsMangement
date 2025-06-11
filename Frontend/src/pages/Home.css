@@ -1471,6 +1471,30 @@ select {
   /* Ensure text appears above the pseudo-element */
 }
 
+.no-announcements-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.no-announcements-message .empty-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #adb5bd;
+}
+
+.no-announcements-message p {
+  margin: 0;
+  font-size: 1rem;
+}
+
 
 .box_notdata {
   text-align: center;
