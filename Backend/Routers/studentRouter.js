@@ -574,7 +574,7 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
     }
 
     const query = `
-    INSERT INTO tbl_reference (training_id, student_id, ref_name, ref_email, ref_contact, ref_earnings)
+    INSERT INTO tbl_reference (training_id, student_id, ref_name, ref_email, ref_contact, earnings)
     VALUES (?, ?, ?, ?, ?, ?)
   `;
 
