@@ -11,17 +11,17 @@ import Aptitude from './pages/Aptitude';
 import Login from './pages/Login';
 import TaskReply from './components/TaskReply';
 
-import { useSelector } from 'react-redux'; // Add this to get user ID
-import NotificationHandler from './components/NotificationListener';
+
 
 function App() {
 
-  const loginInfo = useSelector((state) => state.userlogin?.LoginInfo[0]);
+
 
   return (
     <div>
-      {/* Add NotificationHandler with user ID */}
-      <NotificationHandler userId={loginInfo.student_id} />
+
+
+
 
       <Router>
         <Routes>

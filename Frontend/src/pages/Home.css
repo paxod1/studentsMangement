@@ -2270,3 +2270,36 @@ select {
     padding-top: 0px;
   }
 }
+
+/* earning design */
+.menus_right-earn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+.menus_right-earn:hover {
+  background-color: #3664b3;
+  transform: translateY(-2px);
+}
+
+.earn-icon {
+  font-size: 18px;
+  color: #ffeb3b; /* gold-like color */
+}
+
+.earn-text {
+  font-size: 16px;
+  margin-bottom: 5px;
+}

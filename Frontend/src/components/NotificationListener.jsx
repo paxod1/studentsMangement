@@ -1,68 +1,48 @@
-import { useEffect } from 'react';
+// NotificationHandler.jsx
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import io from 'socket.io-client';
+import './NotificationHandler.css'; // Optional for styling
 
-const NotificationHandler = ({ userId }) => {
+const socket = io('http://localhost:5000'); // Replace with your backend URL
+
+const NotificationHandler = () => {
+  const [permission, setPermission] = useState(Notification.permission);
+
   useEffect(() => {
-    // Request notification permission
-    const requestNotificationPermission = async () => {
-      if ('Notification' in window) {
-        try {
-          const permission = await Notification.requestPermission();
-          console.log('Notification permission:', permission);
-        } catch (error) {
-          console.error('Error requesting notification permission:', error);
-        }
-      }
-    };
-
-    requestNotificationPermission();
-
-    // Connect to Socket.io server
-    const socket = io('https://studentsmangement.onrender.com', {
-      withCredentials: true,
-      transports: ['websocket']
-    });
-
-    // Register user with their ID
-    if (userId) {
-      socket.emit('register-user', userId);
+    // Request permission if not already granted
+    if (permission !== 'granted') {
+      setTimeout(() => {
+        Notification.requestPermission().then(result => {
+          setPermission(result);
+        });
+      }, 1000); // slight delay after component mounts
     }
 
-    // Listen for notifications
-    socket.on('notification', (data) => {
+    // Listen to socket notifications
+    socket.on('new_notification', (data) => {
       console.log('Received notification:', data);
-      
-      // Show toast notification
-      toast[data.type || 'info'](data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
 
-      // Show browser notification if permitted
-      if (Notification.permission === 'granted') {
-        new Notification(data.title || 'New Notification', {
-          body: data.message,
-          icon: '/logo192.png' // Your app icon
-        });
+      if (permission === 'granted') {
+        showNotification(data.title, data.message);
+      } else {
+        toast.info(`${data.title}: ${data.message}`);
       }
-    });
-
-    // Handle connection errors
-    socket.on('connect_error', (err) => {
-      console.log('Socket connection error:', err);
     });
 
     return () => {
-      socket.disconnect();
+      socket.off('new_notification');
     };
-  }, [userId]);
+  }, [permission]);
 
-  return null; // This component doesn't render anything
+  const showNotification = (title, body) => {
+    new Notification(title, {
+      body,
+      icon: '/notification-icon.png', // Optional icon path
+    });
+  };
+
+  return null; // This component just runs in background
 };
 
 export default NotificationHandler;

@@ -41,6 +41,8 @@ import { IoIosMailUnread } from "react-icons/io";
 import { IoMail } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
 import { LuBellDot } from "react-icons/lu";
+import { BsCoin } from "react-icons/bs";
+import Earn from './Earn';
 
 
 /**
@@ -475,6 +477,12 @@ function Home() {
                   <span className='res_down_menus'>Mail Box</span>
                   <h3><IoIosMailUnread style={{ height: '22px', width: '22px' }} /></h3>
                 </div>
+                <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
+                  <BsCoin className="earn-icon" />
+                  <span className="earn-text">Earn</span>
+                </h4>
+
+
                 <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
 
                 <h3 onClick={logout} className='menus_right'><AiOutlineLogout />  </h3>
@@ -653,11 +661,19 @@ function Home() {
                 )}
 
 
+
+
                 {/*  Sections tasks*/}
 
                 {
                   taskForm && <TaskReply />
                 }
+
+                {activeSection === 'earn' && (
+                  <div>
+                    <Earn />
+                  </div>
+                )}
 
                 {activeSection === 'task' && (
                   <div className="task-container">

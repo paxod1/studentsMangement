@@ -505,41 +505,85 @@ router.post('/submit-task', verifyToken, upload.single('file'), async (req, res)
 
 // get ad
 router.get('/getad', async (req, res) => {
-  const query = 'SELECT * FROM tbl_popup';
+    const query = 'SELECT * FROM tbl_popup';
 
-  try {
-    const [results] = await db.query(query); 
+    try {
+        const [results] = await db.query(query);
 
-    if (results.length === 0) {
-      return res.status(404).json('Data not found');
+        if (results.length === 0) {
+            return res.status(404).json('Data not found');
+        }
+
+        return res.status(200).json(results);
+    } catch (err) {
+        console.error("Query execution error:", err.message);
+        return res.status(500).json({ error: err.message });
     }
-
-    return res.status(200).json(results);
-  } catch (err) {
-    console.error("Query execution error:", err.message);
-    return res.status(500).json({ error: err.message });
-  }
 });
 
 
 // get banner
 router.get('/getbanner', async (req, res) => {
-  const query = 'SELECT * FROM tbl_banner';
+    const query = 'SELECT * FROM tbl_banner';
 
-  try {
-    const [results] = await db.query(query); 
+    try {
+        const [results] = await db.query(query);
 
-    if (results.length === 0) {
-      return res.status(404).json('Data not found');
+        if (results.length === 0) {
+            return res.status(404).json('Data not found');
+        }
+
+        return res.status(200).json(results);
+    } catch (err) {
+        console.error("Query execution error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
+// add reference data
+router.post('/addreferencedata', verifyToken, async (req, res) => {
+    const { training_id, student_id, ref_name, ref_email, ref_contact, earnings } = req.body;
+    console.log("Received reference data:", req.body);
+
+    // Basic Validation
+    if (
+        training_id === undefined ||
+        student_id === undefined ||
+        !ref_name ||
+        !ref_email ||
+        !ref_contact ||
+        earnings === undefined
+    ) {
+        return res.status(400).json('All fields are required');
     }
 
-    return res.status(200).json(results);
-  } catch (err) {
-    console.error("Query execution error:", err.message);
-    return res.status(500).json({ error: err.message });
-  }
-});
+    const parsedTrainingId = parseInt(training_id);
+    const parsedStudentId = parseInt(student_id);
+    const parsedEarnings = parseFloat(earnings);
 
+    if (isNaN(parsedTrainingId) || isNaN(parsedStudentId) || isNaN(parsedEarnings)) {
+        return res.status(400).json('Invalid training_id, student_id, or earnings');
+    }
+
+    const query = `
+        INSERT INTO tbl_reference (training_id, student_id, ref_name, ref_email, ref_contact, earnings)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    try {
+        const [result] = await db.query(query, [
+            parsedTrainingId,
+            parsedStudentId,
+            ref_name,
+            ref_email,
+            ref_contact,
+            parsedEarnings
+        ]);
+        return res.status(200).json({ message: 'Reference data saved successfully' });
+    } catch (err) {
+        console.error("Database insert error:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+});
 
 
 module.exports = router;
