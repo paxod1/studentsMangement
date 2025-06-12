@@ -471,7 +471,7 @@ function Home() {
 
                 <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
                   <BsCoin className="earn-icon" />
-                   <span className='earn-text-small'>₹500</span> {/**change the amount to earnings */}
+                  <span className='earn-text-small'>₹500</span> {/**change the amount to earnings */}
                   <span className="earn-text">Earn</span>
                 </h4>
 
@@ -955,15 +955,23 @@ function Home() {
                                         <p
                                           className="emi-status-text"
                                           style={{
-                                            '--paid-percent': paymentData.balance_amount === 0
-                                              ? '100%'
-                                              : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
+                                            '--paid-percent':
+                                              paymentData && paymentData.balance_amount === 0
+                                                ? '100%'
+                                                : paymentData && paymentData.no_of_emi != null && batchItem?.emi
+                                                  ? ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%'
+                                                  : '0%',
                                           }}
                                         >
-                                          {paymentData.balance_amount === 0
-                                            ? 'Paid Off'
-                                            : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`}
+                                          {
+                                            !paymentData || paymentData.no_of_emi == null || !batchItem?.emi
+                                              ? 'Calculating...'
+                                              : paymentData.balance_amount === 0
+                                                ? 'Paid Off'
+                                                : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`
+                                          }
                                         </p>
+
 
                                       </div>
 
