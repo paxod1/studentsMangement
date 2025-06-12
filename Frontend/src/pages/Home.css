@@ -1300,6 +1300,11 @@ select {
     width: 97%;
   }
 
+  .payment-bill {
+    width: 95%;
+
+  }
+
 
 }
 
@@ -2157,9 +2162,10 @@ select {
 
   .text_task_inner {
     margin-top: 20px;
-    
+
   }
-  .earn-text{
+
+  .earn-text {
     display: none;
   }
 
@@ -2301,44 +2307,48 @@ select {
 
 .earn-icon {
   font-size: 18px;
-  color: #ffeb3b; /* gold-like color */
+  color: #ffeb3b;
+  /* gold-like color */
 }
 
 .earn-text {
   font-size: 16px;
   margin-bottom: 2px;
 }
-.earn-text-small{
+
+.earn-text-small {
   display: none;
 }
 
 @media screen and (max-width: 768px) {
- .menus_right-earn {
-background-color: rgb(18, 171, 205);
-box-shadow: none;
-margin-top: 16px;
-  
-}
+  .menus_right-earn {
+    background-color: rgb(18, 171, 205);
+    box-shadow: none;
+    margin-top: 16px;
 
-.menus_right-earn:hover {
-  background-color: white;
- 
-}
+  }
 
-.earn-icon {
-  font-size: 16px;
-  color: #ffe600; /* gold-like color */
-}
+  .menus_right-earn:hover {
+    background-color: white;
 
-.earn-text {
-  display: none;
-}
-.earn-text-small{
-  display: block;
-  color: rgb(255, 255, 255);
- font-size: 9px;
- margin-left: -5px;
-}
+  }
+
+  .earn-icon {
+    font-size: 16px;
+    color: #ffe600;
+    /* gold-like color */
+  }
+
+  .earn-text {
+    display: none;
+  }
+
+  .earn-text-small {
+    display: block;
+    color: rgb(255, 255, 255);
+    font-size: 9px;
+    margin-left: -5px;
+  }
 }
 
 
