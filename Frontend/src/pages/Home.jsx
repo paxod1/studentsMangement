@@ -965,7 +965,9 @@ function Home() {
                                         >
                                           {
                                             !paymentData || paymentData.no_of_emi == null || !batchItem?.emi
-                                              ? 'Calculating...'
+                                              ? <div className="loading-spinner-pay">
+                                                <div className="spinner-pay"></div>
+                                              </div>
                                               : paymentData.balance_amount === 0
                                                 ? 'Paid Off'
                                                 : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`
