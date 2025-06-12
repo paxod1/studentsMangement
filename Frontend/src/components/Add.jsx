@@ -5,6 +5,7 @@ import { basicRequest } from '../AxiosCreate';
 function Add({ stopAd }) {
     const [adFile, setAdFile] = useState('');
     const [fileType, setFileType] = useState('');
+    var [time, setTime] = useState(false)
 
     useEffect(() => {
         async function getAd() {
@@ -32,8 +33,13 @@ function Add({ stopAd }) {
 
                 updateImage(); // Initial check
                 window.addEventListener('resize', updateImage);
+                setTimeout(() => {
+                    setTime(true)
+                }, 5000);
 
                 return () => window.removeEventListener('resize', updateImage);
+
+
 
             } catch (error) {
                 console.log("Error from ad getting", error);
@@ -51,24 +57,34 @@ function Add({ stopAd }) {
     const isGif = fileType === 'gif';
 
     return (
-        <div className="ad-container">
-            <div className="ad-card">
-                {adFile && (
-                    isVideo ? (
-                        <video className="ad-image" controls autoPlay muted loop>
-                            <source src={adFile} type={`video/${fileType}`} />
-                            Your browser does not support the video tag.
-                        </video>
-                    ) : (
-                        <img
-                            src={adFile}
-                            alt="Ad"
-                            className="ad-image"
-                        />
-                    )
-                )}
-                <button className="close-btn" onClick={clearAddPage}>✖</button>
-            </div>
+        <div>
+            {
+                time && (
+                    <div className="ad-container">
+                        <div className="ad-card">
+                            {
+                                adFile && (
+                                    isVideo ? (
+                                        <video className="ad-image" controls autoPlay muted loop>
+                                            <source src={adFile} type={`video/${fileType}`} />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    ) : (
+                                        <img
+                                            src={adFile}
+                                            alt="Ad"
+                                            className="ad-image"
+                                        />
+                                    )
+                                )
+                            }
+
+                            <button className="close-btn" onClick={clearAddPage}>✖</button>
+                        </div>
+                    </div>
+                )
+
+            }
         </div>
     );
 }

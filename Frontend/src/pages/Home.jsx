@@ -468,20 +468,22 @@ function Home() {
               </div>
 
               <div className='rightnav'>
+
+                <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
+                  <BsCoin className="earn-icon" />
+                   <span className='earn-text-small'>₹500</span> {/**change the amount to earnings */}
+                  <span className="earn-text">Earn</span>
+                </h4>
+
+
                 <Link to={{
                   pathname: '/ClassVideo',
                 }} style={{ textDecoration: 'none' }}
                   state={{ batchname }} className="topsection_card_userhomepage_down_video" >
                   <h3><IoIosVideocam style={{ height: '25px', width: '25px' }} /></h3>
                 </Link>
-                <div className="topsection_card_userhomepage_down_Announcements" onClick={() => fetchData('announcement')}>
-                  <span className='res_down_menus'>Mail Box</span>
-                  <h3><IoIosMailUnread style={{ height: '22px', width: '22px' }} /></h3>
-                </div>
-                <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
-                  <BsCoin className="earn-icon" />
-                  <span className="earn-text">Earn</span>
-                </h4>
+
+
 
 
                 <Link to={'/ChangePass'} className='change_password_button' >Change Password</Link>
@@ -1273,17 +1275,12 @@ function Home() {
               </h3>
             </div>
 
-            <div
-              className="topsection_card_userhomepage_down"
-              onClick={() => fetchData('Project')}
-            >
-              <span className="res_down_menus">Project</span>
-              <h3>
-                <FaLaptopCode
-                  style={{ marginRight: '4%', height: '25px', width: '25px' }}
-                />
-              </h3>
+            <div className="topsection_card_userhomepage_down" onClick={() => fetchData('announcement')}>
+              <span className='res_down_menus'>Mail Box</span>
+              <h3><IoIosMailUnread style={{ marginRight: '4%', height: '25px', width: '25px' }} /></h3>
             </div>
+
+
 
             {/* —— NEW “More” CARD —— */}
             <div
@@ -1323,6 +1320,18 @@ function Home() {
                     <h3>
                       <FaNoteSticky
                         style={{ height: '25px', width: '25px' }}
+                      />
+                    </h3>
+                  </div>
+
+                  <div
+                    className="topsection_card_userhomepage_down-more"
+                    onClick={() => fetchData('Project')}
+                  >
+                    <span className="res_down_menus-more">Project</span>
+                    <h3>
+                      <FaLaptopCode
+                        style={{ marginRight: '4%', height: '25px', width: '25px' }}
                       />
                     </h3>
                   </div>
