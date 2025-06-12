@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './earn.css';
+import './Earn.css';
 import { BsCoin, BsArrowRight, BsCheckCircle } from 'react-icons/bs';
 import { RiUserSharedFill } from 'react-icons/ri';
 import { FaGift, FaMoneyBillWave, FaRunning } from 'react-icons/fa';
