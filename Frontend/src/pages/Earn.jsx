@@ -15,7 +15,7 @@ function Earn() {
         contact: ''
     });
     const [submitted, setSubmitted] = useState(false);
-    const [coinsEarned, setCoinsEarned] = useState(0);
+    const [coinsEarned, setCoinsEarned] = useState(500);
     const [isAnimating, setIsAnimating] = useState(false);
     const [countdown, setCountdown] = useState(9);
     var [next, setNext] = useState()

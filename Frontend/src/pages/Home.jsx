@@ -472,7 +472,7 @@ function Home() {
                 <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
                   <BsCoin className="earn-icon" />
                   <span className='earn-text-small'>₹500</span> {/**change the amount to earnings */}
-                  <span className="earn-text">Earn</span>
+                  <span className="earn-text">₹500</span>
                 </h4>
 
 
