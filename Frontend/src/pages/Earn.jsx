@@ -6,12 +6,13 @@ import { FaGift, FaMoneyBillWave, FaRunning } from 'react-icons/fa';
 import { GiMoneyStack, GiCash } from 'react-icons/gi';
 import { use } from 'react';
 import { TokenRequest } from '../AxiosCreate';
+import { useSelector } from 'react-redux';
 
 function Earn() {
     const [referralData, setReferralData] = useState({
-        ref_name: '',
-        ref_email: '',
-        ref_contact: ''
+        name: '',
+        email: '',
+        contact: ''
     });
     const [submitted, setSubmitted] = useState(false);
     const [coinsEarned, setCoinsEarned] = useState(0);
@@ -69,25 +70,29 @@ function Earn() {
         return () => clearTimeout(countdownTimer);
     }, [submitted, countdown]);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
         setIsAnimating(true);
-        setCountdown(9); // Reset countdown
-        setShowCoins(false); // Reset coin animation
-        var earnings = next
+        setCountdown(9);
+        setShowCoins(false);
 
         try {
+            await TokenRequest.post('/student/addreferencedata', {
+                ref_name: referralData.name,
+                ref_email: referralData.email,
+                ref_contact: referralData.contact,
+                training_id,
+                student_id,
+                earnings: next, // assuming `next` holds earnings value
+            });
 
-            await TokenRequest.post('/student/addreferencedata', { referralData, training_id, student_id, earnings });
-
-            // You can optionally clear the form immediately or after animation
+            // Clear the form
             setReferralData({
                 name: '',
                 email: '',
                 contact: '',
-                userid: ''
+                userid: '',
             });
 
         } catch (error) {

@@ -539,13 +539,21 @@ router.get('/getbanner', async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
 // add reference data
 router.post('/addreferencedata', verifyToken, async (req, res) => {
-    const { training_id, student_id, earnings } = req.body;
-    const { ref_name, ref_email, ref_contact } = req.body.referralData;
+    const {
+        training_id,
+        student_id,
+        ref_name,
+        ref_email,
+        ref_contact,
+        earnings
+    } = req.body;
+
     console.log("Received reference data:", req.body);
 
-    // Basic Validation
+    // Validation
     if (
         training_id === undefined ||
         student_id === undefined ||
@@ -566,9 +574,9 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
     }
 
     const query = `
-        INSERT INTO tbl_reference (training_id, student_id, ref_name, ref_email, ref_contact, earnings)
-        VALUES (?, ?, ?, ?, ?, ?)
-    `;
+    INSERT INTO tbl_reference (training_id, student_id, ref_name, ref_email, ref_contact, ref_earnings)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
 
     try {
         const [result] = await db.query(query, [
@@ -585,6 +593,7 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
 
 
 module.exports = router;
