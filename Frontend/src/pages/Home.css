@@ -2297,10 +2297,12 @@ select {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-right: 20px;
   margin-top: 5px;
+  position: relative;
 }
 
+
 .menus_right-earn:hover {
-  background-color: #3664b3;
+  background-color: #007bff;
   transform: translateY(-2px);
 }
 
@@ -2323,12 +2325,31 @@ select {
   display: none;
   transition: 0.5s;
 }
-
-.earn-icon:hover {
-  .earn-text-hover {
-    display: block;
-  }
+.earn-text-hover {
+  opacity: 0;
+  display: none;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  color: #fff;
+  background-color: #007bff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
+/* Reveal effect on hover */
+.menus_right-earn:hover .earn-text-hover {
+  opacity: 1;
+  display: block;
+  transform: translateY(0);
+}
+
+
 
 @media screen and (max-width: 768px) {
   .menus_right-earn {
@@ -2378,6 +2399,24 @@ select {
   border-left-color: #09f;
   animation: spin 1s linear infinite;
 }
+
+
+.loading-spinner-earn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10px;
+}
+
+.spinner-earn {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border-left-color: #09f;
+  animation: spin 1s linear infinite;
+}
+
 
 @keyframes spin {
   0% {

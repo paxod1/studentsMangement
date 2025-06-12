@@ -80,7 +80,7 @@ function Home() {
   const [viewMore, setViewMore] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedType, setSelectedType] = useState('batch');   // Toggle between 'batch' or 'personal'
-
+  const [coinsEarned, setCoinsEarned] = useState();
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
 
 
@@ -143,6 +143,18 @@ function Home() {
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
+
+        const fetchEarnings = async () => {
+          try {
+            const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
+            console.log(res.data.total_earnings);
+            setCoinsEarned(res.data.total_earnings)
+
+          } catch (err) {
+            console.error('Fetch error:', err);
+          }
+        };
+        fetchEarnings()
       }
       billhome();
     }
@@ -471,9 +483,19 @@ function Home() {
 
                 <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
                   <BsCoin className="earn-icon" />
-                  <span className='earn-text-small'>₹500</span> {/**change the amount to earnings */}
+                  <span className='earn-text-small'>₹{
+                    coinsEarned ? coinsEarned :
+                      <span className="earn-text-small"></span>
+                  }
+                  </span> {/**change the amount to earnings */}
                   <span className="earn-text">Earn</span>
-                   <span className="earn-text-hover">Your Earinings ₹500</span>
+                  <span className="earn-text-hover">Your Earinings ₹{
+                    coinsEarned ? coinsEarned :
+                      <div className="loading-spinner-earn" style={{height:'10px'}}>
+                        <div className="spinner-earn" style={{height:'10px',width:'10px'}}></div>
+                      </div>
+                  }
+                  </span>
                 </h4>
 
 

@@ -9,25 +9,7 @@ import { TokenRequest } from '../AxiosCreate';
 import { useSelector } from 'react-redux';
 
 function Earn() {
-    const [coinsEarned, setCoinsEarned] = useState(500);
-    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
-    var training_id = logininfom.training_id
-    var student_id = logininfom.student_id
-
-    useEffect(() => {
-        const fetchEarnings = async () => {
-            try {
-                const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
-                console.log(res);
-                setCoinsEarned(res.data)
-
-            } catch (err) {
-                console.error('Fetch error:', err);
-            }
-        };
-        fetchEarnings()
-    }, [])
-
+    const [coinsEarned, setCoinsEarned] = useState();
     const [referralData, setReferralData] = useState({
         name: '',
         email: '',
@@ -39,6 +21,26 @@ function Earn() {
     const [countdown, setCountdown] = useState(9);
     var [next, setNext] = useState()
     const [showCoins, setShowCoins] = useState(false);
+
+    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
+    var training_id = logininfom.training_id
+    var student_id = logininfom.student_id
+
+    useEffect(() => {
+        const fetchEarnings = async () => {
+            try {
+                const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
+                console.log(res.data.total_earnings);
+                setCoinsEarned(res.data.total_earnings)
+          
+            } catch (err) {
+                console.error('Fetch error:', err);
+            }
+        };
+        fetchEarnings()
+    }, [submitted])
+
+
 
 
 
@@ -60,9 +62,9 @@ function Earn() {
         return 0;
     };
 
-    useEffect(() => {
-        setNext(getNextAmount())
-    }, [])
+   useEffect(() => {
+    setNext(getNextAmount());
+}, [coinsEarned]);
 
     useEffect(() => {
         let countdownTimer;
@@ -100,7 +102,7 @@ function Earn() {
                 ref_contact: referralData.contact,
                 training_id,
                 student_id,
-                earnings: 0, // assuming `next` holds earnings value
+                earnings: 0, 
             });
 
             // Clear the form
