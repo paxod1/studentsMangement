@@ -9,7 +9,7 @@ import { TokenRequest } from '../AxiosCreate';
 import { useSelector } from 'react-redux';
 
 function Earn() {
-
+    const [coinsEarned, setCoinsEarned] = useState(500);
     const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
     var training_id = logininfom.training_id
     var student_id = logininfom.student_id
@@ -19,7 +19,7 @@ function Earn() {
             try {
                 const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
                 console.log(res);
-
+                setCoinsEarned(res.data)
 
             } catch (err) {
                 console.error('Fetch error:', err);
@@ -34,7 +34,7 @@ function Earn() {
         contact: ''
     });
     const [submitted, setSubmitted] = useState(false);
-    const [coinsEarned, setCoinsEarned] = useState(500);
+
     const [isAnimating, setIsAnimating] = useState(false);
     const [countdown, setCountdown] = useState(9);
     var [next, setNext] = useState()

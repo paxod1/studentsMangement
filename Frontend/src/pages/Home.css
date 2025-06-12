@@ -629,7 +629,7 @@ select {
 }
 
 
-.money-icon {
+.money-icon-home {
 
   color: #3c9aff;
   margin-top: -5px;
@@ -2317,6 +2317,17 @@ select {
 
 .earn-text-small {
   display: none;
+}
+
+.earn-text-hover {
+  display: none;
+  transition: 0.5s;
+}
+
+.earn-icon:hover {
+  .earn-text-hover {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 768px) {

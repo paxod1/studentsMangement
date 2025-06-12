@@ -595,7 +595,7 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
 });
 
 // get earinig
-router.get('/reference/earnings', async (req, res) => {
+router.get('/earnings', async (req, res) => {
   const { student_id } = req.query;
 
   if (!student_id) {
