@@ -532,9 +532,7 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .reward-progress {
-        display: none;
-    }
+   
 
     .earn-content {
         flex-direction: column;
