@@ -9,6 +9,25 @@ import { TokenRequest } from '../AxiosCreate';
 import { useSelector } from 'react-redux';
 
 function Earn() {
+
+    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
+    var training_id = logininfom.training_id
+    var student_id = logininfom.student_id
+
+    useEffect(() => {
+        const fetchEarnings = async () => {
+            try {
+                const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
+                console.log(res);
+
+
+            } catch (err) {
+                console.error('Fetch error:', err);
+            }
+        };
+        fetchEarnings()
+    }, [])
+
     const [referralData, setReferralData] = useState({
         name: '',
         email: '',
@@ -21,9 +40,6 @@ function Earn() {
     var [next, setNext] = useState()
     const [showCoins, setShowCoins] = useState(false);
 
-    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
-    var training_id = logininfom.training_id
-    var student_id = logininfom.student_id
 
 
 
@@ -84,7 +100,7 @@ function Earn() {
                 ref_contact: referralData.contact,
                 training_id,
                 student_id,
-                earnings: next, // assuming `next` holds earnings value
+                earnings: 0, // assuming `next` holds earnings value
             });
 
             // Clear the form

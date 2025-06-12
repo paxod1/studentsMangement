@@ -594,6 +594,26 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
     }
 });
 
+// get earinig
+router.get('/reference/earnings', async (req, res) => {
+  const { student_id } = req.query;
+
+  if (!student_id) {
+    return res.status(400).json({ error: 'student_id is required' });
+  }
+
+  try {
+    const [rows] = await db.query(
+      'SELECT SUM(earnings) AS total_earnings FROM tbl_reference WHERE student_id = ?',
+      [student_id]
+    );
+    res.json({ total_earnings: rows[0].total_earnings || 0 });
+  } catch (error) {
+    console.error('Error fetching earnings:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 
 module.exports = router;
