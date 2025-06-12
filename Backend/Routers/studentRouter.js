@@ -541,7 +541,8 @@ router.get('/getbanner', async (req, res) => {
 });
 // add reference data
 router.post('/addreferencedata', verifyToken, async (req, res) => {
-    const { training_id, student_id, ref_name, ref_email, ref_contact, earnings } = req.body;
+    const { training_id, student_id, earnings } = req.body;
+    const { ref_name, ref_email, ref_contact } = req.body.referralData;
     console.log("Received reference data:", req.body);
 
     // Basic Validation

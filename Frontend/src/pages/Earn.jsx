@@ -9,10 +9,9 @@ import { TokenRequest } from '../AxiosCreate';
 
 function Earn() {
     const [referralData, setReferralData] = useState({
-        name: '',
-        email: '',
-        contact: '',
-        userid: ''
+        ref_name: '',
+        ref_email: '',
+        ref_contact: ''
     });
     const [submitted, setSubmitted] = useState(false);
     const [coinsEarned, setCoinsEarned] = useState(0);
@@ -21,6 +20,9 @@ function Earn() {
     var [next, setNext] = useState()
     const [showCoins, setShowCoins] = useState(false);
 
+    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
+    var training_id = logininfom.training_id
+    var student_id = logininfom.student_id
 
 
 
@@ -36,7 +38,7 @@ function Earn() {
     const getNextAmount = () => {
         if (coinsEarned < 500) return 500;
         if (coinsEarned === 500) return 1000;
-        if (coinsEarned ===1500) return 1500; // Changed from 1500 to match your requirement
+        if (coinsEarned === 1500) return 1500; // Changed from 1500 to match your requirement
         if (coinsEarned >= 3000) return 500;
         return 0;
     };
@@ -74,10 +76,11 @@ function Earn() {
         setIsAnimating(true);
         setCountdown(9); // Reset countdown
         setShowCoins(false); // Reset coin animation
+        var earnings = next
 
         try {
-            
-             await TokenRequest.post('/', referralData);
+
+            await TokenRequest.post('/student/addreferencedata', { referralData, training_id, student_id, earnings });
 
             // You can optionally clear the form immediately or after animation
             setReferralData({

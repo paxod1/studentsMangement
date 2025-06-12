@@ -74,13 +74,14 @@ function Home() {
   const [task, setTask] = useState([]) // Stores tasks
   const [project, setProject] = useState([]) // Stores projects
   var [dueDate, setDueDate] = useState(null) // Stores payment due date
-  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
   var [addTime, setAddTime] = useState(false) // Controls ad display
   const [showMore, setShowMore] = useState(false); // Controls 'More' dropdown
   var [taskForm, setTaskForm] = useState(false) // Controls task form display
   const [viewMore, setViewMore] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedType, setSelectedType] = useState('batch');   // Toggle between 'batch' or 'personal'
+
+  const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
 
 
   const handleViewMore = (item) => {
