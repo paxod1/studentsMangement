@@ -33,13 +33,19 @@ router.post('/login', async (req, res) => {
 
             const [results1] = await db.query(query, [username]);
             console.log("from student table", results1[0].student_id);
-            const querytofindTainingid = 'SELECT * FROM tbl_training WHERE student_id =? '
-            const [results2] = await db.query(querytofindTainingid, [results1[0].student_id]);
-            console.log("finding trainning id>>>", results2[0].training_id);
+
+            const querytofindTrainingIds = 'SELECT * FROM tbl_training WHERE student_id = ?';
+            const [results2] = await db.query(querytofindTrainingIds, [results1[0].student_id]);
+
+            // Extract only the training_id values into an array
+            const trainingIdArray = results2.map(item => item.training_id);
+
+            console.log("All training IDs for student_id:", trainingIdArray);
+
 
             const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
             console.log("login sucess");
-            return res.status(200).json({ student_id: results1[0].student_id, token, training_id: results2[0].training_id });
+            return res.status(200).json({ student_id: results1[0].student_id, token, trainingIdArray });
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -596,22 +602,22 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
 
 // get earinig
 router.get('/earnings', async (req, res) => {
-  const { student_id } = req.query;
+    const { student_id } = req.query;
 
-  if (!student_id) {
-    return res.status(400).json({ error: 'student_id is required' });
-  }
+    if (!student_id) {
+        return res.status(400).json({ error: 'student_id is required' });
+    }
 
-  try {
-    const [rows] = await db.query(
-      'SELECT SUM(earnings) AS total_earnings FROM tbl_reference WHERE student_id = ?',
-      [student_id]
-    );
-    res.json({ total_earnings: rows[0].total_earnings || 0 });
-  } catch (error) {
-    console.error('Error fetching earnings:', error);
-    res.status(500).json({ error: 'Server error' });
-  }
+    try {
+        const [rows] = await db.query(
+            'SELECT SUM(earnings) AS total_earnings FROM tbl_reference WHERE student_id = ?',
+            [student_id]
+        );
+        res.json({ total_earnings: rows[0].total_earnings || 0 });
+    } catch (error) {
+        console.error('Error fetching earnings:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
 
