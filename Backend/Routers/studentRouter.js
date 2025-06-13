@@ -61,15 +61,15 @@ router.get('/check', verifyToken, async (req, res) => {
 
 // data geting students review
 router.get('/getdatareview', verifyToken, async (req, res) => {
-    const { training_id } = req.query;
-    if (!training_id) {
+    const { student_id } = req.query;
+    if (!student_id) {
         return res.status(400).json('training_id is required');
     }
     const parsedStudentId = parseInt(training_id);
     if (isNaN(parsedStudentId)) {
         return res.status(400).json('Invalid training_id');
     }
-    const query = 'SELECT * FROM tbl_review WHERE training_id = ?';
+    const query = 'SELECT * FROM tbl_review WHERE student_id = ?';
     try {
         const [results] = await db.query(query, [parsedStudentId]);
         if (results.length === 0) {

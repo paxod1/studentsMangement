@@ -26,11 +26,13 @@ function ClassVideo() {
   let inactivityTimeout = useRef(null);
   const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
 
+  var id = logininfom.selectedTrainingId ? logininfom.selectedTrainingId : logininfom.trainingIdArray[0]
+
   useEffect(() => {
     if (logininfom) {
       async function fetchVideos() {
         try {
-          const response1 = await TokenRequest.get(`/student/getdatatraining?training_id=${logininfom.trainingIdArray[0]}`);
+          const response1 = await TokenRequest.get(`/student/getdatatraining?training_id=${id}`);
           const batchName = response1.data[0]?.batch || 'No Batch Assigned';
           const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchName}`);
           setVideos(response.data);

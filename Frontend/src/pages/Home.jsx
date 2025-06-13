@@ -127,7 +127,7 @@ function Home() {
     setLoading(true);
     showAd()
     if (logininfom) {
-      setTraining_id(logininfom.trainingIdArray[0]);
+      setTraining_id(logininfom.selectedTrainingId ? logininfom.selectedTrainingId : logininfom.trainingIdArray[0]);
     }
   }, [logininfom]);
 

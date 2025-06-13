@@ -15,7 +15,8 @@ function Aptitude() {
     const [wrongAnswers, setWrongAnswers] = useState([]);
     const [completedTests, setCompletedTests] = useState({});
 
-    const loginInfo = useSelector((state) => state.userlogin?.LoginInfo[0]);
+    const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]);
+    var id = logininfom.selectedTrainingId ? logininfom.selectedTrainingId : logininfom.trainingIdArray[0]
 
     const monthNames = {
         '01': 'January', '02': 'February', '03': 'March', '04': 'April',
@@ -25,15 +26,16 @@ function Aptitude() {
     async function fetchQuestions() {
         setLoading(true);
         try {
-            const batchData = await TokenRequest.get(`/student/getdatatraining?student_id=${loginInfo.student_id}`);
+            const batchData = await TokenRequest.get(`/student/getdatatraining?training_id=${id}`);
             const batchName = batchData.data[0]?.batch;
 
             // Fetch aptitude questions
             const res = await TokenRequest.get(`/student/getAptitude?batchname=${batchName}`);
             const data = res.data;
+            console.log(res.data);
 
             // Fetch completed tests
-            const reviewResponse = await TokenRequest.get(`/student/getdatareview?student_id=${loginInfo.student_id}`);
+            const reviewResponse = await TokenRequest.get(`/student/getdatareview?student_id=${logininfom.student_id}`);
             console.log("Review data:", reviewResponse.data);
 
             // Create a mapping of month names to numbers
@@ -92,10 +94,10 @@ function Aptitude() {
     }
 
     useEffect(() => {
-        if (loginInfo?.student_id) {
+        if (logininfom?.student_id) {
             fetchQuestions();
         }
-    }, [loginInfo]);
+    }, [logininfom]);
 
     const handleMonthSelect = (month) => {
         setSelectedMonth(month);
@@ -142,12 +144,12 @@ function Aptitude() {
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
             const monthName = monthNames[parseInt(monthNum) - 1];
-            console.log(loginInfo.student_id);
+            console.log(logininfom.student_id);
             console.log(total);
             console.log(monthName);
 
             const response = await TokenRequest.post('/student/addaptitudemark', {
-                student_id: loginInfo.student_id,
+                student_id: logininfom.student_id,
                 aptitude: total,
                 month: monthName
             });

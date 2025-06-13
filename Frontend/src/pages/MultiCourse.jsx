@@ -20,8 +20,12 @@ function MultiCourse({ data }) {
                     )
                 );
 
-                const courseData = responses.map(res => res.data); // extract data from all responses
+
+
+                // Flatten all [Array(1)] responses into one flat array
+                const courseData = responses.flatMap(res => res.data);
                 setCourses(courseData);
+
             } catch (error) {
                 console.error("Error fetching course data:", error);
             }
@@ -39,16 +43,19 @@ function MultiCourse({ data }) {
         <div className="multi-course-container">
             <h2>Select Your Course</h2>
             <div className="course-box-wrapper">
-                {courses.map((course, index) => (
-                    <div
-                        key={index}
-                        className="course-box"
-                        onClick={() => handleSelect(course)}
-                    >
-                        <h3>{course.batch || `Course ${index + 1}`}</h3>
-                        <p>Training ID: {course.training_id}</p>
-                    </div>
-                ))}
+                <div className="course-box-wrapper">
+                    {courses && courses.map((course, index) => (
+                        <div
+                            key={index}
+                            className="course-box"
+                            onClick={() => handleSelect(course)}
+                        >
+                            <h3>{course.course_name || `Course ${index + 1}`}</h3>
+                            <p>Batch: {course.batch}</p>
+                        </div>
+                    ))}
+                </div>
+
             </div>
         </div>
     );

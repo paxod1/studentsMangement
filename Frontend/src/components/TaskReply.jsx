@@ -41,13 +41,13 @@ function TaskReply({ task }) {
 
     setIsSubmitting(true);
     setSubmitMessage({ text: '', isError: false });
-
+    var id = logininfom.selectedTrainingId ? logininfom.selectedTrainingId : logininfom.trainingIdArray[0]
     try {
       const formData = new FormData();
       formData.append('task_id', task.task_id);
       formData.append('description', description);
       formData.append('student_id', logininfom.student_id);
-      formData.append('training_id', logininfom.trainingIdArray[0]);
+      formData.append('training_id', id);
       if (file) {
         formData.append('file', file);
       }
@@ -89,7 +89,7 @@ function TaskReply({ task }) {
         <div className="modal-overlay">
           <div className="task-reply-modal">
             <div className="modal-header">
-              <h5 style={{padding:'5'}}>Submit Task: {task?.task_description || 'Unknown Task'}</h5>
+              <h5 style={{ padding: '5' }}>Submit Task: {task?.task_description || 'Unknown Task'}</h5>
               <button
                 onClick={() => {
                   setIsOpen(false);
