@@ -47,7 +47,7 @@ function TaskReply({ task }) {
       formData.append('task_id', task.task_id);
       formData.append('description', description);
       formData.append('student_id', logininfom.student_id);
-      formData.append('training_id', logininfom.training_id);
+      formData.append('training_id', logininfom.trainingIdArray[0]);
       if (file) {
         formData.append('file', file);
       }

@@ -3,12 +3,12 @@ import { LoginData } from '../Redux/UserSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const loginUser = async (data, dispatch, navigate) => {
+export const loginUser = async (data) => {
     try {
         const LoginInfo = await basicRequest.post("/student/login", data);
         toast.success("Login Successful!");
-        dispatch(LoginData(LoginInfo.data));
-        navigate('/')
+        console.log(LoginInfo.data);
+        return LoginInfo.data
     } catch (err) {
         console.log('Login error:', err);
 

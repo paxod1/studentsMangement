@@ -30,7 +30,7 @@ function ClassVideo() {
     if (logininfom) {
       async function fetchVideos() {
         try {
-          const response1 = await TokenRequest.get(`/student/getdatatraining?training_id=${logininfom.training_id}`);
+          const response1 = await TokenRequest.get(`/student/getdatatraining?training_id=${logininfom.trainingIdArray[0]}`);
           const batchName = response1.data[0]?.batch || 'No Batch Assigned';
           const response = await TokenRequest.get(`/student/getdatavideos?batchname=${batchName}`);
           setVideos(response.data);

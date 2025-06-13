@@ -127,7 +127,7 @@ function Home() {
     setLoading(true);
     showAd()
     if (logininfom) {
-      setTraining_id(logininfom.training_id);
+      setTraining_id(logininfom.trainingIdArray[0]);
     }
   }, [logininfom]);
 
@@ -484,12 +484,12 @@ function Home() {
                 <h4 className="menus_right-earn" onClick={() => { setActiveSection('earn') }}>
                   <BsCoin className="earn-icon" />
                   <span className='earn-text-small'>₹{
-                     coinsEarned 
+                    coinsEarned
                   }
                   </span> {/**change the amount to earnings */}
                   <span className="earn-text">Earn</span>
                   <span className="earn-text-hover">Your Earinings ₹{
-                    coinsEarned 
+                    coinsEarned
                   }
                   </span>
                 </h4>

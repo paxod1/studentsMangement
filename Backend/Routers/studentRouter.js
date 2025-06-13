@@ -152,7 +152,7 @@ router.get('/getTasks', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/getdatatraining', verifyToken, async (req, res) => {
+router.get('/getdatatraining', async (req, res) => {
     const { training_id } = req.query;
     if (!training_id) {
         return res.status(400).json('training_id is required');

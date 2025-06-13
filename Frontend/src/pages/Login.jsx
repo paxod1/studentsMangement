@@ -3,11 +3,14 @@ import './login.css';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../API/ApiCalling';
 import { useDispatch, useSelector } from 'react-redux';
+import { LoginData } from '../Redux/UserSlice';
+import MultiCourse from './MultiCourse';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [multiCourseData, setMultiCourseData] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginInfo = useSelector((state) => state.userlogin?.LoginInfo);
@@ -19,16 +22,34 @@ function Login() {
   }, [loginInfo, navigate]);
 
   async function handleLogin() {
-    setLoading(true); // Show spinner
-    await loginUser({ username, password }, dispatch, navigate);
-    setLoading(false); // Hide spinner after API call
+    setLoading(true);
+
+    var response = await loginUser({ username, password }, dispatch, navigate);
+    console.log(response);
+
+    const data = response;
+
+    if (data.trainingIdArray.length === 0 || data.trainingIdArray.length === 1) {
+      dispatch(LoginData(data));
+      navigate('/');
+    } else {
+      // Show MultiCourse component with data
+      setMultiCourseData(data);
+    }
+
+    setLoading(false);
   }
+
+  if (multiCourseData) {
+    return <MultiCourse data={multiCourseData} />;
+  }
+
 
   return (
     <div className="login-container">
       <div className="login-box">
         <div className="login-logo">
-          <img src="https://techwingsys.com/tws-logo.png" width="250px" height="60px" alt="logo" style={{marginBottom:'10px'}}  />
+          <img src="https://techwingsys.com/tws-logo.png" width="250px" height="60px" alt="logo" style={{ marginBottom: '10px' }} />
         </div>
 
         <input
