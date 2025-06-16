@@ -65,7 +65,7 @@ router.get('/getdatareview', verifyToken, async (req, res) => {
     if (!student_id) {
         return res.status(400).json('training_id is required');
     }
-    const parsedStudentId = parseInt(training_id);
+    const parsedStudentId = parseInt(student_id);
     if (isNaN(parsedStudentId)) {
         return res.status(400).json('Invalid training_id');
     }
