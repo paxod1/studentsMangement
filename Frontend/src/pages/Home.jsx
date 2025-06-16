@@ -135,7 +135,7 @@ function Home() {
 
   // Effect to fetch bill and student data when training_id or active section changes
   useEffect(() => {
-   
+
     if (training_id && activeSection === 'dashboard') {
       async function billhome() {
         await fetchData('batchDetails');
@@ -165,8 +165,11 @@ function Home() {
   }, [training_id, activeSection]);
 
   // Current date formatted as YYYY-MM-DD
-  const date = new Date();
-  const formattedDate = date.toISOString().split('T')[0];
+  if (dueDate) {
+    var date = new Date();
+    var formattedDate = date.toISOString().split('T')[0];
+  }
+
 
   /**
    * Fetches data for different sections based on the selected menu item
