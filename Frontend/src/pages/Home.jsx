@@ -236,7 +236,7 @@ function Home() {
 
         case 'reviews':
           setActiveSection('reviews');
-          response = await TokenRequest.get(`/student/getdatareview?training_id=${training_id}`);
+          response = await TokenRequest.get(`/student/getdatareview?student_id=${logininfom.student_id}`);
           if (response.data.length === 0) {
             setReviews([]);
             setActiveSection(' ');
