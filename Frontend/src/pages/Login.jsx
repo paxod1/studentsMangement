@@ -24,7 +24,7 @@ function Login() {
   async function handleLogin() {
     setLoading(true);
 
-    var response = await loginUser({ username, password }, dispatch, navigate);
+    var response = await loginUser({ username, password },setLoading);
     console.log(response);
 
     const data = response;
