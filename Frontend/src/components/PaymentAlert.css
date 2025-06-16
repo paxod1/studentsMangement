@@ -46,6 +46,19 @@
     text-align: left;
 }
 
+.close-btn-pay-alert {
+    position: absolute;
+    top: -5px;
+    right: 3px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    color: #e2e2e2;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
 .close-btn {
     position: absolute;
     top: -5px;
@@ -59,7 +72,7 @@
     transition: color 0.2s ease;
 }
 
-.close-btn:hover {
+.close-btn-pay-alert:hover {
     color: #ffffff;
 }
 

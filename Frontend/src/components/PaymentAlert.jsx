@@ -49,7 +49,7 @@ function DueDateAlert({ dueDateProp }) {
                         <div className="alert-right">
                             {daysLeft} <br /> Day{daysLeft !== 1 ? 's' : ''} Left
                         </div>
-                        <button className="close-btn" onClick={handleClose}>×</button>
+                        <button className="close-btn-pay-alert" onClick={handleClose}>×</button>
                     </div>
                 </div>
 

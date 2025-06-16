@@ -117,6 +117,7 @@ function Home() {
    */
   async function logout() {
     dispatch(LogoutData())
+    setDueDate(null)
     await setTimeout(() => {
       window.location.reload();
     }, 0);
@@ -134,12 +135,15 @@ function Home() {
 
   // Effect to fetch bill and student data when training_id or active section changes
   useEffect(() => {
+   
     if (training_id && activeSection === 'dashboard') {
       async function billhome() {
         await fetchData('batchDetails');
         let response = await TokenRequest.get(`/student/getdatabill?training_id=${training_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${logininfom.student_id}`);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
+        console.log(response.data[response.data.length - 1].due_date);
+
         const lastPayment = response.data[response.data.length - 1];
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
@@ -147,7 +151,7 @@ function Home() {
         const fetchEarnings = async () => {
           try {
             const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
-            console.log(res.data.total_earnings);
+
             setCoinsEarned(res.data.total_earnings)
 
           } catch (err) {
@@ -445,7 +449,7 @@ function Home() {
 
   // If payment is overdue, show payment alert
 
-  if (dueDate < formattedDate) {
+  if (dueDate && dueDate < formattedDate) {
 
     return (
       <div className="payment-container">

@@ -3,7 +3,7 @@ import './MultiCourse.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { basicRequest, TokenRequest } from '../AxiosCreate';
-import { LoginData } from '../Redux/UserSlice';
+import { LoginData, LogoutData } from '../Redux/UserSlice';
 
 
 function MultiCourse({ data }) {
@@ -35,6 +35,7 @@ function MultiCourse({ data }) {
     }, [data]);
 
     const handleSelect = (selectedCourse) => {
+        dispatch(LogoutData())
         dispatch(LoginData({ ...data, selectedTrainingId: selectedCourse.training_id }));
         navigate('/'); // or your target route
     };
