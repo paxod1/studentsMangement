@@ -139,12 +139,18 @@ function Home() {
     if (training_id && activeSection === 'dashboard') {
       async function billhome() {
         await fetchData('batchDetails');
+        console.log("trainnid", training_id);
+
         let response = await TokenRequest.get(`/student/getdatabill?training_id=${training_id}`);
         let response2 = await TokenRequest.get(`/student/getstudent?student_id=${logininfom.student_id}`);
         setDueDate(response.data[response.data.length - 1].due_date ? response.data[response.data.length - 1].due_date : null)
         console.log(response.data[response.data.length - 1].due_date);
+        console.log("from bill home payment", response);
+
 
         const lastPayment = response.data[response.data.length - 1];
+        console.log('last payment', lastPayment);
+
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
 
@@ -625,7 +631,7 @@ function Home() {
 
                     {nodata ? (
                       <div className='box_notdata'>
-                        <h1>No data found</h1>
+                        <h4>No Attendance Yet Now</h4>
                       </div>
                     ) : (
                       loading ? (
@@ -732,7 +738,7 @@ function Home() {
                     {/* Task Table */}
                     {nodata ? (
                       <div className="box-notdata">
-                        <h1>No Tasks Found</h1>
+                        <h4>No Task Yet Now</h4>
                       </div>
                     ) : loading ? (
                       <div className="loading-spinner">
@@ -975,30 +981,33 @@ function Home() {
                                         style={{
                                           '--paid-percent': paymentData.balance_amount === 0
                                             ? '100%'
-                                            : ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%',
+                                            : ((batchItem.fee - paymentData.balance_amount) / batchItem.fee * 100).toFixed(2) + '%',
                                         }}
                                       >
+
                                         <p
+
                                           className="emi-status-text"
                                           style={{
                                             '--paid-percent':
-                                              paymentData && paymentData.balance_amount === 0
-                                                ? '100%'
-                                                : paymentData && paymentData.no_of_emi != null && batchItem?.emi
-                                                  ? ((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2) + '%'
-                                                  : '0%',
+                                              paymentData && batchItem.fee
+                                                ? `${((batchItem.fee - paymentData.balance_amount) / batchItem.fee * 100).toFixed(2)}% `
+                                                : '0%',
                                           }}
                                         >
                                           {
-                                            !paymentData || paymentData.no_of_emi == null || !batchItem?.emi
-                                              ? <div className="loading-spinner-pay">
-                                                <div className="spinner-pay"></div>
-                                              </div>
+                                            !paymentData.balance_amount
+                                              ? (
+                                                <div className="loading-spinner-pay">
+                                                  <div className="spinner-pay"></div>
+                                                </div>
+                                              )
                                               : paymentData.balance_amount === 0
                                                 ? 'Paid Off'
-                                                : `${((paymentData.no_of_emi / batchItem.emi) * 100).toFixed(2)}% Paid`
+                                                : `${((batchItem.fee - paymentData.balance_amount) / batchItem.fee * 100).toFixed(2)}% Paid`
                                           }
                                         </p>
+
 
 
                                       </div>
@@ -1109,7 +1118,10 @@ function Home() {
                     {loading ? (
                       <div className="loading-spinner"><div className="spinner"></div></div>
                     ) : nodata ? (
-                      <div className="box_notdata"><h1>No data found</h1></div>
+                      <div className="no-announcements-message">
+                        <FaEnvelopeOpen className="empty-icon" />
+                        <p>No mail available at this time</p>
+                      </div>
                     ) : (
                       <div className="announcement-full">
                         <div className="announcement-grid">
