@@ -10,11 +10,17 @@ import ChangePass from './pages/ChangePass';
 import Aptitude from './pages/Aptitude';
 import Login from './pages/Login';
 import TaskReply from './components/TaskReply';
+import { useSelector } from 'react-redux';
+import ProjectHome from './pages/ProjectHome';
+import ProjectProtect from './components/ProjectProtect';
 
 
 
 function App() {
 
+  const loginInfo = useSelector((state) => state.userlogin?.LoginInfo?.[0]);
+  const id = loginInfo?.pro_stud_id;
+  console.log("from app.jsx", id);
 
 
   return (
@@ -30,11 +36,15 @@ function App() {
 
           {/* Protected Routes Wrapper */}
           <Route element={<UserProtect />}>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={id ? <ProjectHome /> : <Home />} />
             <Route path='/ClassVideo' element={<ClassVideo />} />
             <Route path='/ChangePass' element={<ChangePass />} />
             <Route path='/Aptitude' element={<Aptitude />} />
             <Route path='/TaskReply' element={<TaskReply />} />
+          </Route>
+          {/* project Protected Routes Wrapper */}
+          <Route element={<ProjectProtect />}>
+            <Route path='/' element={id ? <ProjectHome /> : <Home />} />
           </Route>
         </Routes>
       </Router>

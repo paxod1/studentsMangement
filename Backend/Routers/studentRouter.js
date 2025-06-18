@@ -19,33 +19,48 @@ router.post('/login', async (req, res) => {
         console.log(results);
 
         if (results.length === 0) {
-            console.log(3);
+
             return res.status(401).json({ message: 'Invalid username or password' });
         } else {
-            console.log(4);
+
             const user = results[0];
             if (password !== user.password) {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
             console.log("user>", user);
+            if (user.type == 'project') {
+                const query = 'SELECT * FROM tbl_project_student WHERE email = ?';
+                var [results3] = await db.query(query, [username])
+                console.log(results3[0].pro_stud_id);
+                const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
+                console.log("login sucess");
+                 const querytofindTrainingIds = 'SELECT * FROM tbl_project WHERE pro_stud_id = ?';
+                var [results4] = await db.query(querytofindTrainingIds, [results3[0].pro_stud_id]);
+                console.log(results4);
+                
+                // Extract only the training_id values into an array
+                var trainingIdArray = results4.map(item => item.project_id);
+                return res.status(200).json({ pro_stud_id: results3[0].pro_stud_id, token,trainingIdArray });
 
-            const query = 'SELECT * FROM tbl_student WHERE email = ?';
+            } else {
+                const query = 'SELECT * FROM tbl_student WHERE email = ?';
 
-            const [results1] = await db.query(query, [username]);
-            console.log("from student table", results1[0].student_id);
+                var [results1] = await db.query(query, [username]);
+                console.log("from student table", results1[0].student_id);
 
-            const querytofindTrainingIds = 'SELECT * FROM tbl_training WHERE student_id = ?';
-            const [results2] = await db.query(querytofindTrainingIds, [results1[0].student_id]);
+                const querytofindTrainingIds = 'SELECT * FROM tbl_training WHERE student_id = ?';
+                const [results2] = await db.query(querytofindTrainingIds, [results1[0].student_id]);
 
-            // Extract only the training_id values into an array
-            const trainingIdArray = results2.map(item => item.training_id);
+                // Extract only the training_id values into an array
+                const trainingIdArray = results2.map(item => item.training_id);
 
-            console.log("All training IDs for student_id:", trainingIdArray);
+                console.log("All training IDs for student_id:", trainingIdArray);
+                const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
+                console.log("login sucess");
+                return res.status(200).json({ student_id: results1[0].student_id, token, trainingIdArray });
+            }
 
 
-            const token = jwt.sign({ id: user.id }, process.env.seckey, { expiresIn: '100d' });
-            console.log("login sucess");
-            return res.status(200).json({ student_id: results1[0].student_id, token, trainingIdArray });
         }
     } catch (err) {
         console.error('Error querying database:', err);
@@ -585,6 +600,8 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
   `;
 
     try {
+        console.log("hi");
+        
         const [result] = await db.query(query, [
             parsedTrainingId,
             parsedStudentId,
@@ -593,6 +610,8 @@ router.post('/addreferencedata', verifyToken, async (req, res) => {
             ref_contact,
             parsedEarnings
         ]);
+        console.log('Reference data saved successfully');
+        
         return res.status(200).json({ message: 'Reference data saved successfully' });
     } catch (err) {
         console.error("Database insert error:", err.message);

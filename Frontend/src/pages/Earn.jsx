@@ -23,27 +23,23 @@ function Earn() {
     const [showCoins, setShowCoins] = useState(false);
 
     const logininfom = useSelector((state) => state.userlogin?.LoginInfo[0]); // Gets login info from Redux
-    var training_id = logininfom.training_id
+    var training_id = logininfom.selectedTrainingId ? logininfom.selectedTrainingId : logininfom.trainingIdArray[0]
     var student_id = logininfom.student_id
 
     useEffect(() => {
         const fetchEarnings = async () => {
             try {
                 const res = await TokenRequest.get(`/student/earnings?student_id=${logininfom.student_id}`);
-                console.log(res.data.total_earnings);
+                console.log("earinings>>>>>.", res.data.total_earnings);
                 setCoinsEarned(res.data.total_earnings)
-          
+
+
             } catch (err) {
                 console.error('Fetch error:', err);
             }
         };
         fetchEarnings()
     }, [submitted])
-
-
-
-
-
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -55,16 +51,23 @@ function Earn() {
 
     // Calculate next amount based on current earnings
     const getNextAmount = () => {
-        if (coinsEarned < 500) return 500;
-        if (coinsEarned === 500) return 1000;
-        if (coinsEarned === 1500) return 1500; // Changed from 1500 to match your requirement
-        if (coinsEarned >= 3000) return 500;
+        
+        // First 5 referrals with increasing amounts
+        if (coinsEarned < 500) return 500; // 1st referral
+        if (coinsEarned === 500) return 750; // 2nd referral
+        if (coinsEarned === 1250) return 1000; // 3rd referral
+        if (coinsEarned === 2250) return 1250; // 4th referral
+        if (coinsEarned === 3500) return 1500; // 5th referral
+
+        // After 5 referrals, fixed amount per referral
+        if (coinsEarned >= 5000) return 500;
+
         return 0;
     };
 
-   useEffect(() => {
-    setNext(getNextAmount());
-}, [coinsEarned]);
+    useEffect(() => {
+        setNext(getNextAmount());
+    }, [coinsEarned]);
 
     useEffect(() => {
         let countdownTimer;
@@ -102,7 +105,7 @@ function Earn() {
                 ref_contact: referralData.contact,
                 training_id,
                 student_id,
-                earnings: 0, 
+                earnings: next,
             });
 
             // Clear the form
@@ -130,8 +133,21 @@ function Earn() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Check if user has completed initial offers
-    const hasCompletedInitialOffers = coinsEarned >= 3000;
+     
+
+    // Check if user has completed initial offers (5 referrals)
+    const hasCompletedInitialOffers = coinsEarned >= 5000;
+
+    // Calculate the current referral level (1-5)
+    const getCurrentReferralLevel = () => {
+     
+        if (coinsEarned < 500) return 0;
+        if (coinsEarned === 500) return 1;
+        if (coinsEarned === 1250) return 2;
+        if (coinsEarned === 2250) return 3;
+        if (coinsEarned === 3500) return 4;
+        return 6; // Beyond 5 referrals
+    };
 
     return (
         <div className="earn-container">
@@ -156,7 +172,7 @@ function Earn() {
                             <span>Your Potential</span>
                         </div>
                         <div className="potential-amount">
-                            {hasCompletedInitialOffers ? 'Unlimited!' : '₹3,000'}
+                            {hasCompletedInitialOffers ? 'Unlimited!' : '₹5,000'}
                         </div>
                     </div>
                 </div>
@@ -234,7 +250,7 @@ function Earn() {
                                 <div className="form-header">
                                     <RiUserSharedFill className="referral-icon" />
                                     <h3>Your Referral</h3>
-                                    <div className="referral-bonus-badge">+ {next}</div>
+                                    <div className="referral-bonus-badge">+ ₹{next}</div>
                                 </div>
 
                                 {!submitted ? (
@@ -313,7 +329,8 @@ function Earn() {
                             <h3 className="progress-title">Your Referral Journey</h3>
 
                             <div className="progress-track">
-                                <div className={`progress-milestone milestone-1 ${coinsEarned >= 500 ? 'completed' : 'active'}`}>
+                                {/* 1st Referral - ₹500 */}
+                                <div className={`progress-milestone milestone-1 ${getCurrentReferralLevel() >= 1 ? 'completed' : 'active'}`}>
                                     <div className="milestone-icon">
                                         <FaGift />
                                     </div>
@@ -321,37 +338,71 @@ function Earn() {
                                         <h4>First Friend</h4>
                                         <p className="milestone-amount">₹500</p>
                                     </div>
-                                    {coinsEarned >= 500 && (
+                                    {getCurrentReferralLevel() >= 1 && (
                                         <div className="milestone-check">
                                             <BsCheckCircle />
                                         </div>
                                     )}
                                 </div>
 
-                                <div className={`progress-milestone milestone-2 ${coinsEarned >= 1000 ? 'completed' : coinsEarned >= 500 ? 'active' : ''}`}>
+                                {/* 2nd Referral - ₹750 */}
+                                <div className={`progress-milestone milestone-2 ${getCurrentReferralLevel() >= 2 ? 'completed' : getCurrentReferralLevel() >= 1 ? 'active' : ''}`}>
                                     <div className="milestone-icon">
                                         <FaGift style={{ color: '#ff9f43' }} />
                                     </div>
                                     <div className="milestone-info">
                                         <h4>Second Friend</h4>
-                                        <p className="milestone-amount">₹1000</p>
+                                        <p className="milestone-amount">₹750</p>
                                     </div>
-                                    {coinsEarned >= 1000 && (
+                                    {getCurrentReferralLevel() >= 2 && (
                                         <div className="milestone-check">
                                             <BsCheckCircle />
                                         </div>
                                     )}
                                 </div>
 
-                                <div className={`progress-milestone milestone-3 ${coinsEarned >= 3000 ? 'completed' : coinsEarned >= 1000 ? 'active' : ''}`}>
+                                {/* 3rd Referral - ₹1000 */}
+                                <div className={`progress-milestone milestone-3 ${getCurrentReferralLevel() >= 3 ? 'completed' : getCurrentReferralLevel() >= 2 ? 'active' : ''}`}>
                                     <div className="milestone-icon">
                                         <FaMoneyBillWave style={{ color: '#ff6b6b' }} />
                                     </div>
                                     <div className="milestone-info">
                                         <h4>Third Friend</h4>
+                                        <p className="milestone-amount">₹1000</p>
+                                    </div>
+                                    {getCurrentReferralLevel() >= 3 && (
+                                        <div className="milestone-check">
+                                            <BsCheckCircle />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 4th Referral - ₹1250 */}
+                                <div className={`progress-milestone milestone-4 ${getCurrentReferralLevel() >= 4 ? 'completed' : getCurrentReferralLevel() >= 3 ? 'active' : ''}`}>
+                                    <div className="milestone-icon">
+                                        <GiMoneyStack style={{ color: '#54a0ff' }} />
+                                    </div>
+                                    <div className="milestone-info">
+                                        <h4>Fourth Friend</h4>
+                                        <p className="milestone-amount">₹1250</p>
+                                    </div>
+                                    {getCurrentReferralLevel() >= 4 && (
+                                        <div className="milestone-check">
+                                            <BsCheckCircle />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 5th Referral - ₹1500 */}
+                                <div className={`progress-milestone milestone-5 ${getCurrentReferralLevel() >= 5 ? 'completed' : getCurrentReferralLevel() >= 4 ? 'active' : ''}`}>
+                                    <div className="milestone-icon">
+                                        <GiCash style={{ color: '#5f27cd' }} />
+                                    </div>
+                                    <div className="milestone-info">
+                                        <h4>Fifth Friend</h4>
                                         <p className="milestone-amount">₹1500</p>
                                     </div>
-                                    {coinsEarned >= 3000 && (
+                                    {getCurrentReferralLevel() >= 5 && (
                                         <div className="milestone-check">
                                             <BsCheckCircle />
                                         </div>
@@ -361,7 +412,7 @@ function Earn() {
 
                             <div className="total-potential">
                                 <div className="total-label">Total Potential:</div>
-                                <div className="total-amount">₹3,000</div>
+                                <div className="total-amount">₹5,000</div>
                             </div>
                         </div>
                     )}
@@ -374,7 +425,6 @@ function Earn() {
                         <span>Your Earnings</span>
                     </div>
                     <div className="earnings-amount">₹{coinsEarned}</div>
-
                 </div>
             </div>
         </div>

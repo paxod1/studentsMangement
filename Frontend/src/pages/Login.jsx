@@ -24,18 +24,26 @@ function Login() {
   async function handleLogin() {
     setLoading(true);
 
-    var response = await loginUser({ username, password },setLoading);
+    var response = await loginUser({ username, password }, setLoading);
     console.log(response);
 
     const data = response;
 
-    if (data.trainingIdArray.length === 0 || data.trainingIdArray.length === 1) {
+    if (data.pro_stud_id) {
       dispatch(LoginData(data));
       navigate('/');
+      setLoading(false);
     } else {
-      // Show MultiCourse component with data
-      setMultiCourseData(data);
+      if (data.trainingIdArray.length === 0 || data.trainingIdArray.length === 1) {
+        dispatch(LoginData(data));
+        navigate('/');
+      } else {
+        // Show MultiCourse component with data
+        setMultiCourseData(data);
+      }
     }
+
+
 
     setLoading(false);
   }
