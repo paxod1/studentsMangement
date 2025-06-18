@@ -61,7 +61,7 @@ function Home() {
   const [loading, setLoading] = useState(false); // Loading state
   const [selectedYear, setSelectedYear] = useState(''); // Selected year for attendance filter
   const [selectedMonth, setSelectedMonth] = useState(''); // Selected month for attendance filter
-  const [paymentData, setPaymentData] = useState([]) // Stores payment data
+  const [paymentData, setPaymentData] = useState(null) // Stores payment data
   const [batchname, setBatchname] = useState('') // Stores batch name
   const navigate = useNavigate() // Navigation hook
   const [material, setMaterial] = useState([]) // Stores study materials
