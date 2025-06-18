@@ -105,7 +105,7 @@ function Earn() {
                 ref_contact: referralData.contact,
                 training_id,
                 student_id,
-                earnings: next,
+                earnings: 0,
             });
 
             // Clear the form
