@@ -153,6 +153,8 @@ function Home() {
 
         setPaymentData(lastPayment);
         setSutdent(response2.data[0].name)
+        console.log("student details", response2.data[0]);
+
 
         const fetchEarnings = async () => {
           try {
@@ -1072,22 +1074,32 @@ function Home() {
                           </div>
                         ) : (
                           <ul className="material-list">
-                            {material.map((item) => (
-                              <li key={item.material_id} className="material-item">
-                                <h3>{item.material_title}</h3>
-                                <p>{item.material_description}</p>
-                                {item.material_file && (
-                                  <a
-                                    href={item.material_file.replace('../', '')}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Download Material
-                                  </a>
-                                )}
-                              </li>
-                            ))}
+                            {material.map((item) => {
+                              const fileUrl = `https://techwingsys.com/billtws/uploads/material/${item.material_file}`;
+
+                              return (
+                                <li key={item.material_id} className="material-item">
+                                  <h3>{item.material_title}</h3>
+                                  <p>{item.material_description}</p>
+
+                                  {item.material_file && (
+                                    <a
+                                      href={fileUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        window.open(fileUrl, '_blank', 'noopener,noreferrer');
+                                      }}
+                                    >
+                                      View Material
+                                    </a>
+                                  )}
+                                </li>
+                              );
+                            })}
                           </ul>
+
                         )}
                       </div>
                     )}

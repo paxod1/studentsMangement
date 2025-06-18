@@ -19,7 +19,8 @@ export const basicRequest = axios.create({
 });
 
 // Token request instance
-export const TokenRequest = axios.create({
+export const 
+TokenRequest = axios.create({
   baseURL: SampleUrl
 });
 
